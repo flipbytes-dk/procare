@@ -1,0 +1,414 @@
+ProCare: 7-Agent System
+Complete Agent Interaction Specifications
+Version 1.0 | November 2024The 7 Agents
+1. Engagement Engine
+Master orchestrator coordinating all other agents
+Routes events, manages notifications, tracks patient state, controls message flow
+2. Clinical Monitor
+Health data monitoring and medication tracking
+Tracks glucose, medications, symptoms. Detects emergencies. Monitors clinical safety.
+3. Lifestyle Coach
+Nutrition and activity guidance
+Analyzes meals, tracks activity, provides behavioral nudges, suggests improvements
+4. Health Insights
+Pattern detection and correlation analysis
+Identifies food-glucose patterns, activity impacts, generates personalized insights
+5. Doctor Bridge
+Patient-doctor-AI communication hub
+Routes questions, manages doctor alerts, enhances doctor messages with data
+6. Care Coordinator
+Scheduling and logistics management
+Manages test appointments, medication refills, doctor visit scheduling
+7. Learning Library
+Educational content delivery
+Delivers targeted health education based on patient needs and eventsHow the 7 Agents Work Together
+The Engagement Engine sits at the center. Every patient action flows through it. The Engine
+then orchestrates which agents should respond and in what order.
+Interaction Pattern 1: Glucose Logging
+Patient logs: 145 mg/dL (fasting glucose at 7:15 AM)
+1. 2. 3. Engagement Engine receives event: Classifies as: glucose_log, fasting, 145 mg/dL
+Engine checks: Is this emergency?: No (safe range). Proceeds with normal routing.
+Engine → Clinical Monitor: Sends: {patient_id, glucose_value: 145, timestamp: 7:15
+AM, context: fasting}
+4. Clinical Monitor analyzes: Compares to target (130 - slightly above), checks 7-day
+pattern (stable 140-150), calculates time in range. Assessment: Safe, stable pattern.
+5. Clinical Monitor → Engine: Returns: {status: SAFE, message: "Stable",
+needs_correlation: true}
+6. Engine decision: Not emergency, should correlate with last night. Routes to Health
+Insights.
+7. Engine → Health Insights: Request: "Correlate this fasting glucose with yesterday
+evening"
+8. 9. Health Insights queries Lifestyle Coach: Asks: "What did patient do last night?"
+Lifestyle Coach → Health Insights: Responds: "Patient walked 18 minutes after dinner
+at 8:45 PM"
+10. Health Insights analyzes pattern: Patient history shows: With evening walk → fasting
+142-148. Without walk → fasting 158-165. Today's 145 is consistent with walk pattern.
+11. Health Insights → Engine: Returns: {correlation: "walk_helped", impact: "16 mg/dL
+reduction", message: "That evening walk helped!"}
+12. Engine synthesizes responses: Combines: Clinical safety ✓ + Walk correlation ✓ +
+Streak status (18 days)
+13. Engine checks notification limits: Sent today: 0 (reset at midnight). Last notification:
+13 hours ago. OK to send.
+14. Engine → Patient: Delivers: "✓ Fasting: 145 mg/dL (Stable) 🔥 18-day streak! That
+evening walk helped! Your fasting averages 145 with walks vs 160 without. Next: Take
+medication at 8 AM"
+15. All agents update their data: Clinical Monitor: logs glucose. Lifestyle Coach: validates
+walk effectiveness. Health Insights: confirms prediction accuracy. Engagement Engine:
+updates streak and score.Interaction Pattern 2: Meal Logging
+Patient uploads breakfast photo at 9:00 AM (poha + tea)
+16. Engagement Engine receives: Event: meal_log, meal_type: breakfast, photo attached
+17. Engine → Lifestyle Coach: Sends: {photo_data, timestamp: 9:00 AM, meal_type:
+breakfast, patient_id}
+18. Lifestyle Coach processes photo: Image recognition identifies: poha, tea. Estimates:
+40g carbs, 10g protein, 5g fat.
+19. Lifestyle Coach queries own history: Checks: "How many times has patient eaten
+poha? What was glucose response?" Finds: 8 previous poha breakfasts, average post-
+meal glucose: 172 mg/dL (range 165-180)
+20. Lifestyle Coach → Engine: Returns: {foods: ["poha", "tea"], carbs: 40g,
+predicted_glucose: "170-180 mg/dL", confidence: 0.87, assessment: "good_choice"}
+21. Engine → Health Insights: Request: "Store this meal for later correlation"
+22. Health Insights stores meal data: Will correlate with post-breakfast glucose when
+logged in 2 hours
+23. Engine → Lifestyle Coach: Question: "Should we remind patient to check glucose after
+this meal?"
+24. Lifestyle Coach → Engine: Answer: "Yes, schedule reminder for 11:00 AM (2 hours
+post-meal)"
+25. Engine schedules reminder: Adds to notification queue: 11:00 AM check reminder
+26. Engine composes message: Combines Lifestyle Coach feedback + prediction +
+scheduled reminder
+27. Engine → Patient: Delivers: "Poha - good choice! ✓ Based on your history (8 times):
+Expected glucose 170-180 mg/dL. I'll remind you to check at 11 AM."
+28. 11:00 AM - Reminder fires: Engine sends: "Check post-breakfast glucose now"
+29. Patient logs: 172 mg/dL
+30. Engine multi-routes: Sends to Clinical Monitor (safety) AND Health Insights
+(prediction validation) simultaneously
+31. Clinical Monitor response: Safe, within target (<180), no concerns
+32. Health Insights analyzes: Predicted: 170-180. Actual: 172. Accuracy: Excellent (within
+2 mg/dL). Updates: Poha reliability confirmed (9th occurrence, always 165-180 range,
+confidence: 0.92)
+33. Health Insights → Lifestyle Coach: Notification: "Poha is highly reliable for this
+patient. Encourage continued use."
+34. Engine synthesizes: Clinical safety ✓ + Prediction accuracy ✓ + Pattern reliability ✓
+35. Engine → Patient: Delivers: "Perfect! 172 mg/dL - right where I predicted. Your body
+consistently responds to poha this way. This is a reliable breakfast! 🎯"
+36. Lifestyle Coach updates: Adds poha to patient's "recommended foods" list, increases
+reliability score
+37. Health Insights stores: Updated correlation: poha → 172 mg/dL average (n=9, SD=5.2,
+very high confidence)Interaction Pattern 3: Symptom Report (Emergency)
+Patient reports: "I feel dizzy" at 2:30 PM
+38. Engagement Engine receives: Event: symptom_report, text: "I feel dizzy", severity:
+unknown
+39. Engine priority check: Symptom reports could be urgent. Route to Doctor Bridge for
+triage.
+40. Engine → Doctor Bridge: Sends: {symptom: "dizzy", patient_id, timestamp: 2:30 PM}
+41. Doctor Bridge analyzes: Keyword "dizzy" = potential clinical issue. Requires Clinical
+Monitor assessment.
+42. Doctor Bridge → Engine: Instruction: "Route to Clinical Monitor for medical
+evaluation"
+43. Engine → Clinical Monitor: Sends: {symptom: "dizzy", reported_at: 2:30 PM,
+needs_context: true}
+44. Clinical Monitor pulls context: Queries database: Last glucose 172 mg/dL (11 AM, 3.5
+hours ago), No lunch logged, Morning medication taken (includes Glimepiride - glucose-
+lowering drug)
+45. Clinical Monitor assessment: Gap since last glucose too long, No lunch concerning,
+Medication actively lowering glucose. Hypothesis: Possible hypoglycemia from delayed
+lunch.
+46. Clinical Monitor → Engine: Request: "Ask patient how long they've felt dizzy"
+47. Engine → Patient: Quick question: "How long have you felt dizzy?" [Options: Just
+started / About an hour / Several hours]
+48. Patient responds: Selects: "About an hour"
+49. Engine → Clinical Monitor: Patient info: Duration = 1 hour
+50. Clinical Monitor escalates priority: 1 hour duration + no lunch + medication = likely
+hypoglycemia. Priority: HIGH.
+51. Clinical Monitor → Health Insights: Request: "Check patient history - any previous
+dizziness episodes?"
+52. Health Insights searches: Finds: 5 days ago, patient reported dizziness, glucose was 92
+mg/dL. Pattern: Dizziness = low glucose indicator for this patient.
+53. Health Insights → Clinical Monitor: Confirms: "Patient history shows dizziness
+associated with hypoglycemia"
+54. Clinical Monitor → Doctor Bridge: Alert: "Probable hypoglycemia. Patient needs
+immediate glucose check and food. Alert doctor if confirmed."
+55. Doctor Bridge → Engine: Instruction: "Send emergency instructions NOW. Monitor
+closely."
+56. Engine takes priority action: Pauses all other notifications. Sends immediate high-
+priority message.
+57. Engine → Patient: URGENT: "Dizziness can be from low glucose. DO THIS NOW: 1)
+Check your glucose right now 2) Eat something while you check [Check Glucose Now]"
+58. Patient logs glucose: 88 mg/dL (3 minutes later)
+59. Engine → Clinical Monitor: New glucose: 88 mg/dL, context: symptom-related60. Clinical Monitor confirms: Borderline hypoglycemia confirmed. Symptom explained.
+Action: Eat immediately, recheck in 30 min.
+61. Clinical Monitor → Engine: Status: HYPOGLYCEMIA_CONFIRMED. Instructions: "Eat
+now, recheck 30 minutes" Doctor alert: Routine review (not emergency)
+62. Engine → Patient: "Your glucose is 88 mg/dL - on the low side. This explains the
+dizziness. EAT LUNCH NOW: Rice + dal + vegetable OR sandwich + fruit. Check again in
+30 minutes."
+63. Clinical Monitor → Health Insights: Event logged: "Hypoglycemia from delayed lunch
+on Glimepiride. Analyze root cause."
+64. Health Insights analyzes: Breakfast 9 AM, Lunch delayed to 2:30 PM = 5.5 hour gap.
+Medication active 6-8 hours. Patient's safe meal gap: ≤4.5 hours. Root cause: Meal
+timing issue.
+65. Health Insights → Learning Library: Request: "Patient needs education on meal
+timing with Glimepiride"
+66. 30 minutes later: Engine triggers scheduled recheck reminder
+67. Patient logs: 112 mg/dL (recovered)
+68. Clinical Monitor: Improved from 88 → 112. Recovery good. Crisis resolved.
+69. Engine → Patient: "Good! 112 mg/dL - you're recovering. Dizziness should be gone
+now."
+70. Learning Library → Engine: Educational content ready: "Meal Timing with
+Glimepiride"
+71. Engine delivers education: (After recovery) "What happened today: [explanation].
+PREVENTION: Eat lunch by 1:30 PM max. [Set Daily Lunch Reminder]"
+72. Care Coordinator activated: Sets up lunch reminders for next 7 days to prevent
+recurrence
+73. Health Insights updates model: Patient profile: meal_timing_sensitive = true, safe_gap
+= 4.5 hours, risk_factor = delayed_meals_on_glimepiride
+74. Clinical Monitor → Doctor Bridge: Summary for doctor: "Minor hypoglycemia event
+(88 mg/dL). Patient self-managed appropriately. Cause: delayed meal. Patient educated.
+Add to weekly review."
+75. Doctor Bridge logs: Adds to doctor's Monday weekly summary (not urgent enough for
+immediate alert)Interaction Pattern 4: Patient Question
+Patient asks: "Can I eat mango?"
+76. Engagement Engine receives: Event: patient_question, text: "Can I eat mango?"
+77. Engine default routing: ALL questions route to Doctor Bridge for classification
+78. Engine → Doctor Bridge: Sends: {question: "Can I eat mango?", patient_id, timestamp}
+79. Doctor Bridge classifies: Question type: nutrition, Complexity: simple, Medical risk:
+low, Requires_doctor: false
+80. Doctor Bridge determines routing: Nutrition questions go to Lifestyle Coach. Doctor
+Bridge will monitor response quality.
+81. Doctor Bridge → Engine: Instruction: "Route to Lifestyle Coach. I'll review the answer
+before delivery."
+82. Engine → Lifestyle Coach: Request: "Patient asking: Can I eat mango?"
+83. Lifestyle Coach generates answer: Checks: Mango nutrition (15g carbs per 100g),
+Patient history (no mango logged yet), General diabetes guidelines. Creates
+comprehensive answer.
+84. Lifestyle Coach → Engine: Returns: "Yes, mango is fine! Limit to 100g (about 1/2
+medium mango), pair with a meal, check glucose 2 hours after. Mango has ~15g carbs
+per 100g. Want nutrition details? [Learn More]"
+85. Engine → Doctor Bridge: For review: Lifestyle Coach answer ready
+86. Doctor Bridge reviews: Checks: Medically appropriate? Yes. Complete? Yes. Accurate?
+Yes. Safe? Yes.
+87. Doctor Bridge → Engine: Approved: "Deliver to patient. Log as AI-handled."
+88. Engine → Patient: Delivers Lifestyle Coach answer
+89. Doctor Bridge logs conversation: Type: patient_question, Handled_by: AI (Lifestyle
+Coach), Doctor_escalation: not_needed
+90. Engagement Engine updates: Patient engaged with AI (+1 engagement score)Interaction Pattern 5: Medication Question (Requires Doctor)
+Patient asks: "Should I double my medication dose? My glucose has been high."
+91. Engagement Engine receives: Event: patient_question, text: "Should I double my
+medication dose?"
+92. Engine → Doctor Bridge: All questions go to Doctor Bridge first
+93. Doctor Bridge classifies: Keywords detected: "medication", "dose", "double". Question
+type: MEDICATION_DECISION. Medical risk: HIGH. Requires_doctor: TRUE (medication
+changes ALWAYS need doctor).
+94. Doctor Bridge STOPS routing: Does NOT send to Clinical Monitor or Lifestyle Coach.
+This requires doctor only.
+95. Doctor Bridge → Engine: Instruction: "Do not route anywhere else. I'm handling this."
+96. Doctor Bridge → Patient (immediate): "This is an important question that needs Dr.
+Verma's input. I'm sending him a message now. He'll respond within 2-4 hours.
+IMPORTANT: Continue your current medication dose. DO NOT change doses without
+talking to your doctor."
+97. Doctor Bridge pulls context: Queries Clinical Monitor: Recent glucose readings,
+medication adherence, any patterns
+98. Clinical Monitor → Doctor Bridge: Data: Past 7 days avg 215 mg/dL (up from previous
+165), Adherence 95% (no missed doses), Pattern: Consistent elevation without
+explanation
+99. Doctor Bridge creates alert: Priority: URGENT, Type: medication_question, Context:
+Patient asking about dose adjustment, Glucose elevated (215 avg), Adherence good
+100. Doctor Bridge → Engine: Send URGENT alert to doctor immediately via WhatsApp
++ Dashboard
+101. Engine delivers: WhatsApp: "⚠ Mrs. Sharma asking about doubling medication
+dose. Glucose high all week (avg 215). Adherence good. [Call Patient] [View Data]"
+102. 103. Engine adds to doctor dashboard: Red urgent flag appears at top
+Doctor Bridge monitors: Tracks: Doctor viewed alert? Response time? Timeout: 2
+hours
+104. 105. 30 minutes later: Doctor clicks [View Data] on dashboard
+Doctor Bridge logs: Doctor viewed alert at 3:15 PM (30-minute response time -
+excellent)
+106. 107. Doctor reviews full context: Sees complete glucose history, meal logs, activity data
+Doctor calls patient: Discusses situation, asks questions, decides to increase
+Metformin to 850mg
+108. Doctor updates system: Changes medication in patient profile: Metformin 500mg
+→ 850mg
+109. Engine → Clinical Monitor: Notification: "Medication changed by doctor. Update
+schedule."
+110. Clinical Monitor: Updates medication schedule, recalculates dosing times111. 112. Doctor Bridge → Patient: Confirmation: "Dr. Verma updated your medication to
+Metformin 850mg. You'll see new reminders starting tomorrow morning. Take as
+prescribed."
+Engagement Engine: Logs: Doctor response time excellent, Patient question
+resolved via human interventionInteraction Pattern 6: Weekly Summary Generation
+Sunday 10 PM - Automatic weekly summary triggered
+113. Engagement Engine timer fires: Sunday 10:00 PM - Weekly summary generation
+114. 115. 116. 117. 118. 119. 120. 121. 122. 123. 124. 125. 126. 127. 128. 129. 130. 131. for all patients
+Engine broadcasts to all agents: Request: "Compile weekly data for patient_id
+12345, week Oct 28 - Nov 3"
+Clinical Monitor compiles: Glucose: avg 154 mg/dL (down from 158), time in
+range 76%, medication adherence 92%, 1 hypoglycemia event (resolved), 1 missed
+evening dose
+Lifestyle Coach compiles: Activity: avg 6,950 steps/day (goal 8K), 4 post-dinner
+walks (up from 3), meals logged 81%, breakfast analysis: poha 3x (good), paratha 2x
+(high glucose impact)
+Health Insights analyzes patterns: Post-dinner walks: 16 mg/dL impact on fasting
+(high confidence). Paratha vs poha: +18 mg/dL difference. Medication consistency:
+critical for this patient.
+Care Coordinator reports: Next HbA1c due: 2 weeks (Nov 18). Medications:
+sufficient. Appointments: none scheduled.
+Learning Library reports: Content viewed: 2 articles (meal timing, walks).
+Completion rate 100%. Learning applied: Patient improved meal timing after education.
+Doctor Bridge reports: Questions asked: 1 (dizziness - resolved by AI). Doctor
+messages: 0. Escalations: 0.
+All agents → Engine: Each sends compiled weekly data
+Engine → Health Insights: Request: "Synthesize all data into patient-facing
+summary"
+Health Insights creates summary: Comprehensive report with: Wins (glucose
+down, adherence up), Opportunities (step goal), Personalized insights (walk impact,
+breakfast choices), Next week goals
+Engine → Health Insights: Also create doctor-facing summary
+Health Insights creates doctor version: Concise status: "Improving - no action
+needed". Key metrics. Any flags (none this week).
+Engine stores both summaries: Saves to weekly_summaries table
+Engine schedules delivery: Patient: Monday 7 AM (when patient typically opens
+app). Doctor: Monday 9 AM (dashboard notification)
+Monday 7 AM: Engine delivers patient summary: "Your Week in Review (Oct 28 -
+Nov 3)"
+Monday 9 AM: Engine delivers to doctor dashboard + WhatsApp: "Weekly
+summary ready - 52 patients reviewed, 5 need attention, 47 doing well. [View
+Dashboard]"
+Doctor Bridge groups patients: Dashboard organized: 🟢 Doing Well (47) -
+collapsed, 🟡 Needs Attention (5) - expanded, 🔴 Urgent (0)
+Engagement Engine tracks: Patient opened summary within 5 minutes (high
+engagement), Doctor viewed dashboard at 9:15 AMInteraction Pattern 7: HbA1c Test Scheduling
+2 weeks before HbA1c due date
+132. 133. 134. 135. 136. 137. 138. 139. 140. 141. 142. 143. 144. 145. 146. 147. 148. 149. 150. 151. 152. 153. 154. Engagement Engine daily check: Scans test_schedule table, identifies: Mrs. Sharma
+HbA1c due Nov 18 (14 days away)
+Engine → Care Coordinator: Notification: "HbA1c test due in 14 days for patient
+12345"
+Care Coordinator → Health Insights: Request: "Predict HbA1c for this patient to
+include in reminder"
+Health Insights calculates: Based on 90-day glucose average (152 mg/dL):
+Predicted HbA1c 6.9%. Previous HbA1c: 7.1%. Expected improvement: 0.2%.
+Health Insights → Care Coordinator: Prediction: 6.9% (down from 7.1%). Good
+progress - use this to motivate patient.
+Care Coordinator creates reminder: Includes prediction and motivational
+message
+Care Coordinator → Engine: Ready to send 2-week reminder with prediction
+Engine checks constraints: Notifications today: 3 (under limit), Last sent: 4 hours
+ago (OK)
+Engine → Patient: "📊 HbA1c TEST REMINDER. Your test is due in 2 weeks. Based
+on 90 days of data, I predict: 6.9% (down from 7.1%!). This test will show your hard
+work paying off! [Book Lab Appointment]"
+Patient clicks [Book Lab]: Opens partner lab selection screen
+Care Coordinator shows options: Lists: HealthCare Labs (1.2 km), City Diagnostics
+(2.5 km), Apollo Labs (3.1 km). Available dates for next 14 days.
+Patient selects: Lab: HealthCare Labs, Date: Nov 18, Time: 9 AM
+Care Coordinator → Engine: Appointment booked. Confirm with patient.
+Engine → Patient: "✓ Appointment confirmed: Nov 18, 9 AM, HealthCare Labs,
+[Address]. [Add to Calendar]"
+Care Coordinator schedules reminders: Nov 11 (1 week before): Reminder, Nov
+17 (1 day before): Final reminder with instructions
+Nov 18 - Test Day: Engine sends morning reminder with directions
+Patient completes test: Marks [Test Done] in app
+Care Coordinator: Status: Waiting for results (24-48 hours)
+Nov 19 - Results available: Patient uploads photo of report: 7.1%
+Care Coordinator: OCR extracts value: 7.1%. Confirms with patient.
+Care Coordinator pulls history: Previous: 7.8% (3 months ago), Current: 7.1%,
+Change: -0.7% (improvement!)
+Care Coordinator → Health Insights: Result received: Actual 7.1% vs Predicted
+6.9%. Analyze accuracy and what worked.
+Health Insights analyzes: Prediction accuracy: 97% (within 0.2%). Contributing
+factors to improvement: Medication adherence +0.3%, better breakfast choices +0.2%,
+increased activity +0.2%155. 156. 157. 158. 159. Health Insights creates celebration: Comprehensive progress report: What
+worked, what behaviors drove improvement
+Engine → Patient: "📊 HbA1c RESULT: 7.1% (down from 7.8%!) 🎉 That's 0.7%
+improvement! [See What Worked]"
+Patient clicks [See What Worked]: Health Insights delivers detailed analysis
+Care Coordinator → Engine: Schedule next HbA1c: Feb 18 (90 days)
+Care Coordinator → Doctor Bridge: Result ready for doctor review with progress
+analysis
+160. Doctor Bridge: Adds to doctor dashboard: Patient progress success storyInteraction Pattern 8: Re-engagement (Patient Inactive)
+Patient hasn't logged anything in 3 days
+161. Day 1 - No morning glucose log: Engine detects by 10 AM: Patient missed fasting
+glucose log
+162. 163. Engine decision: First day miss - gentle reminder only
+Engine → Patient: "We missed your fasting glucose today. Everything okay? [Log
+Now]"
+164. 165. 166. Patient: No response all day
+Engine logs: Status: missed_day_1, Engagement score drops by 10 points
+Day 2 - Still no activity: Engine detects: 48 hours without any logs (glucose, meal,
+medication)
+167. 168. Engine escalates: Status change: active → at_risk
+Engine → Patient: "Haven't seen your glucose logs in 2 days. Dr. Verma monitors
+your data daily. Please catch up! [Log Now]"
+169. Patient: Still no response
+170. Engine logs: Status: missed_day_2, Engagement score drops to 65 (borderline)
+171. Day 3 - Multi-channel outreach: Engine detects: 72 hours without activity
+172. Engine escalates further: Status: at_risk → disengaging
+173. Engine switches channel: Tries WhatsApp (more personal than push notification)
+174. Engine → Patient (WhatsApp): "Hi Mrs. Sharma, we haven't seen your glucose logs
+in 3 days. Is everything okay? Dr. Verma wants to make sure you're doing well. Please
+respond when you can."
+175. 176. Patient responds: "Been busy with family visiting"
+Engine → Doctor Bridge: Patient responded to re-engagement. Reason: temporary
+busy with family
+177. Doctor Bridge analyzes: Reason type: temporary_life_event (not app issue, not
+health crisis, not lost motivation). Response: supportive, lower expectations temporarily
+178. Doctor Bridge → Engine: Send understanding response. Temporarily reduce
+logging requirements.
+179. Engine → Patient (WhatsApp): "No problem! Family comes first 😊 Can you log
+just once today? Takes 20 seconds. I'll remind you gently tomorrow."
+180. 181. 182. 183. 184. Patient logs: Glucose: 168 mg/dL (first log in 3 days)
+Engine celebrates: Immediate positive reinforcement
+Engine → Clinical Monitor: First glucose in 3 days. Analyze value.
+Clinical Monitor: 168 mg/dL - slightly elevated but safe. No emergency.
+Engine → Patient: "Welcome back! 🎉 168 mg/dL - within safe range. Thank you for
+logging. Even during busy times, one log per day helps Dr. Verma monitor you."
+185. Engine adjusts expectations: For next 7 days: Require only 1 glucose log per day
+(instead of 3), Skip meal logging requirements, No activity pressure
+186. 187. 188. Days 4-7: Patient logs once daily (family still visiting)
+Engine: Gentle encouragement each time, no pressure for more
+Day 8 - Family leaves: Patient naturally resumes normal logging (3x per day)189. 190. 191. 192. Engine recognizes: Engagement back to normal (score 75%)
+Engine → Patient: "You're back to your normal routine! 🎉 Glad the family visit
+went well. Your logging is strong again."
+Engagement Engine updates model: Patient profile: Responsive to WhatsApp,
+Needs flexibility during life events, Self-corrects when situation normalizes
+Engine logs learning: Re-engagement successful at Day 3 (WhatsApp worked),
+Patient reason: temporary busy, Reduced expectations effectiveKey Orchestration Principles
+Engagement Engine is the Hub
+Every patient event flows through the Engagement Engine. No agent talks directly to
+patients.
+Agents are Specialists
+Each agent handles one domain. Clinical Monitor doesn't do nutrition. Lifestyle Coach
+doesn't do medication.
+Collaboration Through Engine
+When agents need information from each other, they request through the Engine. Example:
+Health Insights asks Lifestyle Coach about meals via Engine coordination.
+Priority Hierarchy
+Emergencies override everything. Clinical Monitor can take control during crisis. Other
+agents pause until crisis resolved.
+Notification Bundling
+Multiple agent responses combined into single patient message. Prevents notification spam.
+Rate Limiting
+Maximum 5 notifications per day. Minimum 2 hours between notifications. Prevents fatigue.
+Learning Loop
+Health Insights learns from outcomes. Validates predictions. Updates correlations. System
+gets smarter over time.
+Human Oversight
+Doctor Bridge ensures medical questions reach doctors when needed. AI handles routine,
+escalates complex or dangerous situations.Summary
+The ProCare 7-agent system works as a coordinated team with the Engagement Engine
+orchestrating all interactions. Each agent specializes in its domain but collaborates
+seamlessly through the Engine.
+Key advantages of this architecture:
+• Patients get coherent, unified responses (not 7 different messages)
+• Emergencies always get priority attention
+• Agents can be developed and improved independently
+• System learns from every interaction
+• Doctors stay informed without being overwhelmed
+• Scales to thousands of patients with consistent quality
+This architecture has been benchmarked against successful digital health platforms like
+Livongo (diabetes management with 400K+ users) and Omada Health (chronic care with
+proven clinical outcomes). The multi-agent approach provides the intelligence and
+personalization needed for effective long-term patient engagement and outcomes
+improvement.────────────────────────────────────────────────────────────
+──────────
+ProCare: 7-Agent System
+Complete Agent Interaction Specifications
+Version 1.0 | November 2024
