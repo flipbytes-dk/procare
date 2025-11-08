@@ -30,6 +30,7 @@ ProCare solves this through a 7-agent orchestrated platform that combines WhatsA
 | Date | Version | Description | Author |
 |------|---------|-------------|--------|
 | 2024-11 | 1.0 | Initial PRD creation from Project Brief | PM (John) |
+| 2024-11 | 1.1 | Added web chat interface (Open WebUI) as alternative communication channel alongside WhatsApp | PM (John) |
 
 ## Requirements
 
@@ -74,6 +75,8 @@ FR18: The system shall support patient signup with management mode selection: pa
 FR19: The system shall deliver context-based health education tips (not comprehensive libraries) triggered by patient behavior patterns.
 
 FR20: The system shall track medication adherence and provide adherence metrics to doctors and caregivers.
+
+FR21: The system shall provide a web-based chat interface (accessible via browser without app download) as an alternative communication channel for patients, supporting the same core functionality as WhatsApp (glucose logging, meal logging, medication reminders, question answering). Both WhatsApp and web chat are always available—patients can use either channel at any time without selection or switching. Messages route to the channel where patient last interacted, with consistent conversational experience across both channels.
 
 ### Non Functional
 
@@ -121,7 +124,7 @@ NFR20: The system shall achieve 80%+ doctor dashboard weekly usage and 85%+ care
 
 ### Overall UX Vision
 
-ProCare's user experience centers on reducing anxiety and friction for diabetes management. The primary interface is WhatsApp—familiar, accessible, and requiring zero app downloads. Conversations feel supportive and personalized, never judgmental. The system anticipates needs (proactive interventions) rather than reacting after problems occur. For doctors and caregivers, web dashboards provide at-a-glance visibility with minimal time investment (10-15 minutes daily for doctors, peace-of-mind checks for caregivers). The offline-first architecture ensures the experience never breaks, even with intermittent connectivity—users can log glucose, meals, and medications seamlessly whether online or offline.
+ProCare's user experience centers on reducing anxiety and friction for diabetes management. The primary interface is WhatsApp—familiar, accessible, and requiring zero app downloads. Patients can also use a web-based chat interface (Open WebUI or similar) accessible via browser at any time. Both channels are always available—patients can use either WhatsApp or web chat without any selection or switching. Both channels provide the same conversational experience—supportive and personalized, never judgmental. The system routes messages to the channel where patient last interacted, ensuring continuity. The system anticipates needs (proactive interventions) rather than reacting after problems occur. Same account, same data across both channels. For doctors and caregivers, web dashboards provide at-a-glance visibility with minimal time investment (10-15 minutes daily for doctors, peace-of-mind checks for caregivers). The offline-first architecture ensures the experience never breaks, even with intermittent connectivity—users can log glucose, meals, and medications seamlessly whether online or offline.
 
 ### Key Interaction Paradigms
 
@@ -131,6 +134,16 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
 - Context-aware responses that feel like talking to a knowledgeable friend
 - Proactive messages (not just reactive) with pattern-based interventions
 - Rate-limited notifications (max 5/day, 2-hour spacing) to avoid overwhelm
+
+**Web Chat Interface (Browser-Based):**
+- Web-based chat UI accessible via browser without app download (using Open WebUI or similar framework)
+- Same conversational experience as WhatsApp with consistent functionality
+- Natural language input (text) for all patient interactions
+- Photo upload for meal logging and glucometer readings
+- Context-aware responses matching WhatsApp experience
+- Proactive messages and pattern-based interventions
+- Works offline-first with local data storage and sync
+- Mobile-responsive design for smartphone browsers
 
 **Tiered Information Architecture (Doctor Dashboard):**
 - Urgent/Attention/Stable patient categorization for quick triage
@@ -157,6 +170,15 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
 - Conversational logging interface (glucose, meals, medications via natural language)
 - Question-answering interface (AI responses with doctor escalation option)
 - Weekly progress summary (delivered via WhatsApp message)
+
+**Patient Experience (Web Chat Interface):**
+- Web chat login/authentication (phone number + OTP)
+- Onboarding flow via web chat (same as WhatsApp: phone number, doctor connection, management mode selection)
+- Conversational logging interface (glucose, meals, medications via natural language)
+- Question-answering interface (AI responses with doctor escalation option)
+- Weekly progress summary (delivered via web chat)
+- Chat history and message persistence
+- Photo upload interface for meal logging and glucometer readings
 
 **Doctor Web Dashboard:**
 - Login/Authentication screen
@@ -210,6 +232,7 @@ No specific brand guidelines provided yet—this will be developed during design
 - Works on any smartphone with WhatsApp installed
 
 **Secondary Platform: Web Portal (Responsive)**
+- **Patient Web Chat Interface:** Browser-based chat UI (Open WebUI or similar) accessible via mobile or desktop browsers, supporting same functionality as WhatsApp
 - Doctor dashboard: Desktop-first (Chrome 90+, Safari 14+, Firefox 88+)
 - Caregiver dashboard: Mobile-responsive (iOS 13+, Android 8+)
 - Progressive Web App (PWA) capabilities for app-like experience without app store
@@ -220,9 +243,13 @@ No specific brand guidelines provided yet—this will be developed during design
 - Target: 5% of users (tech-savvy, newer smartphones)
 
 **Cross-Platform Considerations:**
-- Consistent experience across WhatsApp and web (same data, same insights)
+- Consistent experience across WhatsApp and web chat (same data, same insights, same conversational flow)
+- Patients can use either WhatsApp or web chat at any time - both channels are always available (no selection required)
+- Messages route to the channel where patient last interacted, or patient can use either channel simultaneously
+- Same account, same data across both channels - seamless multi-channel support
 - Offline-first architecture works identically across all platforms
 - Responsive design ensures usability on wide range of screen sizes (4" to desktop)
+- Web chat interface provides alternative for users who prefer browser-based interaction or don't use WhatsApp
 
 ## Technical Assumptions
 
@@ -300,6 +327,7 @@ ProCare will implement **Full Testing Pyramid** with the following levels:
 
 **Frontend Technologies:**
 - **Web Portal:** React 18+ for component reusability and large ecosystem
+- **Patient Web Chat Interface:** Open WebUI or similar web-based chat framework for browser-accessible conversational interface
 - **Mobile Web:** Progressive Web App (PWA) for app-like experience without app store
 - **Future Native App:** React Native for code sharing with web (Phase 2)
 
@@ -328,6 +356,7 @@ ProCare will implement **Full Testing Pyramid** with the following levels:
 
 **Integration Requirements:**
 - **WhatsApp Business API:** Webhook handling, message sending, media uploads (approval required, 2-4 weeks)
+- **Web Chat Interface:** Open WebUI or similar framework for browser-based chat, WebSocket/SSE for real-time messaging
 - **Lab Partners:** Apollo, Metropolis APIs for appointment booking and results
 - **Payment Gateway:** Razorpay or Stripe for subscription management
 - **SMS/Email:** Twilio or SendGrid for backup notifications and OTP
@@ -381,7 +410,7 @@ Epic 8: Advanced Coordination & Question Answering - Implement Care Coordinator 
 
 ### Epic Goal
 
-Establish the foundational infrastructure for ProCare including project setup, Git repository, CI/CD pipelines, and core database architecture. Integrate WhatsApp Business API to enable conversational patient interactions. Implement offline-first database architecture with local SQLite storage and sync engine foundation. Enable patients to log glucose readings and meals via WhatsApp using multiple input methods (text, voice, photo), with data stored locally and synced to cloud when connectivity is available. This epic delivers immediate patient value (working logging functionality) while establishing the technical foundation for all subsequent features.
+Establish the foundational infrastructure for ProCare including project setup, Git repository, CI/CD pipelines, and core database architecture. Integrate WhatsApp Business API and web chat interface (Open WebUI or similar) to enable conversational patient interactions via multiple channels. Implement offline-first database architecture with local SQLite storage and sync engine foundation. Enable patients to log glucose readings and meals via WhatsApp or web chat using multiple input methods (text, voice, photo), with data stored locally and synced to cloud when connectivity is available. Both WhatsApp and web chat are always available - patients can use either channel at any time without selection or switching. Messages route to the channel where patient last interacted. This epic delivers immediate patient value (working logging functionality) while establishing the technical foundation for all subsequent features.
 
 ### Story 1.1: Project Foundation & Infrastructure Setup
 
@@ -432,21 +461,43 @@ so that I don't need to download a separate app.
 8. Webhook signature verification for security
 9. Basic logging and monitoring for WhatsApp API interactions
 
+### Story 1.3a: Web Chat Interface Integration
+
+As a patient,
+I want to interact with ProCare via a web-based chat interface,
+so that I have an alternative to WhatsApp if I prefer browser-based interaction.
+
+**Acceptance Criteria:**
+1. Web chat interface framework integrated (Open WebUI or similar) for browser-based conversational interface
+2. WebSocket or Server-Sent Events (SSE) connection for real-time messaging
+3. Chat interface accessible via web browser (mobile and desktop) without app download
+4. Message sending and receiving functionality via web chat API
+5. Photo upload handling: receive and process images (meal photos, glucometer screens) via web interface
+6. Chat history persistence: messages stored and displayed in chat interface
+7. Message queuing system for rate limit compliance (max 5 notifications/day, 2-hour spacing) - same as WhatsApp
+8. Error handling for connection failures, timeouts, and invalid messages
+9. Authentication integration: web chat uses same authentication system as WhatsApp (phone + OTP)
+10. Consistent experience: web chat provides same functionality and conversational flow as WhatsApp
+11. Offline support: web chat works offline with local message storage and sync when connectivity restored
+12. Basic logging and monitoring for web chat interactions
+
 ### Story 1.4: Patient Onboarding & Authentication
 
 As a new patient,
-I want to sign up for ProCare via WhatsApp,
+I want to sign up for ProCare via WhatsApp or web chat,
 so that I can start managing my diabetes immediately.
 
 **Acceptance Criteria:**
-1. Patient registration flow via WhatsApp: phone number verification (OTP via SMS/WhatsApp)
+1. Patient registration flow via WhatsApp or web chat: phone number verification (OTP via SMS/WhatsApp)
 2. Patient profile creation: basic info (name, age, diabetes type, diagnosis date)
 3. Doctor connection: patient can link to doctor via doctor code or phone number
 4. Management mode selection: patient-primary, shared management, or caregiver-primary
 5. Patient data stored in both local (SQLite) and cloud (PostgreSQL) databases
-6. Authentication token generation (JWT) for web dashboard access (future use)
-7. Onboarding completion confirmation message via WhatsApp
-8. Error handling for invalid doctor codes, duplicate registrations, and incomplete profiles
+6. Authentication token generation (JWT) for web dashboard and web chat access
+7. Multi-channel access: patient can use both WhatsApp and web chat immediately after onboarding (no channel selection required)
+8. Onboarding completion confirmation message sent to channel used for registration (WhatsApp or web chat)
+9. Patient can start using either channel at any time - both are always available
+10. Error handling for invalid doctor codes, duplicate registrations, and incomplete profiles
 
 ### Story 1.5: Glucose Logging via WhatsApp (Text Input)
 
@@ -463,6 +514,23 @@ so that I can quickly record my readings without friction.
 6. Confirmation message sent to patient via WhatsApp: "Glucose logged: 128 mg/dL at 8:30 AM. Looking good!"
 7. Support for pre-meal, post-meal, fasting, and random glucose types (detected from context or explicitly specified)
 8. Error handling for unparseable input with helpful guidance: "I couldn't understand that. Please send your glucose reading as a number, like '128' or 'sugar 150'"
+
+### Story 1.5a: Glucose Logging via Web Chat (Text Input)
+
+As a patient,
+I want to log my glucose reading by typing the number in the web chat interface,
+so that I can use the web interface if I prefer it over WhatsApp.
+
+**Acceptance Criteria:**
+1. Same natural language parsing logic as WhatsApp (Story 1.5) - shared parsing service
+2. Glucose reading validation: accepts values 40-600 mg/dL, rejects invalid ranges with helpful error message
+3. Timestamp handling: uses message timestamp if provided, otherwise current device time
+4. Glucose reading stored as event in local SQLite database (offline-first)
+5. Glucose reading synced to cloud PostgreSQL when connectivity available
+6. Confirmation message sent to patient via web chat: "Glucose logged: 128 mg/dL at 8:30 AM. Looking good!"
+7. Support for pre-meal, post-meal, fasting, and random glucose types (detected from context or explicitly specified)
+8. Error handling for unparseable input with helpful guidance: "I couldn't understand that. Please send your glucose reading as a number, like '128' or 'sugar 150'"
+9. Consistent experience: web chat glucose logging provides same functionality and responses as WhatsApp
 
 ### Story 1.6: Glucose Logging via WhatsApp (Voice Input)
 
@@ -511,6 +579,23 @@ so that ProCare can learn what foods affect my glucose.
 6. Confirmation message sent: "Meal logged: Rice and Dal. I'm learning what works for you!"
 7. Support for multiple meals per day: breakfast, lunch, dinner, snacks
 8. Error handling for unrecognizable photos with suggestion: "I couldn't identify the food. Can you describe what you're eating?"
+
+### Story 1.8a: Meal Logging via Web Chat (Photo + Text)
+
+As a patient,
+I want to log my meals by uploading a photo and optional description via web chat,
+so that I can use the web interface for meal logging.
+
+**Acceptance Criteria:**
+1. Meal photo upload via web chat interface (file upload or drag-and-drop)
+2. Same food recognition logic as WhatsApp (Story 1.8) - shared recognition service
+3. Text description parsing: patient can type "rice and dal" or "roti with sabzi" along with photo
+4. Meal logged as event with: photo, recognized foods, text description, timestamp
+5. Meal data stored in local SQLite (offline-first) and synced to cloud when online
+6. Confirmation message sent via web chat: "Meal logged: Rice and Dal. I'm learning what works for you!"
+7. Support for multiple meals per day: breakfast, lunch, dinner, snacks
+8. Error handling for unrecognizable photos with suggestion: "I couldn't identify the food. Can you describe what you're eating?"
+9. Consistent experience: web chat meal logging provides same functionality and responses as WhatsApp
 
 ### Story 1.9: Data Sync Engine (Offline to Online)
 
@@ -566,7 +651,7 @@ so that ProCare can send reminders at the correct times.
 7. Medication schedule changes synced to patient's local database
 8. Error handling for invalid schedules, duplicate medications, and missing required fields
 
-### Story 2.3: Basic Medication Reminders via WhatsApp
+### Story 2.3: Basic Medication Reminders via WhatsApp/Web Chat
 
 As a patient,
 I want to receive medication reminders at the times my doctor specified,
@@ -574,13 +659,14 @@ so that I don't forget to take my medications.
 
 **Acceptance Criteria:**
 1. Reminder scheduler: checks medication schedules and sends reminders at specified times
-2. WhatsApp message sent to patient: "Time for your medication! Metformin 500mg. Reply 'taken' when you've taken it."
-3. Reminder respects rate limiting: max 5 notifications/day, 2-hour minimum spacing (if multiple medications)
-4. Reminder works offline: scheduled reminders stored locally, sent when connectivity available
-5. Patient can confirm medication taken: replies "taken", "yes", "done", "le liya" (Hindi)
-6. Medication log entry created when patient confirms: medication_id, taken_at timestamp, logged_via "reminder_response"
-7. Confirmation message: "Great! I've logged your medication. Keep it up!"
-8. Reminder not sent if patient already logged medication within 30 minutes of scheduled time
+2. Message sent to patient via channel where patient last interacted (WhatsApp or web chat): "Time for your medication! Metformin 500mg. Reply 'taken' when you've taken it."
+3. Channel routing: Engagement Engine routes reminders to the channel where patient last interacted. If patient hasn't interacted recently, reminder sent to both channels to ensure delivery.
+4. Reminder respects rate limiting: max 5 notifications/day, 2-hour minimum spacing (if multiple medications, applies across both channels)
+5. Reminder works offline: scheduled reminders stored locally, sent when connectivity available
+6. Patient can confirm medication taken: replies "taken", "yes", "done", "le liya" (Hindi) via their active channel
+7. Medication log entry created when patient confirms: medication_id, taken_at timestamp, logged_via "reminder_response"
+8. Confirmation message sent via same channel: "Great! I've logged your medication. Keep it up!"
+9. Reminder not sent if patient already logged medication within 30 minutes of scheduled time
 
 ### Story 2.4: Medication Logging by Patient (Manual Entry)
 
@@ -697,12 +783,15 @@ so that I get coordinated, helpful responses.
 2. Event routing logic: patient action → Engagement Engine → determines which agents need to process event
 3. Agent selection: Engagement Engine routes events to relevant agents based on event type (glucose_log → Clinical Monitor + Health Insights, meal_log → Lifestyle Coach + Health Insights)
 4. Patient state management: Engagement Engine tracks patient state (onboarding, active, inactive, emergency)
-5. Event aggregation: Engagement Engine collects responses from multiple agents
-6. Response synthesis: Engagement Engine combines multiple agent responses into single patient message
-7. Rate limiting enforcement: Engagement Engine enforces max 5 notifications/day, 2-hour minimum spacing
-8. Notification queuing: Engagement Engine queues notifications when rate limit reached, sends when allowed
-9. Priority hierarchy: Emergency events override rate limiting and other notifications
-10. Logging: Engagement Engine logs all routing decisions and agent responses for debugging
+5. Channel routing: Engagement Engine routes responses to the channel where patient last interacted (if patient logged glucose via WhatsApp, response goes to WhatsApp; if via web chat, response goes to web chat)
+6. Multi-channel support: Engagement Engine supports sending messages via both WhatsApp and web chat - patient can use either channel at any time, both are always available
+7. Channel detection: Engagement Engine detects which channel patient is using based on incoming message source (WhatsApp webhook vs web chat API)
+8. Event aggregation: Engagement Engine collects responses from multiple agents
+9. Response synthesis: Engagement Engine combines multiple agent responses into single patient message
+10. Rate limiting enforcement: Engagement Engine enforces max 5 notifications/day, 2-hour minimum spacing (applies across both channels - total notifications, not per channel)
+11. Notification queuing: Engagement Engine queues notifications when rate limit reached, sends when allowed
+12. Priority hierarchy: Emergency events override rate limiting and other notifications
+13. Logging: Engagement Engine logs all routing decisions, channel detection, and agent responses for debugging
 
 ### Story 3.3: Clinical Monitor Agent - Emergency Detection Logic
 
@@ -729,14 +818,15 @@ I want immediate, clear instructions on what to do,
 so that I can take action to stay safe.
 
 **Acceptance Criteria:**
-1. Hypoglycemia response (<70 mg/dL): immediate WhatsApp message with instructions: "URGENT: Your glucose is [value] mg/dL (low). Eat 15g fast-acting sugar (glucose tablets, fruit juice, candy). Check again in 15 minutes. If still low, contact your doctor immediately."
-2. Hyperglycemia response (>250 mg/dL): immediate WhatsApp message: "URGENT: Your glucose is [value] mg/dL (high). Drink water, avoid food, check for ketones if you have strips. Contact your doctor if this persists or you feel unwell."
-3. Emergency instructions personalized: includes patient's name, recent medication timing, meal timing
-4. Emergency instructions in Hindi and English based on patient preference
-5. Follow-up check: Clinical Monitor sends follow-up message 15 minutes after hypoglycemia: "Please check your glucose again. How are you feeling?"
-6. Emergency escalation: if patient doesn't respond to emergency or glucose worsens, escalate to doctor immediately (Story 3.5)
-7. Emergency instructions work offline: stored locally, sent immediately when connectivity available
-8. Emergency acknowledgment: patient can respond "ok", "feeling better", "need help" to update emergency status
+1. Hypoglycemia response (<70 mg/dL): immediate message via channel where patient last interacted (WhatsApp or web chat) with instructions: "URGENT: Your glucose is [value] mg/dL (low). Eat 15g fast-acting sugar (glucose tablets, fruit juice, candy). Check again in 15 minutes. If still low, contact your doctor immediately."
+2. Hyperglycemia response (>250 mg/dL): immediate message via channel where patient last interacted: "URGENT: Your glucose is [value] mg/dL (high). Drink water, avoid food, check for ketones if you have strips. Contact your doctor if this persists or you feel unwell."
+3. Channel routing: Engagement Engine routes emergency messages to the channel where patient last interacted (if patient last used WhatsApp, emergency goes to WhatsApp; if web chat, goes to web chat). If patient hasn't interacted recently, message sent to both channels.
+4. Emergency instructions personalized: includes patient's name, recent medication timing, meal timing
+5. Emergency instructions in Hindi and English based on patient preference
+6. Follow-up check: Clinical Monitor sends follow-up message 15 minutes after hypoglycemia via same channel: "Please check your glucose again. How are you feeling?"
+7. Emergency escalation: if patient doesn't respond to emergency or glucose worsens, escalate to doctor immediately (Story 3.5)
+8. Emergency instructions work offline: stored locally, sent immediately when connectivity available
+9. Emergency acknowledgment: patient can respond "ok", "feeling better", "need help" via their active channel to update emergency status
 
 ### Story 3.5: Clinical Monitor - Doctor Escalation for Emergencies
 
