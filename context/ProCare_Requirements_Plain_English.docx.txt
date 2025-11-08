@@ -1,0 +1,337 @@
+﻿ProCare System Requirements
+Functional Requirements in Plain English
+
+
+Version 1.0 | November 2024
+________________
+
+
+What ProCare Does
+ProCare is an AI-powered platform that helps patients manage chronic diseases (starting with diabetes) between doctor visits. It connects patients, doctors, and AI to provide continuous monitoring, personalized guidance, and early intervention.
+This document outlines what the system must do for each stakeholder, written in plain English without technical jargon.
+________________
+
+
+What Patients Can Do
+1. Log Health Data
+Log glucose readings
+Patient enters blood sugar value, system immediately tells them if it's safe, high, or low. Compares to their personal target. Shows trends over last 7 days.
+Log meals with photos
+Patient takes photo of food. System identifies what they ate, estimates carbs/protein/fat. Predicts how it will affect their glucose in 2 hours based on past history.
+Track medications
+Patient gets reminders when it's time to take medicine. Marks taken or skipped. If skipped, system asks why (side effects, forgot, feeling fine). Tracks adherence percentage.
+Record symptoms
+Patient reports feeling dizzy, nauseous, tired, etc. System asks follow-up questions (how long, how severe). Routes to doctor if concerning.
+Track activity
+Syncs with phone (Google Fit/Apple Health) for step count. Logs exercise sessions. Shows daily progress toward step goal.
+2. Get Personalized Guidance
+Immediate feedback on glucose
+Every glucose reading gets instant response: "145 mg/dL - stable" or "88 mg/dL - too low, eat now". Explains what it means in simple terms.
+Meal-specific predictions
+"Based on 8 times you ate poha, your glucose will likely be 170-175 mg/dL after this breakfast." Uses YOUR history, not generic advice.
+Activity recommendations
+"You're at 6,200 steps. A 15-minute walk gets you to 7,500!" Or: "Evening walks lower your fasting glucose by 16 points - proven 12 times."
+Personalized insights
+"I analyzed your breakfasts: Paratha raises glucose to 188 vs poha to 172. Try more poha." Shows patterns specific to that patient.
+Food questions answered
+"Can I eat mango?" → "Yes! Limit to 100g, pair with meal, check glucose 2 hours after."
+3. Emergency Help
+Hypoglycemia (low glucose <60)
+System immediately tells patient: "URGENT - Eat 15g fast carbs now (juice, glucose tablets, honey). Recheck in 15 minutes." Sets automatic recheck reminder. Alerts doctor.
+Hyperglycemia (high glucose >400)
+System asks about symptoms (nausea, vomiting, confusion). If present, directs to ER. If not, guides on hydration and insulin (if applicable). Alerts doctor immediately.
+Symptom escalation
+If patient reports severe symptoms (chest pain, extreme dizziness, confusion), system asks clarifying questions and recommends ER if needed. Always alerts doctor.
+4. Learn About Their Condition
+Educational articles
+Based on what happens, system suggests relevant reading. Example: After hypoglycemia, offers "Understanding Low Blood Sugar and Prevention."
+Onboarding learning path
+New patients get 4 lessons over first week: What is diabetes, monitoring basics, how medications work, food and glucose.
+Question answering
+"Why does stress raise my glucose?" System explains cortisol/adrenaline in simple terms, offers full article if interested.
+5. Communicate with Doctor
+Ask questions anytime
+Patient types question. AI answers if routine (food, activity). Routes to doctor if medical (medication changes, persistent symptoms, treatment decisions).
+Receive doctor messages
+Doctor sends message like "Good work!" System enhances it: "Good work! Your average dropped from 165 to 148 mg/dL. Keep up the medication adherence."
+See what doctor sees
+Patient can view their own weekly summary that doctor reviews. Creates transparency.
+6. Stay Organized
+Test reminders
+2 weeks before HbA1c due: "Test due soon. Based on your data, I predict 6.9% (down from 7.1%!)." 1 week reminder. 1 day reminder with lab directions.
+Medication refill alerts
+7 days before running out: "Metformin will run out in 7 days. [Order Refill] [Download Prescription]" Can order through partner pharmacy or get prescription to order elsewhere.
+Appointment scheduling
+System recommends doctor visit if patterns concerning. Helps book appointment if patient wants.
+Daily summary
+End of day: "Today: ✓ All glucose logged ✓ Medications taken ✓ Step goal achieved. 18-day streak!"
+________________
+
+
+What Doctors Can Do
+1. Monitor All Patients Efficiently
+Weekly dashboard summary
+Every Monday: "52 patients reviewed. 47 doing well ✓, 5 need attention ⚠, 0 urgent 🚨" Click to see details on the 5 who need attention. Others collapsed (can view if wanted).
+Patient status at a glance
+Each patient shows: Average glucose (7-day, 30-day), Medication adherence %, Engagement level, Any active flags (glucose trending up, multiple med skips, etc.)
+Detailed patient view
+Click any patient: See complete history, glucose charts, meal logs, medication adherence, patterns identified by AI, recent questions asked.
+Pre-visit summary
+Before appointment: System generates report of everything since last visit. Doctor can review in 2 minutes instead of asking patient to recall.
+2. Respond to Issues
+Critical alerts via WhatsApp
+Emergency glucose readings: "⚠️ Mrs. Sharma glucose 58 mg/dL. AI guided her to eat. Recheck in 15 min. [Call Patient] [View Data]"
+Urgent notifications
+Patient asking about medication changes: "Patient wants to double dose due to high glucose. I told her to wait for your input. [View Context] [Call Patient]"
+Pattern alerts
+Glucose trending up over 2 weeks: "Mr. Kumar's average increased 165→195 over 2 weeks. Adherence good. May need medication adjustment. [View Charts]"
+Medication adherence issues
+Multiple skips due to side effects: "Patient skipped Metformin 3x this week - nausea. May need alternative. [Call Patient]"
+3. Communicate with Patients
+Send messages easily
+Doctor types short message, system enhances with patient data. Example: "Keep it up" becomes "Keep it up! Your HbA1c improved 7.8→7.1%. Great work on medication adherence."
+Review patient questions
+See what patients asked AI. If AI answered well, just review. If patient needs personal input, can call or message.
+Set patient-specific goals
+Adjust glucose targets, step goals, check-in frequency for individual patients. System automatically uses these targets.
+4. Manage Patient Care Plans
+Update medications
+Change dosage, add new medication, discontinue old one. System automatically updates reminders for patient starting next day.
+Schedule tests
+System auto-schedules HbA1c every 3 months. Doctor can override or add additional tests (lipid panel, kidney function, etc.)
+Recommend content
+Doctor can assign specific educational articles to patient. "Read this before next visit."
+5. Track Practice Performance
+Patient outcomes dashboard
+See practice-wide metrics: Average HbA1c improvement, % patients reaching targets, Medication adherence rates, Engagement levels.
+Revenue tracking
+See monthly recurring revenue from ProCare subscriptions. Track active vs churned patients.
+Efficiency metrics
+Time saved: routine questions handled by AI, pre-visit prep time reduced, unnecessary calls prevented.
+________________
+
+
+What the System Does Automatically
+1. Intelligent Monitoring
+Detect patterns
+Analyzes every patient continuously. Finds: Which foods spike their glucose most, How activity affects them, Optimal medication timing, Early warning signs of issues.
+Predict outcomes
+Before meals: "This breakfast will likely result in 170-180 mg/dL for you." Before HbA1c test: "Based on 90 days, I predict your HbA1c will be 6.9%."
+Validate predictions
+After meal glucose logged, checks accuracy. "I predicted 170-180, you got 172. Consistent!" Uses this to improve future predictions.
+Learn from outcomes
+If patient reduces certain food and glucose improves, reinforces that behavior. System gets smarter for that specific patient over time.
+2. Smart Notifications
+Rate limiting
+Maximum 5 notifications per day per patient. Minimum 2 hours between notifications. Prevents overwhelming patients.
+Bundling
+If 3 things to tell patient at once, combines into one message: "Three things: 1) ... 2) ... 3) ..." instead of 3 separate notifications.
+Optimal timing
+Learns when each patient typically opens app (e.g., 7 AM, 12:30 PM, 9 PM). Sends non-urgent notifications just before these times for higher engagement.
+Emergency override
+Critical alerts (glucose <60 or >400) bypass all limits and send immediately with alarm.
+3. Re-engagement When Patients Go Inactive
+Day 1 - Gentle reminder
+Patient missed morning glucose: "We missed your fasting glucose today. Everything okay? [Log Now]"
+Day 2 - Stronger nudge
+Still no logs: "Haven't seen logs in 2 days. Dr. Verma monitors daily. Please catch up!"
+Day 3 - WhatsApp outreach
+Still inactive: Personal WhatsApp message asking if everything is okay.
+Day 4 - Alert doctor
+Notifies doctor: "Patient inactive 4 days. Possible issues: technical problem, lost motivation, health crisis. Suggest: Personal call."
+If patient returns
+Celebrates comeback, temporarily reduces expectations (1 log/day instead of 3), gradually increases as patient re-establishes routine.
+4. Weekly Reporting
+Patient weekly summary
+Every Sunday, generates comprehensive report: Wins this week (glucose improved, adherence up), Areas to improve (step goal missed), Personalized insights (walk impact proven), Goals for next week.
+Doctor weekly summary
+For each doctor, summarizes all patients: Total count, How many doing well, How many need attention, How many urgent. Detailed view of each category.
+Trend analysis
+Compares week-over-week: "Your average glucose: 165→154 (-11 points). Medication adherence: 85%→92%. Time in range: 72%→76%."
+5. Care Coordination
+Test scheduling automation
+Tracks when HbA1c due (every 3 months). Sends reminders (2 weeks, 1 week, 1 day before). Helps book lab appointment. Confirms appointment. Sends day-of reminder with directions.
+Result processing
+Patient uploads test result photo. System extracts value using OCR, confirms with patient. Compares to previous result. Analyzes what behaviors drove improvement. Celebrates success. Schedules next test.
+Medication refill tracking
+Tracks pills remaining based on daily usage. Alerts patient 7 days before running out. Can facilitate ordering through partner pharmacy or provide prescription to order elsewhere.
+Visit recommendations
+If concerning patterns detected (glucose consistently high, multiple medication skips, unexplained symptoms), suggests patient schedule doctor visit.
+________________
+
+
+Critical System Requirements
+1. Safety & Accuracy
+* Must detect emergency glucose levels (<60 or >400) within 1 second of logging
+* Must send emergency instructions immediately (no delays for bundling/rate limits)
+* Must alert doctor for all emergencies via multiple channels (WhatsApp, SMS, dashboard)
+* Medication dosage changes must ONLY come from doctors, never from AI
+* Predictions must be clearly labeled as estimates, not guarantees
+* All medical advice must be conservative and include "consult your doctor" disclaimers
+2. Reliability
+* System must be available 99.9% of the time (max 8.7 hours downtime per year)
+* Notifications must deliver within 5 seconds of trigger (patient experience)
+* Data must be backed up daily (no data loss)
+* If system fails, must gracefully degrade (basic logging still works)
+* Doctor alerts for emergencies must have backup delivery (SMS if WhatsApp fails)
+3. Privacy & Security
+* All patient health data must be encrypted (both stored and transmitted)
+* Doctors can only see their own patients' data
+* Patient data must stay in India (data residency requirement)
+* Patients can export their complete data anytime
+* Patients can delete their account and all data
+* Must comply with India's data protection laws and HIPAA (for US expansion)
+4. Scalability
+* Must handle 10,000 patients simultaneously without performance degradation
+* Morning 7 AM spike (all patients logging fasting glucose) must not slow system
+* Each patient interaction must complete in <2 seconds (feels instant)
+* System must support adding new doctors/patients without code changes
+* Must support multiple languages (start with English/Hindi, expand later)
+5. Accessibility
+* Must work on basic smartphones (not just latest iPhones)
+* Must work with slow internet connections (India tier 2/3 cities)
+* WhatsApp integration must work (most accessible channel in India)
+* Text must be readable (minimum font sizes, high contrast)
+* Must work for users with limited tech literacy (simple interface)
+________________
+
+
+What Data the System Needs
+Patient Data
+* Basic info: Name, age, gender, phone number
+* Medical: Diabetes type (Type 1/Type 2), diagnosis date, complications if any
+* Current medications: Name, dosage, frequency, prescribing doctor
+* Glucose targets: Fasting range (70-130), post-meal max (180), HbA1c goal
+* Activity goals: Daily step target (default 8,000)
+* Historical data: All glucose readings, meals, medications, symptoms, test results
+Doctor Data
+* Basic info: Name, specialty, qualifications, clinic name/address
+* Contact: Phone, WhatsApp, email, preferred notification method
+* Practice details: Years of experience, tier classification, commission percentage
+* Patient list: Which patients assigned to which doctor
+* Dashboard preferences: How to group patients, alert thresholds
+Interaction Data
+* Every glucose reading with timestamp and context
+* Every meal logged with photo, identified foods, nutritional estimates
+* Every medication taken/skipped with reason if skipped
+* Every symptom reported with severity and duration
+* Every question asked by patient and how answered (AI or doctor)
+* Every notification sent to patient (content, time, opened?)
+* Every alert sent to doctor (type, priority, response time)
+* All patterns detected and insights generated
+* All predictions made and actual outcomes for validation
+________________
+
+
+What ProCare Needs to Connect With
+Patient-Facing Integrations
+* WhatsApp Business API: For sending/receiving messages, reminders, alerts. Primary patient communication channel.
+* Google Fit / Apple Health: To automatically sync step count, activity data. No manual entry needed.
+* Phone camera: To capture meal photos, test result photos, prescription photos.
+* Calendar apps: To add test appointments, doctor visits to patient's phone calendar.
+Healthcare Integrations
+* Lab partners: To book HbA1c tests, lipid panels, kidney function tests. Receive results digitally if possible.
+* Pharmacy partners: To facilitate medication refill orders, home delivery. Track delivery status.
+* EMR systems (future): To sync patient data with doctor's electronic medical records. Not required for MVP.
+Payment Integrations
+* Razorpay / Paytm: For patient subscription payments (₹500/month or ₹6,000/year).
+* UPI: Direct UPI payments for patients who prefer this method.
+* Bank transfers: For doctor commission payouts (monthly or quarterly).
+________________
+
+
+How We Measure Success
+Patient Health Outcomes
+* HbA1c reduction: Average 0.5-1.0% improvement in 3 months (benchmark: Livongo achieved 0.8%)
+* Time in range: 70%+ of glucose readings in 70-180 mg/dL range
+* Medication adherence: 85%+ patients taking meds as prescribed
+* Hypoglycemia events: 50% reduction in severe low glucose episodes
+* Complication prevention: Fewer ER visits, hospitalizations
+Patient Engagement
+* Daily active users: 80%+ of patients logging at least once per day
+* Glucose logging: 70%+ patients logging 3x per day as recommended
+* 30-day retention: 85%+ patients still active after first month
+* Response rate: 60%+ patients respond to AI prompts within 2 hours
+* Engagement score: Average 75/100 across all patients
+Doctor Satisfaction
+* Time saved: 15-20 minutes per patient per month documented
+* Dashboard usage: Doctors checking 3x per week minimum
+* Alert response: Doctors responding to urgent alerts within 2 hours
+* Retention: 90%+ of doctors stay on platform after 6 months
+* NPS (Net Promoter Score): 50+ (would recommend to other doctors)
+System Performance
+* Response time: 95% of interactions complete in <2 seconds
+* Uptime: 99.9% availability
+* Prediction accuracy: 85%+ for glucose predictions (within ±20 mg/dL)
+* False positives: <10% of alerts are false alarms
+* Question handling: 70%+ of patient questions answered by AI without doctor escalation
+Business Metrics
+* Patient acquisition cost: <₹2,000 per patient
+* Lifetime value: ₹18,000+ per patient (3 years average)
+* Churn rate: <15% annually
+* Doctor acquisition: 5 new doctors per month after initial launch
+* Revenue per doctor: ₹3.6L annually with 100 patients
+________________
+
+
+What ProCare Does NOT Do
+To keep scope manageable and focus on core value, ProCare explicitly does NOT include:
+* Replace doctors: ProCare supports doctors, never replaces them. All treatment decisions by doctors.
+* Diagnose new conditions: If patient has symptoms of something new (not diabetes), system directs to doctor.
+* Prescribe medications: Only doctors can prescribe. AI can remind, track adherence, flag issues.
+* Connected glucose monitors (CGM): MVP uses manual entry. CGM integration is Phase 2.
+* Insulin dose calculation: Too high-risk for AI. Directs patients to doctor for insulin adjustments.
+* Direct video calls: Not a telemedicine platform. Doctor calls patient directly if needed.
+* Health insurance claims: Patient manages insurance separately. Future: TPA partnerships.
+* Multi-condition management: MVP focuses on diabetes. Future: hypertension, obesity, pre-diabetes.
+* Family member access: MVP is patient-only. Future: family member monitoring for elderly.
+* Social features: No patient-to-patient interaction, forums, or social networking.
+________________
+
+
+Regulatory Requirements
+Medical Device Classification
+ProCare is a Clinical Decision Support System (CDSS). In India, if it only provides recommendations and doesn't control treatment directly, it may not require full medical device approval. However, must verify with CDSCO (Central Drugs Standard Control Organization).
+Key regulatory requirements:
+* Clear disclaimers: "This is not medical advice. Consult your doctor."
+* No diagnosis claims: Cannot claim to diagnose diabetes or complications.
+* Doctor oversight: All treatment decisions must be by licensed doctors.
+* Data protection: Comply with India's Personal Data Protection Act.
+* Informed consent: Patients must agree to data use, AI limitations.
+* Adverse event reporting: Track and report any patient harm related to system use.
+Platform Approvals Needed
+* WhatsApp Business API: Requires privacy policy, terms of use, business verification. Meta approval process takes 2-4 weeks.
+* Apple Health / Google Fit: Requires app privacy declaration, data usage justification. Usually 1-2 weeks approval.
+* Payment gateways: Business verification, bank account verification, regulatory compliance. 1-2 weeks setup.
+________________
+
+
+Summary
+ProCare provides continuous AI-powered diabetes management between doctor visits. It helps patients stay on track with personalized guidance, helps doctors monitor many patients efficiently, and improves health outcomes through early intervention and behavioral change.
+
+
+Core capabilities:
+* Real-time glucose monitoring with emergency detection
+* Personalized meal and activity guidance based on patient's own data
+* Medication adherence tracking with smart reminders
+* Pattern detection and predictive insights
+* Efficient doctor dashboard with priority-based alerts
+* Care coordination (tests, refills, appointments)
+* Educational content delivery
+* Re-engagement when patients become inactive
+
+
+Success benchmarks from similar platforms (Livongo, Omada Health) show:
+* 0.5-1.0% HbA1c improvement achievable in 3 months
+* 80%+ daily engagement with proper design
+* 60%+ of questions answerable by AI
+* Proven reduction in healthcare costs and ER visits
+________________
+
+
+──────────────────────────────────────────────────────────────────────
+ProCare System Requirements
+Functional Requirements in Plain English
+
+Version 1.0 | November 2024
+For internal use - product development and stakeholder communication
