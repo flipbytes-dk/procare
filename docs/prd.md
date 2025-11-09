@@ -12,7 +12,7 @@
 - Achieve 75%+ Week 1 retention through exceptional first-week experience (2+ personalized insights, quick answers, doctor connection)
 - Support 100,000 registered users and 30,000 paid subscribers in Year 1
 - Generate ₹30L monthly recurring revenue (MRR) from B2C subscriptions + ₹10.8L monthly from doctor commissions
-- Establish WhatsApp-first architecture as primary channel (70%+ users start on WhatsApp, 2-3 minute onboarding)
+- Establish native mobile app as primary interface with WhatsApp as secondary channel for re-engagement (app-first architecture, 2-3 minute onboarding)
 - Enable offline-first functionality so 95%+ patients have <24hr stale data, expanding addressable market to 500M+ users
 - Detect 90%+ of patients' food-glucose patterns within 4 weeks to enable proactive interventions
 - Achieve 80%+ AI question answering accuracy (routine questions) with 20% escalation to doctors
@@ -21,9 +21,9 @@
 
 ProCare addresses a critical healthcare gap in India's diabetes management landscape. With 77 million Type 2 diabetes patients, India faces a crisis where only 50% adhere to medications, 30% check glucose regularly, and average HbA1c levels sit at 8.5% (well above the 7.0% target). The problem stems from reactive medicine—doctors see patients every 3 months with no visibility into behavior between visits, while patients experience daily anxiety with no one to ask "Is this okay?" or "Can I eat mango?"
 
-Existing solutions fail because they require app downloads (barrier for 70% of market), don't work offline (excludes 500M+ potential users), provide generic advice rather than personalized insights, lack doctor connection (patients want oversight), and use judgmental tones that increase guilt. International platforms aren't designed for India's unique needs: WhatsApp-first communication, intermittent connectivity, family involvement in care, and affordability (₹500-1,000/month vs ₹2,000-5,000).
+Existing solutions fail because they don't provide comprehensive health records management (critical value prop), lack integrated diet/lifestyle management (95% of Type 2 diabetes management is diet), don't automatically populate doctor EMR systems, provide generic advice rather than personalized insights, lack doctor connection (patients want oversight), and use judgmental tones that increase guilt. International platforms aren't designed for India's unique needs: dual interface (app + WhatsApp), health records centralization, prescription-based data extraction, family involvement in care, and affordability (₹500-1,000/month vs ₹2,000-5,000).
 
-ProCare solves this through a 7-agent orchestrated platform that combines WhatsApp-first accessibility (550M+ users, zero friction), offline-first architecture (works without internet), doctor-connected care (not AI-only), family/caregiver involvement (2.3x adherence improvement), and proactive pattern-based interventions (preventive vs reactive). The platform learns each patient's unique patterns over 4 weeks, then provides pre-meal warnings like "Rice usually spikes your glucose to 180. Roti keeps you at 140. What are you having?"—preventing problems rather than responding after they occur.
+ProCare solves this through a 7-agent orchestrated platform that combines native mobile app (primary interface with flexible UX) and WhatsApp (secondary channel for re-engagement and templated interactions), comprehensive health records management (upload, store, query, auto-populate doctor EMR), integrated diet/lifestyle module (food swaps, calorie management, specific diets, menu recommendations), offline-first architecture (works without internet), doctor-connected care (not AI-only), family/caregiver involvement (2.3x adherence improvement), and proactive pattern-based interventions (preventive vs reactive). The platform learns each patient's unique patterns over 4 weeks, then provides pre-meal warnings like "Rice usually spikes your glucose to 180. Roti keeps you at 140. What are you having?"—preventing problems rather than responding after they occur. Patients pay for the service, making app download a natural expectation, while WhatsApp serves as a re-engagement channel when the app is not being used.
 
 ### Change Log
 
@@ -31,12 +31,13 @@ ProCare solves this through a 7-agent orchestrated platform that combines WhatsA
 |------|---------|-------------|--------|
 | 2024-11 | 1.0 | Initial PRD creation from Project Brief | PM (John) |
 | 2024-11 | 1.1 | Added web chat interface (Open WebUI) as alternative communication channel alongside WhatsApp | PM (John) |
+| 2024-11 | 1.2 | Major platform shift: Native mobile app (primary) + WhatsApp (secondary), health records management, diet/lifestyle module, doctor-initiated onboarding, prescription upload, doctor pooled questions, global/regional support, comprehensive integrations | PM (John) |
 
 ## Requirements
 
 ### Functional
 
-FR1: The system shall provide a WhatsApp-first conversational interface for all patient interactions including glucose logging, meal logging, medication reminders, and question answering.
+FR1: The system shall provide a native mobile app as the primary interface for all patient interactions including glucose logging, meal logging, medication reminders, and question answering. The app shall support flexible UX (chat-based primary interface with direct input options like tags for quick data entry) while maintaining conversational capabilities. WhatsApp shall serve as a secondary channel for re-engagement, templated interactions, summaries, and basic data collection when the app is not being used.
 
 FR2: The system shall support multiple glucose logging input methods: text input (e.g., "128"), voice message (Hindi/English), and photo OCR for glucometer screens.
 
@@ -58,9 +59,9 @@ FR10: The system shall manage HbA1c test appointments with 2-week reminders, HbA
 
 FR11: The system shall provide a doctor web dashboard with tiered patient view (Urgent/Attention/Stable), weekly summaries, and alert system with context and suggested actions.
 
-FR12: The system shall provide a separate caregiver dashboard (WhatsApp + web) with real-time critical alerts, daily digest, and caregiver-primary management option.
+FR12: The system shall provide a separate caregiver dashboard (mobile app + WhatsApp + web) with real-time critical alerts, daily digest, and caregiver-primary management option.
 
-FR13: The system shall support doctor-initiated engagement where doctors set expectations (target A1C, medication schedule, lifestyle goals) and ProCare creates personalized programs.
+FR13: The system shall support doctor-initiated engagement where doctors initiate patient onboarding by saying "ProCare will take care of you," set expectations (target A1C, medication schedule, lifestyle goals), and ProCare creates personalized programs.
 
 FR14: The system shall implement a 7-agent orchestration system: Engagement Engine (orchestrator), Clinical Monitor, Lifestyle Coach, Health Insights, Doctor Bridge, Care Coordinator, and Learning Library.
 
@@ -76,7 +77,25 @@ FR19: The system shall deliver context-based health education tips (not comprehe
 
 FR20: The system shall track medication adherence and provide adherence metrics to doctors and caregivers.
 
-FR21: The system shall provide a web-based chat interface (accessible via browser without app download) as an alternative communication channel for patients, supporting the same core functionality as WhatsApp (glucose logging, meal logging, medication reminders, question answering). Both WhatsApp and web chat are always available—patients can use either channel at any time without selection or switching. Messages route to the channel where patient last interacted, with consistent conversational experience across both channels.
+FR21: The system shall provide comprehensive health records management enabling patients to upload, store, and query all health records (blood tests, lab reports, medical documents) in a centralized location. Health records shall be automatically available to doctors during every patient meeting and automatically populate doctor EMR systems, eliminating manual data entry.
+
+FR22: The system shall provide a comprehensive diet/lifestyle module that manages calories per day, recommends food swaps, supports specific diet types (low sodium, low potassium, low fat, and more as recommended by doctor), and provides menu recommendations from photos when eating out. This module is critical as 95% of Type 2 diabetes management is diet management.
+
+FR23: The system shall enable patients to upload prescriptions (photos or documents) from which the system extracts medication information, diet type, and other relevant data, reducing manual data entry and ensuring accuracy.
+
+FR24: The system shall support doctor interaction model where doctors provide generic answers to pooled questions (AI pools similar questions from multiple patients), with answers relayed to patients with the doctor's name. Doctors do not answer questions one-to-one but provide batch responses to common questions.
+
+FR25: The system shall support global/regional deployment with regionality support (time zones, local protocols), multi-language support (beyond Hindi/English), and region-specific medical protocols and guidelines.
+
+FR26: The system shall integrate with data collection devices (Bluetooth glucometers, CGM devices, Google Fit, Apple Health), EMR systems, Hospital Management Systems (HMS), payment gateways (payment flow through ProCare), and service providers (medicine providers, test booking agencies like Orange Health).
+
+FR27: The system shall enable patients to view their profile, download summarized reports, and download any data from their history. Doctors shall have a consolidated view of data collected from various patients with drill-down capabilities.
+
+FR28: The system shall provide caregiver access via the mobile app (in addition to web dashboard and WhatsApp), enabling caregivers to monitor and assist with patient management.
+
+FR29: The system shall support doctor-initiated onboarding where doctors onboard patients by saying "ProCare will take care of you," after which patients complete onboarding via app or WhatsApp with the same flow but different interfaces.
+
+FR30: The system shall provide offline functionality primarily through the mobile app (offline data storage, sync when connectivity restored), with WhatsApp remaining conversational-only and requiring connectivity.
 
 ### Non Functional
 
@@ -114,7 +133,7 @@ NFR16: The system shall reduce emergency calls to doctors by 60% (from 3-5/week 
 
 NFR17: The system shall enable doctors to review patient status in 10-15 minutes daily maximum (10 minutes Monday morning, 5 minutes during week).
 
-NFR18: The system shall achieve 70%+ of users starting on WhatsApp with 2-3 minute onboarding time.
+NFR18: The system shall achieve 2-3 minute onboarding time with doctor-initiated onboarding flow (doctor says "ProCare will take care of you," then patient completes onboarding via app or WhatsApp).
 
 NFR19: The system shall detect patterns for 90%+ of patients within 4 weeks of data collection.
 
@@ -124,26 +143,34 @@ NFR20: The system shall achieve 80%+ doctor dashboard weekly usage and 85%+ care
 
 ### Overall UX Vision
 
-ProCare's user experience centers on reducing anxiety and friction for diabetes management. The primary interface is WhatsApp—familiar, accessible, and requiring zero app downloads. Patients can also use a web-based chat interface (Open WebUI or similar) accessible via browser at any time. Both channels are always available—patients can use either WhatsApp or web chat without any selection or switching. Both channels provide the same conversational experience—supportive and personalized, never judgmental. The system routes messages to the channel where patient last interacted, ensuring continuity. The system anticipates needs (proactive interventions) rather than reacting after problems occur. Same account, same data across both channels. For doctors and caregivers, web dashboards provide at-a-glance visibility with minimal time investment (10-15 minutes daily for doctors, peace-of-mind checks for caregivers). The offline-first architecture ensures the experience never breaks, even with intermittent connectivity—users can log glucose, meals, and medications seamlessly whether online or offline.
+ProCare's user experience centers on reducing anxiety and friction for diabetes management. The primary interface is a native mobile app—providing flexible UX with chat-based primary interface and direct input options (e.g., tags for quick glucose logging without follow-up questions). The app supports comprehensive health records management, diet/lifestyle module, profile viewing, and report downloads. WhatsApp serves as a secondary channel for re-engagement, templated interactions (summaries, questions, basic data collection), and conversational interactions when the app is not being used. Both interfaces are available—patients can use either the app or WhatsApp, with the same onboarding flow but different interfaces. The app provides flexible UX (chat + direct inputs), while WhatsApp remains conversational-only. The system anticipates needs (proactive interventions) rather than reacting after problems occur. Same account, same data across both channels. For doctors and caregivers, web dashboards and mobile apps provide at-a-glance visibility with minimal time investment (10-15 minutes daily for doctors, peace-of-mind checks for caregivers). The offline-first architecture (primarily in the app) ensures the experience never breaks, even with intermittent connectivity—users can log glucose, meals, and medications seamlessly whether online or offline.
 
 ### Key Interaction Paradigms
 
-**Conversational Interface (WhatsApp):**
-- Natural language input (text, voice) for all patient interactions
-- Photo sharing for meal logging and glucometer readings
+**Native Mobile App (Primary Interface):**
+- Chat-based primary interface with conversational capabilities
+- Flexible UX with direct input options (e.g., tags below glucose value for quick logging without follow-up questions)
+- Natural language input (text, voice) for conversational interactions
+- Photo upload for meal logging, glucometer readings, prescriptions, and health records
 - Context-aware responses that feel like talking to a knowledgeable friend
 - Proactive messages (not just reactive) with pattern-based interventions
 - Rate-limited notifications (max 5/day, 2-hour spacing) to avoid overwhelm
+- Comprehensive health records management (upload, store, query, download)
+- Diet/lifestyle module with food swaps, calorie management, specific diets, menu recommendations
+- Profile viewing and report downloads
+- Offline-first functionality with local data storage and sync
+- Works seamlessly online and offline
 
-**Web Chat Interface (Browser-Based):**
-- Web-based chat UI accessible via browser without app download (using Open WebUI or similar framework)
-- Same conversational experience as WhatsApp with consistent functionality
-- Natural language input (text) for all patient interactions
-- Photo upload for meal logging and glucometer readings
-- Context-aware responses matching WhatsApp experience
-- Proactive messages and pattern-based interventions
-- Works offline-first with local data storage and sync
-- Mobile-responsive design for smartphone browsers
+**WhatsApp Interface (Secondary Channel):**
+- Conversational-only interface for re-engagement when app is not being used
+- Templated interactions: summaries, questions, basic data collection
+- Natural language input (text, voice) for all interactions
+- Photo sharing for meal logging and glucometer readings
+- Context-aware responses that feel like talking to a knowledgeable friend
+- Proactive messages with pattern-based interventions
+- Rate-limited notifications (max 5/day, 2-hour spacing) to avoid overwhelm
+- Requires connectivity (no offline functionality)
+- Used primarily for re-engagement and templated interactions
 
 **Tiered Information Architecture (Doctor Dashboard):**
 - Urgent/Attention/Stable patient categorization for quick triage
@@ -165,27 +192,42 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
 
 ### Core Screens and Views
 
-**Patient Experience (WhatsApp):**
-- Onboarding flow (2-3 minutes: phone number, doctor connection, management mode selection)
+**Patient Experience (Mobile App - Primary):**
+- Doctor-initiated onboarding: Doctor says "ProCare will take care of you," then patient completes onboarding (2-3 minutes: phone number, doctor connection, management mode selection, option to upload health records)
+- Flexible logging interface: Chat-based primary with direct input options (e.g., glucose tag for quick entry, meal tags, medication tags)
+- Conversational logging interface (glucose, meals, medications via natural language when preferred)
+- Health records management: Upload, view, query, download all health records (blood tests, lab reports, medical documents)
+- Diet/lifestyle module: Food swaps, calorie management, specific diets (low sodium, low potassium, low fat), menu recommendations from photos
+- Prescription upload: Upload prescription photos/documents, system extracts medication info, diet type, and other data
+- Question-answering interface (AI responses with doctor escalation option)
+- Profile viewing and report downloads (summarized reports, full history)
+- Weekly progress summary
+- Offline functionality with sync when connectivity restored
+
+**Patient Experience (WhatsApp - Secondary):**
+- Doctor-initiated onboarding: Doctor says "ProCare will take care of you," then patient completes onboarding via WhatsApp (same flow as app: phone number, doctor connection, management mode selection, option to upload health records)
 - Conversational logging interface (glucose, meals, medications via natural language)
 - Question-answering interface (AI responses with doctor escalation option)
 - Weekly progress summary (delivered via WhatsApp message)
-
-**Patient Experience (Web Chat Interface):**
-- Web chat login/authentication (phone number + OTP)
-- Onboarding flow via web chat (same as WhatsApp: phone number, doctor connection, management mode selection)
-- Conversational logging interface (glucose, meals, medications via natural language)
-- Question-answering interface (AI responses with doctor escalation option)
-- Weekly progress summary (delivered via web chat)
-- Chat history and message persistence
-- Photo upload interface for meal logging and glucometer readings
+- Templated interactions: Summaries, questions, basic data collection
+- Re-engagement channel when app is not being used
 
 **Doctor Web Dashboard:**
 - Login/Authentication screen
 - Main dashboard with tiered patient view (Urgent/Attention/Stable tabs)
-- Patient detail view (glucose trends, medication adherence, alerts, weekly summary)
+- Patient detail view (glucose trends, medication adherence, alerts, weekly summary, health records, consolidated patient data with drill-down capabilities)
 - Alert management interface (urgent alerts with context and suggested actions)
-- Patient onboarding interface (set target A1C, medication schedule, lifestyle goals)
+- Patient onboarding interface: Doctor initiates onboarding by saying "ProCare will take care of you," then sets expectations (target A1C, medication schedule, lifestyle goals)
+- Pooled questions interface: AI pools similar questions from multiple patients, doctor provides generic answers that are relayed to patients with doctor's name
+- Health records view: Automatic access to patient health records during every meeting, auto-populated EMR data
+
+**Caregiver Mobile App:**
+- Login/Authentication screen
+- Main dashboard with patient status overview (current status, recent alerts, adherence metrics)
+- Real-time alert feed (critical alerts: hypoglycemia, missed medications)
+- Daily digest view (glucose summary, medication adherence, meal patterns)
+- Patient detail view (trends, patterns, doctor notes)
+- Offline functionality with sync when connectivity restored
 
 **Caregiver Web Dashboard:**
 - Login/Authentication screen
@@ -219,37 +261,45 @@ ProCare's brand identity emphasizes support, not judgment. Tone is warm, encoura
 - **Medical but approachable:** Professional healthcare credibility without clinical coldness
 - **Indian context-aware:** Colors, imagery, and language that resonate with Indian users
 - **Accessibility-first:** High contrast, clear typography, simple layouts
-- **WhatsApp-native:** Feels natural within WhatsApp's interface (not like an external app)
+- **App-native:** Feels natural within the mobile app interface with flexible UX options
 - **Offline-resilient:** Visual cues that reinforce reliability (sync status, offline indicators)
 
 No specific brand guidelines provided yet—this will be developed during design phase with focus on reducing anxiety and increasing trust.
 
 ### Target Device and Platforms: Cross-Platform
 
-**Primary Platform: WhatsApp (iOS 13+, Android 8+)**
-- Conversational interface accessible to 550M+ WhatsApp users in India
-- Zero app download required
-- Works on any smartphone with WhatsApp installed
+**Primary Platform: Native Mobile Apps (iOS 13+, Android 8+)**
+- Native iOS and Android apps as primary interface
+- Flexible UX with chat-based primary interface and direct input options
+- Comprehensive health records management, diet/lifestyle module, profile viewing, report downloads
+- Offline-first functionality with local data storage and sync
+- Patients download app as they will be paying for the service
+- Enhanced data visualization and offline AI models
+- Integration with Bluetooth devices (glucometers, CGM), Google Fit, Apple Health
 
-**Secondary Platform: Web Portal (Responsive)**
-- **Patient Web Chat Interface:** Browser-based chat UI (Open WebUI or similar) accessible via mobile or desktop browsers, supporting same functionality as WhatsApp
+**Secondary Platform: WhatsApp (iOS 13+, Android 8+)**
+- Conversational-only interface for re-engagement when app is not being used
+- Templated interactions: summaries, questions, basic data collection
+- Accessible to 550M+ WhatsApp users in India
+- Requires connectivity (no offline functionality)
+- Used primarily for re-engagement and templated interactions
+
+**Tertiary Platform: Web Portal (Responsive)**
 - Doctor dashboard: Desktop-first (Chrome 90+, Safari 14+, Firefox 88+)
 - Caregiver dashboard: Mobile-responsive (iOS 13+, Android 8+)
-- Progressive Web App (PWA) capabilities for app-like experience without app store
-
-**Future Platform: Native Mobile Apps (Phase 2)**
-- iOS and Android native apps for power users
-- Enhanced data visualization and offline AI models
-- Target: 5% of users (tech-savvy, newer smartphones)
+- Consolidated patient data view with drill-down capabilities for doctors
+- Health records access and EMR integration
 
 **Cross-Platform Considerations:**
-- Consistent experience across WhatsApp and web chat (same data, same insights, same conversational flow)
-- Patients can use either WhatsApp or web chat at any time - both channels are always available (no selection required)
-- Messages route to the channel where patient last interacted, or patient can use either channel simultaneously
+- Consistent experience across app and WhatsApp (same data, same insights)
+- Patients can use either app or WhatsApp - both channels are always available
+- Same onboarding flow but different interfaces (app vs WhatsApp)
+- App provides flexible UX (chat + direct inputs), WhatsApp remains conversational-only
+- Messages route to the channel where patient last interacted
 - Same account, same data across both channels - seamless multi-channel support
-- Offline-first architecture works identically across all platforms
+- Offline-first architecture primarily in app (WhatsApp requires connectivity)
 - Responsive design ensures usability on wide range of screen sizes (4" to desktop)
-- Web chat interface provides alternative for users who prefer browser-based interaction or don't use WhatsApp
+- Global/regional support: time zones, local protocols, multi-language, region-specific medical guidelines
 
 ## Technical Assumptions
 
@@ -390,7 +440,7 @@ ProCare will implement **Full Testing Pyramid** with the following levels:
 
 ## Epic List
 
-Epic 1: Foundation & Core Patient Logging - Establish project infrastructure, WhatsApp Business API integration, offline-first database architecture, and enable patients to log glucose readings and meals via WhatsApp with basic data storage and retrieval.
+Epic 1: Foundation & Core Patient Logging - Establish project infrastructure, native mobile app development (iOS and Android), WhatsApp Business API integration (secondary channel), offline-first database architecture, and enable patients to log glucose readings and meals via mobile app (primary) or WhatsApp (secondary) with basic data storage and retrieval.
 
 Epic 2: Medication Management & Reminders - Implement smart medication reminders with doctor-specified schedules, escalation logic (reminder → nudge → caregiver → doctor), and medication adherence tracking.
 
@@ -398,19 +448,27 @@ Epic 3: Agent Orchestration & Emergency Detection - Build the 7-agent orchestrat
 
 Epic 4: Pattern Detection & Health Insights - Implement Health Insights agent for food-glucose correlation analysis, activity impact detection, and medication consistency patterns, generating personalized insights after 4 weeks of data collection.
 
-Epic 5: Doctor Dashboard & Patient Management - Build web-based doctor dashboard with tiered patient view (Urgent/Attention/Stable), patient onboarding interface for setting expectations, alert management with context, and patient detail views.
+Epic 5: Doctor Dashboard & Patient Management - Build web-based doctor dashboard with tiered patient view (Urgent/Attention/Stable), doctor-initiated patient onboarding (doctor says "ProCare will take care of you"), patient onboarding interface for setting expectations, alert management with context, patient detail views with health records access, and pooled questions interface for batch doctor responses.
 
-Epic 6: Caregiver Features & Alerts - Implement separate caregiver dashboard (web + WhatsApp), real-time critical alerts, daily digest summaries, and caregiver-primary management mode option.
+Epic 6: Caregiver Features & Alerts - Implement separate caregiver dashboard (mobile app + web + WhatsApp), real-time critical alerts, daily digest summaries, and caregiver-primary management mode option.
 
 Epic 7: Proactive Pattern-Based Interventions - Enable proactive interventions after pattern detection, including pre-meal warnings based on learned patterns, and implement notification bundling with rate limiting (max 5/day, 2-hour spacing).
 
-Epic 8: Advanced Coordination & Question Answering - Implement Care Coordinator agent for HbA1c test scheduling with predictions, Doctor Bridge agent for AI question answering with escalation, weekly progress reports for patients and doctors, and Learning Library agent for context-based education.
+Epic 8: Advanced Coordination & Question Answering - Implement Care Coordinator agent for HbA1c test scheduling with predictions, Doctor Bridge agent for AI question answering with escalation and pooled questions (AI pools similar questions, doctor provides generic answers relayed with doctor's name), weekly progress reports for patients and doctors, and Learning Library agent for context-based education.
+
+Epic 9: Health Records Management - Implement comprehensive health records management system enabling patients to upload, store, query, and download all health records (blood tests, lab reports, medical documents) in a centralized location. Health records automatically available to doctors during every patient meeting and automatically populate doctor EMR systems, eliminating manual data entry.
+
+Epic 10: Diet/Lifestyle Module - Implement comprehensive diet/lifestyle management module that manages calories per day, recommends food swaps, supports specific diet types (low sodium, low potassium, low fat, and more as recommended by doctor), and provides menu recommendations from photos when eating out. This module is critical as 95% of Type 2 diabetes management is diet management.
+
+Epic 11: Prescription Upload & Data Extraction - Enable patients to upload prescriptions (photos or documents) from which the system extracts medication information, diet type, and other relevant data, reducing manual data entry and ensuring accuracy.
+
+Epic 12: Integrations & Global Support - Integrate with data collection devices (Bluetooth glucometers, CGM devices, Google Fit, Apple Health), EMR systems, Hospital Management Systems (HMS), payment gateways (payment flow through ProCare), and service providers (medicine providers, test booking agencies like Orange Health). Support global/regional deployment with regionality support (time zones, local protocols), multi-language support, and region-specific medical protocols and guidelines.
 
 ## Epic 1: Foundation & Core Patient Logging
 
 ### Epic Goal
 
-Establish the foundational infrastructure for ProCare including project setup, Git repository, CI/CD pipelines, and core database architecture. Integrate WhatsApp Business API and web chat interface (Open WebUI or similar) to enable conversational patient interactions via multiple channels. Implement offline-first database architecture with local SQLite storage and sync engine foundation. Enable patients to log glucose readings and meals via WhatsApp or web chat using multiple input methods (text, voice, photo), with data stored locally and synced to cloud when connectivity is available. Both WhatsApp and web chat are always available - patients can use either channel at any time without selection or switching. Messages route to the channel where patient last interacted. This epic delivers immediate patient value (working logging functionality) while establishing the technical foundation for all subsequent features.
+Establish the foundational infrastructure for ProCare including project setup, Git repository, CI/CD pipelines, and core database architecture. Develop native mobile apps (iOS and Android) as the primary interface with flexible UX (chat-based primary with direct input options). Integrate WhatsApp Business API as secondary channel for re-engagement and templated interactions. Implement offline-first database architecture with local SQLite storage and sync engine foundation (primarily in mobile app). Enable patients to log glucose readings and meals via mobile app (primary) or WhatsApp (secondary) using multiple input methods (text, voice, photo, direct tags). Mobile app provides flexible UX with direct input options (e.g., glucose tags for quick logging), while WhatsApp remains conversational-only. Data stored locally and synced to cloud when connectivity is available. Both app and WhatsApp are always available - patients can use either channel at any time. Same onboarding flow but different interfaces (app vs WhatsApp). Messages route to the channel where patient last interacted. This epic delivers immediate patient value (working logging functionality) while establishing the technical foundation for all subsequent features.
 
 ### Story 1.1: Project Foundation & Infrastructure Setup
 
@@ -444,11 +502,32 @@ so that I'm not blocked by intermittent connectivity issues.
 7. Conflict resolution strategy documented: device timestamp as source of truth, last-write-wins for settings
 8. Database connection pooling and error handling implemented
 
-### Story 1.3: WhatsApp Business API Integration
+### Story 1.3: Native Mobile App Development (iOS & Android)
 
 As a patient,
-I want to interact with ProCare via WhatsApp,
-so that I don't need to download a separate app.
+I want to use a native mobile app as my primary interface for ProCare,
+so that I have a flexible UX with chat-based primary interface and direct input options for quick data entry.
+
+**Acceptance Criteria:**
+1. Native iOS app developed (Swift/SwiftUI or React Native) with flexible UX design
+2. Native Android app developed (Kotlin/Jetpack Compose or React Native) with flexible UX design
+3. Chat-based primary interface with conversational capabilities
+4. Direct input options: tags below glucose value for quick logging without follow-up questions (e.g., "Sugar: [tag]" → direct number entry)
+5. Photo upload for meal logging, glucometer readings, prescriptions, and health records
+6. Natural language input (text, voice) for conversational interactions when preferred
+7. Offline-first functionality with local SQLite storage and sync when connectivity restored
+8. Authentication system (phone + OTP) integrated
+9. Push notifications for reminders and alerts
+10. Integration with device features (camera, Bluetooth for device integration, Google Fit/Apple Health)
+11. App store deployment setup (App Store Connect, Google Play Console)
+12. Error handling and offline state management
+13. Basic logging and monitoring for app interactions
+
+### Story 1.3a: WhatsApp Business API Integration (Secondary Channel)
+
+As a patient,
+I want to interact with ProCare via WhatsApp as a secondary channel,
+so that I can re-engage and receive templated interactions when the app is not being used.
 
 **Acceptance Criteria:**
 1. WhatsApp Business API account created and approved (or test environment configured)
@@ -456,48 +535,35 @@ so that I don't need to download a separate app.
 3. Message sending functionality implemented via WhatsApp Business API
 4. Media handling: receive and process images (meal photos, glucometer screens)
 5. Voice message handling: receive and process audio messages (Hindi/English)
-6. Message queuing system for rate limit compliance (max 5 notifications/day, 2-hour spacing)
-7. Error handling for API failures, rate limits, and invalid messages
-8. Webhook signature verification for security
-9. Basic logging and monitoring for WhatsApp API interactions
+6. Conversational-only interface (no direct input options like app)
+7. Templated interactions: summaries, questions, basic data collection
+8. Message queuing system for rate limit compliance (max 5 notifications/day, 2-hour spacing)
+9. Error handling for API failures, rate limits, and invalid messages
+10. Webhook signature verification for security
+11. Requires connectivity (no offline functionality)
+12. Used primarily for re-engagement when app is not being used
+13. Basic logging and monitoring for WhatsApp API interactions
 
-### Story 1.3a: Web Chat Interface Integration
-
-As a patient,
-I want to interact with ProCare via a web-based chat interface,
-so that I have an alternative to WhatsApp if I prefer browser-based interaction.
-
-**Acceptance Criteria:**
-1. Web chat interface framework integrated (Open WebUI or similar) for browser-based conversational interface
-2. WebSocket or Server-Sent Events (SSE) connection for real-time messaging
-3. Chat interface accessible via web browser (mobile and desktop) without app download
-4. Message sending and receiving functionality via web chat API
-5. Photo upload handling: receive and process images (meal photos, glucometer screens) via web interface
-6. Chat history persistence: messages stored and displayed in chat interface
-7. Message queuing system for rate limit compliance (max 5 notifications/day, 2-hour spacing) - same as WhatsApp
-8. Error handling for connection failures, timeouts, and invalid messages
-9. Authentication integration: web chat uses same authentication system as WhatsApp (phone + OTP)
-10. Consistent experience: web chat provides same functionality and conversational flow as WhatsApp
-11. Offline support: web chat works offline with local message storage and sync when connectivity restored
-12. Basic logging and monitoring for web chat interactions
-
-### Story 1.4: Patient Onboarding & Authentication
+### Story 1.4: Doctor-Initiated Patient Onboarding & Authentication
 
 As a new patient,
-I want to sign up for ProCare via WhatsApp or web chat,
-so that I can start managing my diabetes immediately.
+I want to be onboarded by my doctor who says "ProCare will take care of you," then complete onboarding via app or WhatsApp,
+so that I can start managing my diabetes immediately with doctor guidance.
 
 **Acceptance Criteria:**
-1. Patient registration flow via WhatsApp or web chat: phone number verification (OTP via SMS/WhatsApp)
-2. Patient profile creation: basic info (name, age, diabetes type, diagnosis date)
-3. Doctor connection: patient can link to doctor via doctor code or phone number
-4. Management mode selection: patient-primary, shared management, or caregiver-primary
-5. Patient data stored in both local (SQLite) and cloud (PostgreSQL) databases
-6. Authentication token generation (JWT) for web dashboard and web chat access
-7. Multi-channel access: patient can use both WhatsApp and web chat immediately after onboarding (no channel selection required)
-8. Onboarding completion confirmation message sent to channel used for registration (WhatsApp or web chat)
-9. Patient can start using either channel at any time - both are always available
-10. Error handling for invalid doctor codes, duplicate registrations, and incomplete profiles
+1. Doctor-initiated onboarding: Doctor says "ProCare will take care of you" to patient, initiating onboarding process
+2. Patient registration flow via mobile app or WhatsApp: phone number verification (OTP via SMS/WhatsApp)
+3. Same onboarding flow for both app and WhatsApp but different interfaces (app: flexible UX, WhatsApp: conversational-only)
+4. Patient profile creation: basic info (name, age, diabetes type, diagnosis date)
+5. Doctor connection: patient links to doctor via doctor code or phone number (doctor already initiated)
+6. Management mode selection: patient-primary, shared management, or caregiver-primary
+7. Health records upload option: patient can upload health records during onboarding or anytime later
+8. Patient data stored in both local (SQLite - app only) and cloud (PostgreSQL) databases
+9. Authentication token generation (JWT) for app, web dashboard, and WhatsApp access
+10. Multi-channel access: patient can use both app and WhatsApp immediately after onboarding (no channel selection required)
+11. Onboarding completion confirmation message sent to channel used for registration (app or WhatsApp)
+12. Patient can start using either channel at any time - both are always available
+13. Error handling for invalid doctor codes, duplicate registrations, and incomplete profiles
 
 ### Story 1.5: Glucose Logging via WhatsApp (Text Input)
 
@@ -1596,23 +1662,25 @@ so that I get immediate help without waiting for my doctor.
 9. Answer validation: answers reviewed by medical advisor, refined based on feedback
 10. Answer improvement: AI answers improve over time based on patient feedback and doctor corrections
 
-### Story 8.6: Doctor Bridge - Question Escalation to Doctor
+### Story 8.6: Doctor Bridge - Pooled Questions & Batch Responses
 
 As a doctor,
-I want to see questions that need my attention,
-so that I can provide medical guidance when AI isn't appropriate.
+I want to provide generic answers to pooled questions from multiple patients,
+so that I can efficiently help many patients without answering questions one-to-one.
 
 **Acceptance Criteria:**
-1. Escalation triggers: medical questions, medication questions, symptom questions automatically escalated
-2. Escalation accuracy: 90%+ of escalated questions require doctor attention (validated)
-3. Escalation display: escalated questions appear in doctor dashboard with patient context
-4. Escalation priority: medical questions marked as "Attention" tier, urgent symptoms as "Urgent"
-5. Escalation notification: doctor receives alert: "Patient [Name] asked: [question]. This requires your attention."
-6. Doctor response: doctor can respond via dashboard or WhatsApp, response sent to patient
-7. Response tracking: system tracks doctor response time, patient satisfaction with answers
-8. Escalation history: doctors can view escalation history for each patient
-9. Escalation learning: system learns which questions to escalate based on doctor responses
-10. Escalation reporting: escalation metrics included in weekly patient summaries
+1. Question pooling: AI pools similar questions from multiple patients into groups
+2. Pool identification: system identifies common question patterns (e.g., "Can I eat mango?" asked by 10 patients)
+3. Pool display: doctor sees pooled questions in dashboard: "10 patients asked: 'Can I eat mango?'"
+4. Generic answer: doctor provides one generic answer to the pooled question
+5. Answer relay: generic answer relayed to all patients who asked the question, with doctor's name attached
+6. Answer personalization: system can personalize generic answer with patient-specific context when appropriate
+7. Pool threshold: questions pooled when 3+ patients ask similar question within time window (e.g., 1 week)
+8. Pool management: doctor can review, answer, or dismiss pooled questions
+9. Answer tracking: system tracks which patients received answers, patient satisfaction
+10. Pool learning: system learns which questions are commonly pooled, improves pooling algorithm
+11. Individual escalation: urgent/medical questions still escalated individually (not pooled)
+12. Pool history: pooled questions and answers stored for reference and future use
 
 ### Story 8.7: Weekly Progress Reports for Patients
 
@@ -1686,13 +1754,325 @@ so that I don't run out of important medications.
 9. Refill reporting: medication refill compliance included in weekly progress reports
 10. Refill optimization: system learns patient's refill patterns, optimizes reminder timing
 
+## Epic 9: Health Records Management
+
+### Epic Goal
+
+Implement comprehensive health records management system that enables patients to upload, store, query, and download all health records (blood tests, lab reports, medical documents) in a centralized location. Health records are automatically available to doctors during every patient meeting and automatically populate doctor EMR systems, eliminating manual data entry. This epic delivers a critical value proposition for patients—centralized health records management—while streamlining doctor workflows through automatic EMR population.
+
+### Story 9.1: Health Records Upload & Storage
+
+As a patient,
+I want to upload all my health records (blood tests, lab reports, medical documents) to ProCare,
+so that I have all my health information in one place and can query it anytime.
+
+**Acceptance Criteria:**
+1. Health records upload interface in mobile app: patients can upload photos or PDF documents
+2. Supported file types: images (JPG, PNG), PDF documents
+3. Health records stored securely in cloud storage (encrypted at rest)
+4. Health records metadata stored in database: patient ID, upload date, document type, file reference
+5. Health records accessible via mobile app: patients can view uploaded records anytime
+6. Health records search functionality: patients can search records by date, type, or keyword
+7. Health records organization: records organized by date, type (blood test, lab report, prescription, etc.)
+8. Upload progress indicator: shows upload progress for large files
+9. Error handling: handles upload failures, invalid file types, storage errors
+10. Health records available during onboarding: option to upload health records during onboarding or anytime later
+
+### Story 9.2: Health Records Query & Search
+
+As a patient,
+I want to search and query my health records,
+so that I can quickly find specific information when needed.
+
+**Acceptance Criteria:**
+1. Health records search interface: patients can search by date range, document type, or keywords
+2. Search results display: shows matching records with preview (date, type, thumbnail)
+3. Record detail view: patients can view full record (image/PDF viewer)
+4. Record metadata display: shows upload date, document type, any extracted data
+5. Query functionality: patients can query specific values (e.g., "show me all HbA1c results")
+6. Record filtering: filter by type (blood test, lab report, prescription, other)
+7. Record sorting: sort by date (newest first, oldest first)
+8. Quick access: frequently accessed records shown in quick access section
+9. Search history: recent searches saved for quick access
+10. Export functionality: patients can export individual records or all records as PDF
+
+### Story 9.3: Health Records Download & Reports
+
+As a patient,
+I want to download summarized reports or any data from my health history,
+so that I can share it with doctors or keep records.
+
+**Acceptance Criteria:**
+1. Report generation: patients can generate summarized reports from health records
+2. Report types: summary report (all key metrics), full history report, specific period report
+3. Report content: includes glucose trends, medication history, lab results, key health metrics
+4. Report format: PDF format for easy sharing
+5. Individual record download: patients can download individual health records
+6. Bulk download: patients can download all health records as ZIP file
+7. Download history: tracks downloaded reports for reference
+8. Report customization: patients can select date range, include/exclude specific record types
+9. Report sharing: patients can share reports via email or messaging
+10. Report storage: downloaded reports stored locally in app for offline access
+
+### Story 9.4: Doctor Health Records Access
+
+As a doctor,
+I want automatic access to patient health records during every patient meeting,
+so that I have complete patient history without manual data entry.
+
+**Acceptance Criteria:**
+1. Health records display in doctor dashboard: all patient health records visible in patient detail view
+2. Automatic access: health records automatically available when doctor views patient profile
+3. Records organization: records organized by date, type, with newest first
+4. Record viewer: doctors can view full records (images/PDFs) in dashboard
+5. Records search: doctors can search patient records by date, type, or keyword
+6. Records filtering: filter by type (blood test, lab report, prescription, other)
+7. Key metrics extraction: system extracts key metrics from records (HbA1c, glucose, etc.) for quick view
+8. Records timeline: visual timeline showing health records chronologically
+9. Records comparison: doctors can compare records across time periods
+10. Records notes: doctors can add notes to specific records
+
+### Story 9.5: EMR Auto-Population
+
+As a doctor,
+I want patient health records to automatically populate my EMR system,
+so that I don't have to manually enter data that ProCare already has.
+
+**Acceptance Criteria:**
+1. EMR integration: system integrates with common EMR systems (Epic, Cerner, Practice Management Systems)
+2. EMR connection: doctors can connect their EMR system to ProCare
+3. Auto-population: patient health records automatically populate EMR during patient visit
+4. Data mapping: system maps ProCare data fields to EMR fields (glucose readings, medications, lab results)
+5. EMR sync: data synced to EMR in real-time or batch mode (doctor preference)
+6. EMR validation: system validates data before sending to EMR
+7. EMR error handling: handles EMR connection failures, invalid data, sync errors
+8. EMR audit trail: logs all EMR sync operations for compliance
+9. EMR customization: doctors can customize which data fields sync to EMR
+10. EMR confirmation: doctors receive confirmation when data successfully synced to EMR
+
+## Epic 10: Diet/Lifestyle Module
+
+### Epic Goal
+
+Implement comprehensive diet/lifestyle management module that manages calories per day, recommends food swaps, supports specific diet types (low sodium, low potassium, low fat, and more as recommended by doctor), and provides menu recommendations from photos when eating out. This module is critical as 95% of Type 2 diabetes management is diet management. The module integrates with meal logging (Epic 1) and pattern detection (Epic 4) to provide personalized dietary guidance.
+
+### Story 10.1: Calorie Management
+
+As a patient,
+I want to track and manage my daily calorie intake,
+so that I can maintain a healthy diet for diabetes management.
+
+**Acceptance Criteria:**
+1. Daily calorie target: system sets daily calorie target based on patient profile (doctor can customize)
+2. Calorie tracking: system tracks calories from logged meals (integrated with meal logging from Epic 1)
+3. Calorie display: patients can view daily calorie intake vs target in mobile app
+4. Calorie breakdown: shows calories by meal (breakfast, lunch, dinner, snacks)
+5. Calorie progress: visual indicator showing progress toward daily calorie target
+6. Calorie alerts: alerts when approaching or exceeding daily calorie target
+7. Calorie history: patients can view calorie intake history (daily, weekly, monthly)
+8. Calorie adjustment: system adjusts calorie targets based on patient goals and doctor recommendations
+9. Calorie recommendations: system provides recommendations to stay within calorie target
+10. Calorie reporting: calorie data included in weekly progress reports
+
+### Story 10.2: Food Swap Recommendations
+
+As a patient,
+I want food swap recommendations based on my glucose patterns,
+so that I can make better food choices that keep my glucose stable.
+
+**Acceptance Criteria:**
+1. Food swap engine: system analyzes patient's food-glucose patterns (from Epic 4)
+2. Swap identification: identifies foods that spike glucose and suggests better alternatives
+3. Swap recommendations: provides personalized food swap suggestions (e.g., "Instead of rice, try roti - it keeps your glucose 40 mg/dL lower")
+4. Swap display: food swaps displayed in mobile app with visual comparison
+5. Swap acceptance: patients can accept swaps, system tracks if patient tried the swap
+6. Swap effectiveness: system tracks glucose outcomes when patient uses recommended swaps
+7. Swap learning: system learns which swaps work best for each patient
+8. Swap categories: swaps organized by meal type (breakfast, lunch, dinner, snacks)
+9. Swap explanations: explains why swap is recommended (glucose impact, nutritional benefits)
+10. Swap integration: swaps integrated with meal logging and pattern detection
+
+### Story 10.3: Specific Diet Types Support
+
+As a patient,
+I want to follow specific diet types recommended by my doctor (low sodium, low potassium, low fat, etc.),
+so that I can manage my diabetes according to my doctor's guidance.
+
+**Acceptance Criteria:**
+1. Diet type selection: doctors can set specific diet types for patients (low sodium, low potassium, low fat, diabetic, etc.)
+2. Diet type rules: system enforces diet type rules (e.g., low sodium diet limits sodium intake)
+3. Diet type recommendations: system provides food recommendations based on diet type
+4. Diet type compliance: system tracks patient compliance with diet type requirements
+5. Diet type alerts: alerts when patient logs food that violates diet type rules
+6. Diet type alternatives: suggests alternatives when patient logs non-compliant food
+7. Diet type education: provides education about diet type requirements and benefits
+8. Diet type reporting: diet type compliance included in weekly progress reports
+9. Multiple diet types: supports patients with multiple diet requirements (e.g., low sodium + diabetic)
+10. Diet type customization: doctors can customize diet type rules for individual patients
+
+### Story 10.4: Menu Recommendations from Photos
+
+As a patient,
+I want menu recommendations when eating out based on photos of restaurant menus,
+so that I can make healthy choices even when dining out.
+
+**Acceptance Criteria:**
+1. Menu photo upload: patients can upload photos of restaurant menus via mobile app
+2. Menu OCR: system uses OCR to extract menu items from photos
+3. Menu analysis: system analyzes menu items for nutritional content and diabetes-friendliness
+4. Menu recommendations: system recommends best options from menu based on patient's diet type and patterns
+5. Recommendation display: recommendations displayed with explanation (why this option is good)
+6. Recommendation ranking: menu items ranked by suitability (best to worst)
+7. Recommendation filtering: filter recommendations by diet type, calorie target, glucose impact
+8. Menu item details: patients can view details of recommended items (calories, carbs, sodium, etc.)
+9. Menu history: system stores menu photos and recommendations for future reference
+10. Menu learning: system learns patient's restaurant preferences and improves recommendations
+
+## Epic 11: Prescription Upload & Data Extraction
+
+### Epic Goal
+
+Enable patients to upload prescriptions (photos or documents) from which the system extracts medication information, diet type, and other relevant data, reducing manual data entry and ensuring accuracy. This epic streamlines the medication management process (Epic 2) and diet management (Epic 10) by automatically extracting data from prescriptions.
+
+### Story 11.1: Prescription Upload
+
+As a patient,
+I want to upload photos of my prescriptions,
+so that ProCare can automatically extract medication and diet information.
+
+**Acceptance Criteria:**
+1. Prescription upload interface in mobile app: patients can upload prescription photos
+2. Supported formats: images (JPG, PNG), PDF documents
+3. Prescription storage: prescriptions stored securely in cloud storage (encrypted at rest)
+4. Prescription metadata: prescription metadata stored (patient ID, upload date, doctor name, date)
+5. Multiple prescriptions: patients can upload multiple prescriptions
+6. Prescription organization: prescriptions organized by date, doctor
+7. Prescription viewing: patients can view uploaded prescriptions in app
+8. Upload progress: shows upload progress for large files
+9. Error handling: handles upload failures, invalid file types, storage errors
+10. Prescription history: patients can view all uploaded prescriptions
+
+### Story 11.2: Prescription Data Extraction
+
+As a patient,
+I want ProCare to automatically extract medication and diet information from my prescriptions,
+so that I don't have to manually enter this data.
+
+**Acceptance Criteria:**
+1. Prescription OCR: system uses OCR to extract text from prescription images
+2. Medication extraction: system extracts medication names, dosages, frequencies from prescriptions
+3. Diet type extraction: system extracts diet type recommendations from prescriptions (if mentioned)
+4. Doctor information extraction: system extracts doctor name, date, clinic information
+5. Extraction accuracy: system validates extracted data and flags uncertain extractions
+6. Manual correction: patients can correct extracted data if inaccurate
+7. Extraction learning: system learns from corrections to improve accuracy
+8. Extraction confirmation: patients confirm extracted data before it's saved
+9. Extraction display: extracted data displayed in readable format for patient review
+10. Extraction integration: extracted medication data integrated with medication management (Epic 2), diet data integrated with diet module (Epic 10)
+
+## Epic 12: Integrations & Global Support
+
+### Epic Goal
+
+Integrate with data collection devices (Bluetooth glucometers, CGM devices, Google Fit, Apple Health), EMR systems, Hospital Management Systems (HMS), payment gateways (payment flow through ProCare), and service providers (medicine providers, test booking agencies like Orange Health). Support global/regional deployment with regionality support (time zones, local protocols), multi-language support, and region-specific medical protocols and guidelines.
+
+### Story 12.1: Bluetooth Device Integration
+
+As a patient,
+I want to automatically sync glucose readings from my Bluetooth glucometer or CGM device,
+so that I don't have to manually enter readings.
+
+**Acceptance Criteria:**
+1. Bluetooth device discovery: app can discover and connect to Bluetooth glucometers and CGM devices
+2. Device pairing: patients can pair their devices with ProCare app
+3. Automatic sync: glucose readings automatically synced from paired devices
+4. Device support: supports common Bluetooth glucometer and CGM device brands
+5. Sync frequency: readings synced in real-time or at specified intervals
+6. Device management: patients can manage paired devices (add, remove, reconnect)
+7. Sync status: shows sync status and last sync time
+8. Error handling: handles device disconnection, pairing failures, sync errors
+9. Manual override: patients can still manually log readings if device sync fails
+10. Device data validation: validates synced data before storing
+
+### Story 12.2: Google Fit & Apple Health Integration
+
+As a patient,
+I want to sync my activity data from Google Fit or Apple Health,
+so that ProCare can track my activity and its impact on glucose.
+
+**Acceptance Criteria:**
+1. Google Fit integration: app integrates with Google Fit API to sync activity data
+2. Apple Health integration: app integrates with Apple HealthKit to sync activity data
+3. Activity sync: steps, distance, calories burned, heart rate synced automatically
+4. Activity display: activity data displayed in app alongside glucose data
+5. Activity analysis: system analyzes activity impact on glucose (integrated with Epic 4)
+6. Sync permissions: patients grant permissions for Google Fit/Apple Health access
+7. Sync frequency: activity data synced daily or in real-time (patient preference)
+8. Activity history: patients can view activity history in app
+9. Error handling: handles API failures, permission issues, sync errors
+10. Activity reporting: activity data included in weekly progress reports
+
+### Story 12.3: Payment Gateway Integration
+
+As a patient,
+I want to pay for ProCare subscription through the app,
+so that I can easily manage my subscription.
+
+**Acceptance Criteria:**
+1. Payment gateway integration: system integrates with payment gateways (Razorpay, Stripe, etc.)
+2. Payment flow: payment flow happens through ProCare (not external redirect)
+3. Subscription management: patients can subscribe, upgrade, downgrade, cancel subscriptions
+4. Payment methods: supports credit cards, debit cards, UPI, net banking, wallets
+5. Payment security: all payments processed securely with PCI compliance
+6. Payment confirmation: patients receive payment confirmation and receipts
+7. Subscription status: patients can view subscription status and payment history
+8. Auto-renewal: subscriptions auto-renew with payment on file
+9. Payment failure handling: handles payment failures, expired cards, insufficient funds
+10. Payment reporting: payment data tracked for business analytics
+
+### Story 12.4: Service Provider Integration
+
+As a patient,
+I want to book lab tests and order medicines through ProCare,
+so that I can manage all my healthcare needs in one place.
+
+**Acceptance Criteria:**
+1. Lab test booking: system integrates with test booking agencies (Orange Health, etc.)
+2. Test booking flow: patients can book lab tests through ProCare app
+3. Test selection: patients can select from available tests
+4. Test scheduling: patients can schedule test appointments
+5. Test results: test results automatically synced to health records (Epic 9)
+6. Medicine ordering: system integrates with medicine providers for ordering
+7. Prescription validation: system validates prescriptions before medicine ordering
+8. Order tracking: patients can track medicine orders
+9. Provider management: system manages multiple service providers
+10. Provider selection: patients can select preferred providers
+
+### Story 12.5: Global/Regional Support
+
+As a patient or doctor,
+I want ProCare to work in my region with appropriate time zones, languages, and medical protocols,
+so that the system is relevant and useful in my location.
+
+**Acceptance Criteria:**
+1. Regionality detection: system detects user's region/country
+2. Time zone support: system supports multiple time zones, displays times in user's local time
+3. Language support: system supports multiple languages (Hindi, English, Tamil, Telugu, Arabic, Spanish, etc.)
+4. Regional protocols: system follows region-specific medical protocols and guidelines
+5. Currency support: payment amounts displayed in local currency
+6. Regional customization: UI, content, recommendations customized for each region
+7. Regional compliance: system complies with regional data protection and healthcare regulations
+8. Regional content: health education content adapted for regional context
+9. Regional providers: service providers (labs, pharmacies) filtered by region
+10. Regional reporting: reports and summaries adapted for regional preferences
+
 ## Checklist Results Report
 
 ### Executive Summary
 
-**Overall PRD Completeness:** 92% - The PRD is comprehensive and well-structured, covering all essential aspects of the ProCare MVP.
+**Overall PRD Completeness:** 95% - The PRD is comprehensive and well-structured, covering all essential aspects of the ProCare MVP including native mobile app, health records management, diet/lifestyle module, and comprehensive integrations.
 
-**MVP Scope Appropriateness:** Just Right - The scope is appropriately sized for MVP, with clear boundaries between MVP and Phase 2 features. All 8 epics deliver incremental value and are logically sequenced.
+**MVP Scope Appropriateness:** Expanded but Appropriate - The scope has been expanded to include native mobile app (primary), health records management, diet/lifestyle module, prescription upload, and integrations. All 12 epics deliver incremental value and are logically sequenced. The expansion reflects critical value propositions and market requirements.
 
 **Readiness for Architecture Phase:** Ready - The PRD provides sufficient technical guidance, clear requirements, and well-defined epics/stories for the Architect to begin system design.
 
@@ -1710,7 +2090,7 @@ so that I don't run out of important medications.
 | 3. User Experience Requirements  | PASS   | Minor - Core screens identified, but detailed user flows could be expanded |
 | 4. Functional Requirements       | PASS   | None - 20 functional requirements clearly defined, testable, user-focused |
 | 5. Non-Functional Requirements   | PASS   | None - 20 NFRs covering performance, security, compliance, scalability |
-| 6. Epic & Story Structure        | PASS   | None - 8 epics, 70+ stories, logical sequencing, appropriate sizing |
+| 6. Epic & Story Structure        | PASS   | None - 12 epics, 90+ stories, logical sequencing, appropriate sizing |
 | 7. Technical Guidance            | PASS   | Minor - Architecture direction provided, but some implementation details deferred |
 | 8. Cross-Functional Requirements | PASS   | Minor - Data requirements clear, integrations identified, operational needs specified |
 | 9. Clarity & Communication       | PASS   | None - Well-structured, consistent terminology, clear documentation |
@@ -1735,16 +2115,22 @@ so that I don't run out of important medications.
 ### MVP Scope Assessment
 
 **Features Appropriately Scoped:**
-- ✅ WhatsApp-first interface (non-negotiable, correctly prioritized)
-- ✅ Offline-first functionality (essential for India market)
+- ✅ Native mobile app as primary interface (patients paying for service, app download expected)
+- ✅ WhatsApp as secondary channel for re-engagement (templated interactions when app not used)
+- ✅ Health records management (critical value prop - upload, store, query, auto-populate EMR)
+- ✅ Diet/lifestyle module (95% of Type 2 diabetes management is diet - food swaps, calorie management, specific diets, menu recommendations)
+- ✅ Prescription upload & data extraction (streamlines medication and diet management)
+- ✅ Offline-first functionality (primarily in app, essential for India market)
 - ✅ 7-agent orchestration (complex but core differentiator)
 - ✅ Pattern detection (4-week requirement is realistic)
 - ✅ Doctor and caregiver dashboards (both essential for value delivery)
+- ✅ Doctor pooled questions (efficient batch responses vs one-to-one)
+- ✅ Integrations (Bluetooth devices, EMR, HMS, payment, service providers)
+- ✅ Global/regional support (time zones, languages, protocols)
 
 **Features That Could Be Deferred (Already Out of Scope):**
-- ❌ Native mobile apps (correctly deferred to Phase 2)
-- ❌ CGM integration (correctly deferred to Phase 2)
-- ❌ Multi-language beyond Hindi/English (correctly deferred to Phase 2)
+- ❌ CGM integration (correctly deferred to Phase 2, though Bluetooth glucometer integration in scope)
+- ❌ Multi-language beyond Hindi/English for MVP (though global support framework in place)
 - ❌ Detailed meal nutrition calculations (correctly simplified per requirements)
 
 **Complexity Concerns:**
