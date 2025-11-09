@@ -29,9 +29,10 @@ ProCare solves this through a 7-agent orchestrated platform that combines native
 
 | Date | Version | Description | Author |
 |------|---------|-------------|--------|
-| 2024-11 | 1.0 | Initial PRD creation from Project Brief | PM (John) |
-| 2024-11 | 1.1 | Added web chat interface (Open WebUI) as alternative communication channel alongside WhatsApp | PM (John) |
-| 2024-11 | 1.2 | Major platform shift: Native mobile app (primary) + WhatsApp (secondary), health records management, diet/lifestyle module, doctor-initiated onboarding, prescription upload, doctor pooled questions, global/regional support, comprehensive integrations | PM (John) |
+| 2025-11-07 | 1.0 | Initial PRD creation from Project Brief | PM (John) |
+| 2025-11-08 | 1.1 | Added web chat interface (Open WebUI) as alternative communication channel alongside WhatsApp | PM (John) |
+| 2025-11-09 | 1.2 | Major platform shift: Native mobile app (primary) + WhatsApp (secondary), health records management, diet/lifestyle module, doctor-initiated onboarding, prescription upload, doctor pooled questions, global/regional support, comprehensive integrations | PM (John) |
+| 2025-11-09 | 1.3 | Enhanced mobile app UX (context-aware home screen, trends, most used features), expanded Indian language support, improved WhatsApp interactions (24-hour window, proactive templates), enhanced doctor interface (search, decision support bot, daily patient buckets), caregiver app access, ABHA integration planning, glucose logging time verification, photo input recognition, sequential medication nudges, regional protocol-based thresholds, configurable alerts, doctor self-registration, handwritten prescription support, meal inference from glucose, standard test prescriptions, location packs for global deployment | PM (John) |
 
 ## Requirements
 
@@ -117,7 +118,7 @@ NFR8: The system shall comply with India data protection laws, HIPAA-equivalent 
 
 NFR9: The system shall support WhatsApp Business API rate limits and handle 10K+ users without degradation.
 
-NFR10: The system shall support Hindi and English languages for MVP (Tamil, Telugu in Phase 2).
+NFR10: The system shall support multiple Indian languages for MVP including Hindi, English, Tamil, Telugu, and other regional languages as needed.
 
 NFR11: The system shall maintain 90-day full data cache locally (~260MB) with 1-year summary and >1 year stats only.
 
@@ -150,22 +151,29 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
 **Native Mobile App (Primary Interface):**
 - Chat-based primary interface with conversational capabilities
 - Flexible UX with direct input options (e.g., tags below glucose value for quick logging without follow-up questions)
+- Context-aware home screen: Dynamically changes first screen based on most relevant action needed (Trends → Pending & Important → Most Used by end user)
+- Most used features tracking: System tracks most frequently used features and proactively displays them on home screen
+- Trends display: Shows trends across various health markers (not just glucose, but all health record markers)
+- Health records recovery: Dedicated area to recover all health records including prescriptions, blood tests, and other medical documents
 - Natural language input (text, voice) for conversational interactions
-- Photo upload for meal logging, glucometer readings, prescriptions, and health records
+- Photo upload for meal logging, glucometer readings, prescriptions, health records, BP readings, health tracker readings - system automatically discerns photo type and takes appropriate action
 - Context-aware responses that feel like talking to a knowledgeable friend
 - Proactive messages (not just reactive) with pattern-based interventions
 - Rate-limited notifications (max 5/day, 2-hour spacing) to avoid overwhelm
 - Comprehensive health records management (upload, store, query, download)
 - Diet/lifestyle module with food swaps, calorie management, specific diets, menu recommendations
 - Profile viewing and report downloads
+- Patient diabetes information benchmark: Shows key information like last HbA1c to help benchmark where to start
 - Offline-first functionality with local data storage and sync
 - Works seamlessly online and offline
 
 **WhatsApp Interface (Secondary Channel):**
 - Conversational-only interface for re-engagement when app is not being used
-- Templated interactions: summaries, questions, basic data collection
+- Proactive templates and re-engagement: Led by ProCare proactively to stay within WhatsApp policy guidelines
+- 24-hour conversation window: If patient wants to engage, system keeps conversation active within 24-hour period
+- Direct patient queries: Patient can ask anything directly on WhatsApp to ProCare and get an answer
 - Natural language input (text, voice) for all interactions
-- Photo sharing for meal logging and glucometer readings
+- Photo sharing for meal logging, glucometer readings, BP readings, health tracker readings - system automatically discerns photo type
 - Context-aware responses that feel like talking to a knowledgeable friend
 - Proactive messages with pattern-based interventions
 - Rate-limited notifications (max 5/day, 2-hour spacing) to avoid overwhelm
@@ -174,7 +182,11 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
 
 **Tiered Information Architecture (Doctor Dashboard):**
 - Urgent/Attention/Stable patient categorization for quick triage
-- Weekly batch summaries (Monday morning review) vs real-time alerts
+- Daily patient buckets: System updates daily (not weekly aggregate) with most important bucket being "Call in for appointment" with reason for doctor's judgment call
+- Patient search: Doctor can search for specific patient by ID or phone number to access their profile
+- Patient profile: Comprehensive view including health record trends (all markers, not just HbA1c), diet, exercise, last prescription, decision support bot
+- Decision support bot: Provides advice on what to look at and what could be possible solutions - important for doctors who don't understand what all can be done for patient in various situations
+- Health record trends: All types of health markers viewable as trends (based on various health records uploaded), searchable and bucketed under headers like Liver, Kidney, Heart, etc.
 - Context-rich alerts with suggested actions (not just data dumps)
 - Minimal clicks to understand patient status and take action
 
@@ -194,11 +206,17 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
 
 **Patient Experience (Mobile App - Primary):**
 - Doctor-initiated onboarding: Doctor says "ProCare will take care of you," then patient completes onboarding (2-3 minutes: phone number, doctor connection, management mode selection, option to upload health records)
-- Flexible logging interface: Chat-based primary with direct input options (e.g., glucose tag for quick entry, meal tags, medication tags)
+- Context-aware home screen: Dynamically shows most relevant action (Trends → Pending & Important → Most Used)
+- Patient diabetes information benchmark: Shows key information like last HbA1c to benchmark where to start
+- Flexible logging interface: Chat-based primary with direct input options (e.g., glucose tag for quick entry with pre-configured nudge for "Morning fasting" when number entered/button clicked, meal tags, medication tags)
+- Glucose logging with time verification: System requests time/state for glucose readings (e.g., "109, Morning fasting") - cannot use system time directly as patient might log reading later
 - Conversational logging interface (glucose, meals, medications via natural language when preferred)
+- Photo input recognition: System automatically discerns between BP reading, health tracker reading, food photo, glucometer reading, prescription, and takes appropriate action/stores in relevant place
 - Health records management: Upload, view, query, download all health records (blood tests, lab reports, medical documents)
+- Trends display: Shows trends across various health markers (all health record markers, not just glucose)
 - Diet/lifestyle module: Food swaps, calorie management, specific diets (low sodium, low potassium, low fat), menu recommendations from photos
-- Prescription upload: Upload prescription photos/documents, system extracts medication info, diet type, and other data
+- Prescription upload: Upload prescription photos/documents (including handwritten), system extracts medication info, diet type, and other data with verification
+- Meal inference: If previous meal data not logged, system uses current blood glucose reading to infer what was eaten last ("Sugar is 210. That's higher than usual. What could be the reason? Larger portion / different food or Missed medication?")
 - Question-answering interface (AI responses with doctor escalation option)
 - Profile viewing and report downloads (summarized reports, full history)
 - Weekly progress summary
@@ -206,27 +224,51 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
 
 **Patient Experience (WhatsApp - Secondary):**
 - Doctor-initiated onboarding: Doctor says "ProCare will take care of you," then patient completes onboarding via WhatsApp (same flow as app: phone number, doctor connection, management mode selection, option to upload health records)
+- Proactive templates and re-engagement: Led by ProCare proactively to stay within WhatsApp policy
+- 24-hour conversation window: System keeps conversation active within 24-hour period if patient wants to engage
+- Direct queries: Patient can ask anything directly on WhatsApp to ProCare and get an answer
 - Conversational logging interface (glucose, meals, medications via natural language)
+- Glucose logging with time verification: System requests time/state (e.g., "109, Morning fasting") - cannot use system time directly
+- Photo input recognition: System automatically discerns between BP reading, health tracker reading, food photo, glucometer reading, and takes appropriate action
 - Question-answering interface (AI responses with doctor escalation option)
 - Weekly progress summary (delivered via WhatsApp message)
 - Templated interactions: Summaries, questions, basic data collection
 - Re-engagement channel when app is not being used
 
-**Doctor Web Dashboard:**
+**Doctor Web Dashboard & Mobile App:**
+- Doctor self-registration: Doctor can self-register and set up with minimal involvement from ProCare - can log on, understand how to activate patients, get business model, see examples, and start using system directly
 - Login/Authentication screen
+- Patient search: Doctor can search for specific patient by ID or phone number to access their profile
 - Main dashboard with tiered patient view (Urgent/Attention/Stable tabs)
-- Patient detail view (glucose trends, medication adherence, alerts, weekly summary, health records, consolidated patient data with drill-down capabilities)
-- Alert management interface (urgent alerts with context and suggested actions)
-- Patient onboarding interface: Doctor initiates onboarding by saying "ProCare will take care of you," then sets expectations (target A1C, medication schedule, lifestyle goals)
-- Pooled questions interface: AI pools similar questions from multiple patients, doctor provides generic answers that are relayed to patients with doctor's name
+- Daily patient buckets: System updates daily (not weekly aggregate) with most important bucket being "Call in for appointment" with reason for doctor's judgment call
+- Patient detail view: Comprehensive view including:
+  - Health record trends: All types of health markers viewable as trends (based on various health records uploaded), searchable and bucketed under headers like Liver, Kidney, Heart, etc.
+  - Diet trends and patterns
+  - Exercise data
+  - Last prescription
+  - Medication adherence (shown as trend, not on every miss/delay)
+  - Blood sugar readings
+  - Decision support bot: Provides advice on what to look at and what could be possible solutions
+- Alert management interface: Cannot ask doctor to change medicines online - most alerts bring patient back for another meeting. If something dramatically wrong, patient goes to "Schedule appointment" bucket with reason. Doctor can request additional activity before appointment (e.g., "Come in on Nov 20th, get HbA1c check done before coming")
+- Appointment calendar: View all appointments scheduled on system, with ancillary approach if doctor doesn't adopt ProCare completely (email/WhatsApp to assistant to call/confirm and block appointment time)
+- Patient onboarding interface: Doctor initiates onboarding by saying "ProCare will take care of you" and provides personalized QR code for patient to scan. Most data comes from prescription upload (some doctors might provide details, but most won't)
+- Standard test prescriptions: Doctor prescribes standard tests on regular interval (not just default HbA1c test) - can be done via interface or prescription
+- Pooled questions interface: AI pools similar questions from multiple patients, doctor provides generic answers that are relayed to patients with doctor's name via ProCare (doctor does NOT converse directly with patient)
 - Health records view: Automatic access to patient health records during every meeting, auto-populated EMR data
+- Configurable alerts: Doctor can configure alert preferences (want alerts y/n, if y - immediate/report daily). Default setting is N (no alerts) for doctor
+- Doctor communication: Doctors tell ProCare what to tell patient, and ProCare relays message to patient (no direct doctor-patient conversation)
 
 **Caregiver Mobile App:**
+- Caregiver can download app and get access similar to patient - context changes but functionality broadly remains same
 - Login/Authentication screen
 - Main dashboard with patient status overview (current status, recent alerts, adherence metrics)
 - Real-time alert feed (critical alerts: hypoglycemia, missed medications)
 - Daily digest view (glucose summary, medication adherence, meal patterns)
 - Patient detail view (trends, patterns, doctor notes)
+- Caregiver-specific elements: Shows "missed", "alerts", "state of mind", "things to watch out for", trends, and suggestions on what to discuss with patient
+- No "spying" on patient - respectful monitoring and support
+- Question interface: Can ask questions to doctor on behalf of patient or query AI assistant to get answer
+- Data update by proxy: Can update data by proxy for patient
 - Offline functionality with sync when connectivity restored
 
 **Caregiver Web Dashboard:**
@@ -235,14 +277,17 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
 - Real-time alert feed (critical alerts: hypoglycemia, missed medications)
 - Daily digest view (glucose summary, medication adherence, meal patterns)
 - Patient detail view (trends, patterns, doctor notes)
+- Question interface: Can ask questions to doctor on behalf of patient or query AI assistant
+- Data update by proxy: Can update data by proxy for patient
 
 **Caregiver WhatsApp Interface:**
 - Critical alert notifications (hypoglycemia, missed meds)
 - Daily digest summary (delivered via WhatsApp message)
+- Question interface: Can ask questions to doctor on behalf of patient or query AI assistant
 
 **Shared Components:**
 - Offline status indicator (visible when offline, sync status when online)
-- Language selector (Hindi/English for MVP)
+- Language selector (Multiple Indian languages for MVP: Hindi, English, Tamil, Telugu, and other regional languages as needed)
 
 ### Accessibility: WCAG AA
 
@@ -572,31 +617,34 @@ I want to log my glucose reading by typing the number in WhatsApp,
 so that I can quickly record my readings without friction.
 
 **Acceptance Criteria:**
-1. Natural language parsing for glucose values: recognizes "128", "sugar 150", "glucose is 140", "Mera sugar 150 hai"
-2. Glucose reading validation: accepts values 40-600 mg/dL, rejects invalid ranges with helpful error message
-3. Timestamp handling: uses message timestamp if provided, otherwise current device time
-4. Glucose reading stored as event in local SQLite database (offline-first)
-5. Glucose reading synced to cloud PostgreSQL when connectivity available
-6. Confirmation message sent to patient via WhatsApp: "Glucose logged: 128 mg/dL at 8:30 AM. Looking good!"
-7. Support for pre-meal, post-meal, fasting, and random glucose types (detected from context or explicitly specified)
-8. Error handling for unparseable input with helpful guidance: "I couldn't understand that. Please send your glucose reading as a number, like '128' or 'sugar 150'"
+1. Natural language parsing for glucose values: recognizes "128", "sugar 150", "glucose is 140", "Mera sugar 150 hai", "109, Morning fasting"
+2. Time verification: System requests time/state for glucose readings - cannot use system time directly as patient might have taken reading in morning but logging in evening. System prompts: "Please include when you took the reading, like '109, Morning fasting' or '150, After lunch'"
+3. Glucose reading validation: accepts values 40-600 mg/dL, rejects invalid ranges with helpful error message
+4. Timestamp handling: uses explicitly provided time/state from patient (e.g., "Morning fasting", "After lunch", "Evening"), not system timestamp
+5. Glucose reading stored as event in local SQLite database (offline-first) with verified timestamp
+6. Glucose reading synced to cloud PostgreSQL when connectivity available
+7. Confirmation message sent to patient via WhatsApp: "Glucose logged: 128 mg/dL (Morning fasting). Looking good!"
+8. Support for pre-meal, post-meal, fasting, and random glucose types (detected from context or explicitly specified like "Morning fasting")
+9. Error handling for unparseable input with helpful guidance: "I couldn't understand that. Please send your glucose reading with time, like '128, Morning fasting' or 'sugar 150, After lunch'"
 
-### Story 1.5a: Glucose Logging via Web Chat (Text Input)
+### Story 1.5a: Glucose Logging via Mobile App (Text Input with Pre-configured Nudges)
 
 As a patient,
-I want to log my glucose reading by typing the number in the web chat interface,
-so that I can use the web interface if I prefer it over WhatsApp.
+I want to log my glucose reading via mobile app with quick entry options,
+so that I can log readings quickly without follow-up questions.
 
 **Acceptance Criteria:**
 1. Same natural language parsing logic as WhatsApp (Story 1.5) - shared parsing service
-2. Glucose reading validation: accepts values 40-600 mg/dL, rejects invalid ranges with helpful error message
-3. Timestamp handling: uses message timestamp if provided, otherwise current device time
-4. Glucose reading stored as event in local SQLite database (offline-first)
-5. Glucose reading synced to cloud PostgreSQL when connectivity available
-6. Confirmation message sent to patient via web chat: "Glucose logged: 128 mg/dL at 8:30 AM. Looking good!"
-7. Support for pre-meal, post-meal, fasting, and random glucose types (detected from context or explicitly specified)
-8. Error handling for unparseable input with helpful guidance: "I couldn't understand that. Please send your glucose reading as a number, like '128' or 'sugar 150'"
-9. Consistent experience: web chat glucose logging provides same functionality and responses as WhatsApp
+2. Pre-configured nudge: When number entered or button clicked for glucose logging, app shows pre-configured options like "Morning fasting", "After lunch", "Evening", etc.
+3. Quick entry: Patient can select pre-configured time/state or type custom time/state
+4. Glucose reading validation: accepts values 40-600 mg/dL, rejects invalid ranges with helpful error message
+5. Timestamp handling: uses explicitly provided time/state from patient (e.g., "Morning fasting", "After lunch"), not system timestamp
+6. Glucose reading stored as event in local SQLite database (offline-first) with verified timestamp
+7. Glucose reading synced to cloud PostgreSQL when connectivity available
+8. Confirmation message sent to patient via app: "Glucose logged: 128 mg/dL (Morning fasting). Looking good!"
+9. Support for pre-meal, post-meal, fasting, and random glucose types (detected from context or explicitly specified)
+10. Error handling for unparseable input with helpful guidance: "I couldn't understand that. Please select a time option or type your reading with time, like '128, Morning fasting'"
+11. Consistent experience: app glucose logging provides same functionality as WhatsApp but with enhanced UX (pre-configured options)
 
 ### Story 1.6: Glucose Logging via WhatsApp (Voice Input)
 
@@ -607,12 +655,13 @@ so that I don't need to type numbers.
 **Acceptance Criteria:**
 1. Voice message reception via WhatsApp webhook
 2. Voice-to-text conversion using speech recognition API (Google Speech-to-Text or similar) supporting Hindi and English
-3. Parsed text processed through same glucose parsing logic as text input (Story 1.5)
-4. Glucose reading stored and synced same as text input
-5. Confirmation message sent: "Glucose logged: 128 mg/dL. Thank you!"
-6. Error handling for unclear audio with retry suggestion: "I couldn't understand your voice message. Please try again or type the number."
-7. Support for Hindi voice input: "Mera sugar 150 hai" → parsed to 150 mg/dL
-8. Voice message transcription stored for debugging and improvement
+3. Parsed text processed through same glucose parsing logic as text input (Story 1.5) including time verification
+4. Time verification: System requests time/state for glucose readings - cannot use system time directly. System prompts: "Please include when you took the reading, like '109, Morning fasting' or '150, After lunch'"
+5. Glucose reading stored and synced same as text input with verified timestamp
+6. Confirmation message sent: "Glucose logged: 128 mg/dL (Morning fasting). Thank you!"
+7. Error handling for unclear audio with retry suggestion: "I couldn't understand your voice message. Please try again or type the number with time, like '128, Morning fasting'"
+8. Support for Hindi voice input: "Mera sugar 150 hai, subah ke baad" → parsed to 150 mg/dL (Morning fasting)
+9. Voice message transcription stored for debugging and improvement
 
 ### Story 1.7: Glucose Logging via WhatsApp (Photo OCR)
 
@@ -625,10 +674,11 @@ so that I don't need to manually type the number.
 2. OCR processing using cloud OCR service (Google Vision API or similar) to extract glucose value from image
 3. Image preprocessing: rotation correction, contrast enhancement, noise reduction
 4. Glucose value extraction: recognizes common glucometer displays (various brands, formats)
-5. Extracted value validated (40-600 mg/dL range) and stored same as text input
-6. Confirmation message sent: "Glucose logged: 128 mg/dL from your photo. Great job tracking!"
-7. Error handling for unreadable images: "I couldn't read the number from your photo. Please make sure the screen is clear and well-lit, or type the number."
-8. Image stored securely for future reference and OCR model improvement
+5. Time verification: System requests time/state for glucose readings - cannot use system time directly. System prompts: "I see your glucose is [value] mg/dL. When did you take this reading? (Morning fasting, After lunch, Evening, etc.)"
+6. Extracted value validated (40-600 mg/dL range) and stored with verified timestamp
+7. Confirmation message sent: "Glucose logged: 128 mg/dL (Morning fasting) from your photo. Great job tracking!"
+8. Error handling for unreadable images: "I couldn't read the number from your photo. Please make sure the screen is clear and well-lit, or type the number with time."
+9. Image stored securely for future reference and OCR model improvement
 
 ### Story 1.8: Meal Logging via WhatsApp (Photo + Text)
 
@@ -663,7 +713,45 @@ so that I can use the web interface for meal logging.
 8. Error handling for unrecognizable photos with suggestion: "I couldn't identify the food. Can you describe what you're eating?"
 9. Consistent experience: web chat meal logging provides same functionality and responses as WhatsApp
 
-### Story 1.9: Data Sync Engine (Offline to Online)
+### Story 1.9: Photo Input Recognition & Automatic Routing
+
+As a patient,
+I want to upload photos of various types (BP reading, health tracker reading, food photo, glucometer reading, prescription),
+so that the system automatically recognizes the type and takes appropriate action.
+
+**Acceptance Criteria:**
+1. Photo upload interface: patients can upload photos via mobile app or WhatsApp
+2. Photo type detection: system automatically discerns between BP reading, health tracker reading, food photo, glucometer reading, prescription
+3. BP reading recognition: system recognizes BP monitor screens and extracts systolic/diastolic values
+4. Health tracker reading recognition: system recognizes health tracker displays (steps, heart rate, etc.) if not integrated
+5. Food photo recognition: system recognizes food photos and routes to meal logging (Story 1.8)
+6. Glucometer reading recognition: system recognizes glucometer screens and routes to glucose logging (Story 1.7)
+7. Prescription recognition: system recognizes prescription documents and routes to prescription upload (Epic 11)
+8. Automatic routing: system automatically routes photo to appropriate module based on recognition
+9. Appropriate action: system takes appropriate action for each photo type (stores BP reading, logs meal, logs glucose, extracts prescription data)
+10. Storage: each photo type stored in relevant place (BP readings in health records, meals in meal log, etc.)
+11. Error handling: if photo type cannot be determined, system prompts user to specify type
+12. Photo metadata: system stores photo metadata (type, timestamp, source) for reference
+
+### Story 1.10: Meal Inference from Glucose Reading
+
+As a patient,
+I want the system to help me understand what might have caused a high glucose reading,
+so that I can learn from my patterns even if I forgot to log a meal.
+
+**Acceptance Criteria:**
+1. Meal inference trigger: if previous meal data not logged and current blood glucose reading is high/unusual
+2. Glucose analysis: system analyzes current glucose reading against patient's usual patterns
+3. Inference prompt: system prompts patient: "Sugar is 210. That's higher than usual. What could be the reason? Larger portion / different food or Missed medication?"
+4. Inference options: system provides multiple inference options (larger portion, different food, missed medication, other)
+5. Patient response: patient can select inference option or provide additional context
+6. Learning: system learns from patient responses to improve inference accuracy
+7. Pattern correlation: system correlates inferred meals with glucose outcomes to improve future inferences
+8. Meal logging reminder: system reminds patient to log meals to improve accuracy
+9. Inference display: inferred meals shown in meal history with "inferred" tag
+10. Inference accuracy: system tracks inference accuracy and improves over time
+
+### Story 1.11: Data Sync Engine (Offline to Online)
 
 As a patient,
 I want my offline logs automatically synced when I get internet,
@@ -750,7 +838,7 @@ so that I can track my adherence even if I miss a reminder.
 7. Error handling for unrecognized medication names: "I couldn't find that medication. Please check your schedule or contact your doctor."
 8. Support for logging past medications: "took metformin yesterday at 8am"
 
-### Story 2.5: Missed Medication Detection & First Escalation (Nudge)
+### Story 2.5: Missed Medication Detection & Sequential Nudges
 
 As a patient,
 I want a gentle nudge if I miss a medication,
@@ -758,15 +846,17 @@ so that I can still take it if I forgot.
 
 **Acceptance Criteria:**
 1. Missed medication detection: if medication not logged within 1 hour of scheduled time, mark as missed
-2. First escalation (nudge): send WhatsApp message 1 hour after missed time: "Friendly reminder: You haven't logged Metformin 500mg yet. Did you take it? Reply 'taken' if yes."
-3. Patient can still log medication after nudge (within 2 hours of scheduled time)
-4. If patient logs medication after nudge, mark as "taken_late" in medication log
-5. If medication still not logged 2 hours after scheduled time, escalate to next level (Story 2.6)
-6. Nudge respects rate limiting: doesn't send if already sent 5 notifications today
-7. Nudge works offline: missed medication detected locally, nudge queued for sending
-8. Adherence calculation updated: missed medications reduce adherence percentage
+2. Sequential nudges: Nudges sent sequentially (not simultaneously) - first via app, then via WhatsApp if no response
+3. First nudge (app): send app notification 1 hour after missed time: "Friendly reminder: You haven't logged Metformin 500mg yet. Did you take it? Tap to log."
+4. Second nudge (WhatsApp): if no response to app nudge after 30 minutes, send WhatsApp message: "Friendly reminder: You haven't logged Metformin 500mg yet. Did you take it? Reply 'taken' if yes."
+5. Patient can still log medication after nudge (within 2 hours of scheduled time)
+6. If patient logs medication after nudge, mark as "taken_late" in medication log
+7. If medication still not logged 2 hours after scheduled time, escalate to caregiver (Story 2.6)
+8. Nudge respects rate limiting: doesn't send if already sent 5 notifications today
+9. Nudge works offline: missed medication detected locally, nudge queued for sending
+10. Adherence calculation updated: missed medications reduce adherence percentage
 
-### Story 2.6: Medication Escalation to Caregiver
+### Story 2.6: Medication Escalation to Caregiver (No Doctor Escalation)
 
 As a caregiver,
 I want to be notified if my parent misses a medication,
@@ -777,26 +867,28 @@ so that I can help ensure they take it.
 2. WhatsApp message sent to caregiver: "Alert: [Patient Name] hasn't logged Metformin 500mg (scheduled 8:00 AM). Please check if they took it."
 3. Caregiver can respond: "taken" or "will remind" or "not taken"
 4. If caregiver confirms "taken", medication log entry created with logged_via "caregiver_confirmation"
-5. If caregiver responds "not taken", escalate to doctor (Story 2.7)
-6. Caregiver escalation only for patients with caregiver-primary or shared management mode
-7. Caregiver escalation respects patient privacy: only sends for critical medications or after multiple misses
-8. Caregiver notification includes patient context: recent glucose readings, medication history
+5. Medication adherence shown as trend (not on every miss/delay) - caregiver can see adherence trends over time
+6. Caregiver highlighted when medications are being missed and that will create issues
+7. Caregiver escalation only for patients with caregiver-primary or shared management mode
+8. Caregiver escalation respects patient privacy: only sends for critical medications or after multiple misses
+9. Caregiver notification includes patient context: recent glucose readings, medication history
+10. NO escalation to doctor: Doctors will NOT get into every patient's details of whether they have taken their daily medication. Medication adherence shown as trend only, not on every miss/delay.
 
-### Story 2.7: Medication Escalation to Doctor
+### Story 2.7: Medication Adherence Trend (No Doctor Escalation)
 
 As a doctor,
-I want to be alerted if my patient consistently misses medications,
-so that I can intervene before it affects their health.
+I want to see medication adherence trends for my patients,
+so that I can understand adherence patterns during patient visits.
 
 **Acceptance Criteria:**
-1. Doctor escalation trigger: medication not logged 4 hours after scheduled time OR caregiver confirms "not taken" OR patient misses same medication 3+ times in a week
-2. Alert created in doctor dashboard: patient name, medication, scheduled time, missed duration, adherence history
-3. Alert includes context: patient's recent glucose readings, medication history, caregiver status
-4. Alert categorized as "Attention" tier in doctor dashboard (not "Urgent" unless combined with other issues)
-5. Doctor can view patient detail and send message via dashboard or WhatsApp
-6. Doctor escalation notification: "Patient [Name] missed Metformin 500mg (scheduled 8:00 AM). Adherence this week: 60%."
-7. Escalation respects doctor preferences: some doctors may want immediate alerts, others prefer daily summary
-8. Medication adherence metrics updated: weekly adherence percentage calculated and displayed to doctor
+1. Medication adherence shown as trend in doctor dashboard (not on every miss/delay)
+2. Adherence metrics: weekly/monthly adherence percentage calculated and displayed
+3. Adherence trends: visual trend showing adherence over time (improving, stable, worsening)
+4. Adherence context: adherence data includes patient's recent glucose readings, medication history
+5. Adherence included in patient detail view and weekly summaries
+6. NO escalation to doctor: Doctors will NOT get into every patient's details of whether they have taken their daily medication
+7. Adherence data available during patient visits for discussion
+8. Caregiver highlighted when medications are being missed and that will create issues (caregiver gets alerts, doctor sees trends)
 
 ### Story 2.8: Medication Adherence Tracking & Reporting
 
@@ -867,7 +959,7 @@ so that I get help when I need it most.
 
 **Acceptance Criteria:**
 1. Clinical Monitor agent service created as independent microservice
-2. Emergency detection rules: hypoglycemia <70 mg/dL, hyperglycemia >250 mg/dL
+2. Emergency detection rules: Hypoglycemia and hyperglycemia thresholds picked up from regional protocols (not hardcoded). System supports region-specific medical protocols and guidelines for emergency thresholds.
 3. Real-time monitoring: Clinical Monitor processes glucose readings as they're logged
 4. Emergency classification: detects hypoglycemia (low), hyperglycemia (high), or normal
 5. Emergency priority: emergencies marked as highest priority, override all other notifications
@@ -884,8 +976,8 @@ I want immediate, clear instructions on what to do,
 so that I can take action to stay safe.
 
 **Acceptance Criteria:**
-1. Hypoglycemia response (<70 mg/dL): immediate message via channel where patient last interacted (WhatsApp or web chat) with instructions: "URGENT: Your glucose is [value] mg/dL (low). Eat 15g fast-acting sugar (glucose tablets, fruit juice, candy). Check again in 15 minutes. If still low, contact your doctor immediately."
-2. Hyperglycemia response (>250 mg/dL): immediate message via channel where patient last interacted: "URGENT: Your glucose is [value] mg/dL (high). Drink water, avoid food, check for ketones if you have strips. Contact your doctor if this persists or you feel unwell."
+1. Hypoglycemia response: Threshold determined by regional protocols. Immediate message via channel where patient last interacted (WhatsApp or app) with instructions: "URGENT: Your glucose is [value] mg/dL (low). Eat 15g fast-acting sugar (glucose tablets, fruit juice, candy). Check again in 15 minutes. If still low, contact your doctor immediately."
+2. Hyperglycemia response: Threshold determined by regional protocols. Immediate message via channel where patient last interacted: "URGENT: Your glucose is [value] mg/dL (high). Drink water, avoid food, check for ketones if you have strips. Contact your doctor if this persists or you feel unwell."
 3. Channel routing: Engagement Engine routes emergency messages to the channel where patient last interacted (if patient last used WhatsApp, emergency goes to WhatsApp; if web chat, goes to web chat). If patient hasn't interacted recently, message sent to both channels.
 4. Emergency instructions personalized: includes patient's name, recent medication timing, meal timing
 5. Emergency instructions in Hindi and English based on patient preference
@@ -894,23 +986,25 @@ so that I can take action to stay safe.
 8. Emergency instructions work offline: stored locally, sent immediately when connectivity available
 9. Emergency acknowledgment: patient can respond "ok", "feeling better", "need help" via their active channel to update emergency status
 
-### Story 3.5: Clinical Monitor - Doctor Escalation for Emergencies
+### Story 3.5: Clinical Monitor - Configurable Doctor Alerts for Emergencies
 
 As a doctor,
-I want to be immediately alerted if my patient has a dangerous glucose level,
-so that I can provide medical assistance.
+I want to configure whether I receive emergency alerts,
+so that I can control how I'm notified about patient emergencies.
 
 **Acceptance Criteria:**
-1. Doctor escalation trigger: emergency detected (hypoglycemia <70 or hyperglycemia >250) AND patient doesn't respond within 15 minutes OR glucose worsens
-2. Urgent alert created in doctor dashboard: patient name, glucose value, emergency type, timestamp, patient response status
-3. Alert categorized as "Urgent" tier (highest priority) in doctor dashboard
-4. Alert includes context: patient's recent glucose history, medication timing, meal timing, caregiver status
-5. Doctor notification: WhatsApp or SMS sent to doctor: "URGENT: Patient [Name] has [hypoglycemia/hyperglycemia] - glucose [value] mg/dL at [time]. Please check dashboard."
-6. Doctor can view patient detail and send message via dashboard or WhatsApp
-7. Doctor escalation respects doctor preferences: some doctors want immediate alerts, others prefer during business hours only
-8. Emergency status tracking: Clinical Monitor tracks emergency resolution (patient responded, doctor contacted, resolved)
-9. Emergency follow-up: Clinical Monitor sends follow-up to doctor if emergency not resolved within 1 hour
-10. Emergency reporting: all emergencies logged for doctor review and patient safety analysis
+1. Alert configuration: Doctor can configure alert preferences (want alerts y/n, if y - immediate/report daily)
+2. Default setting: Default setting is N (no alerts) for doctor
+3. Alert trigger: If doctor has alerts enabled, emergency detected (thresholds from regional protocols) AND patient doesn't respond within 15 minutes OR glucose worsens
+4. Escalation priority: highest priority (overrides all other notifications) when alerts enabled
+5. Escalation alert created in doctor dashboard (if alerts enabled): patient name, emergency type, glucose value, timestamp, patient response status
+6. Escalation includes context: patient's recent glucose history, medications, caregiver status
+7. Doctor notification: If immediate alerts enabled, WhatsApp or SMS sent to doctor: "URGENT: Patient [Name] has [hypoglycemia/hyperglycemia] - glucose [value] mg/dL at [time]. Please check dashboard."
+8. Daily report option: If doctor selects "report daily", emergency alerts batched and sent in daily summary
+9. Doctor can change alert preferences anytime via dashboard settings
+10. Escalation history: all emergency escalations logged for tracking and compliance (even if alerts disabled)
+11. Escalation effectiveness: system tracks if doctor responded and patient outcome (when alerts enabled)
+12. Escalation only sent if emergency persists or worsens (not for single emergency reading that resolves)
 
 ### Story 3.6: Agent Response Synthesis & Notification Bundling
 
@@ -1122,131 +1216,157 @@ so that I can provide better guidance during visits.
 
 Build a web-based doctor dashboard that enables doctors to efficiently manage their patients, review patient data, and provide guidance without adding significant time burden. Implement tiered patient view (Urgent/Attention/Stable) for quick triage, patient onboarding interface for setting expectations (target A1C, medication schedule, lifestyle goals), alert management system with context and suggested actions, and comprehensive patient detail views showing glucose trends, medication adherence, patterns, and alerts. The dashboard saves doctors 10-15 minutes daily through batch review (Monday morning weekly summaries) and enables the doctor-initiated engagement model where doctors set expectations and ProCare creates personalized programs. The dashboard is desktop-first, accessible via web browsers without requiring mobile app download.
 
-### Story 5.1: Doctor Authentication & Dashboard Foundation
+### Story 5.1: Doctor Self-Registration & Dashboard Foundation
 
 As a doctor,
-I want to securely log into the ProCare dashboard,
-so that I can access my patient data safely.
+I want to self-register and set myself up with minimal involvement from ProCare,
+so that I can start using the system directly without waiting for manual setup.
 
 **Acceptance Criteria:**
-1. Doctor registration: doctors can register via web form with credentials (name, email, phone, medical license number, specialty)
-2. Doctor authentication: OAuth 2.0 or JWT-based authentication for secure login
-3. Login page: simple, clean login interface accessible via web browser
-4. Session management: secure session handling with automatic timeout after inactivity
-5. Doctor profile: doctors can view and edit their profile (name, contact info, preferences)
-6. Dashboard landing page: after login, doctors see main dashboard with patient overview
-7. Responsive design: dashboard works on desktop browsers (Chrome 90+, Safari 14+, Firefox 88+)
-8. Error handling: clear error messages for login failures, session expiration, access denied
-9. Security: password requirements, account lockout after failed attempts, secure password reset
-10. Doctor data storage: doctor profiles stored in PostgreSQL database with encrypted sensitive data
+1. Doctor self-registration: doctors can self-register via web form or mobile app with credentials (name, email, phone, medical license number, specialty)
+2. Self-setup process: doctor can log on, understand how to activate patients, get business model, see examples, and start using system directly
+3. Doctor authentication: OAuth 2.0 or JWT-based authentication for secure login
+4. Login page: simple, clean login interface accessible via web browser and mobile app
+5. Session management: secure session handling with automatic timeout after inactivity
+6. Doctor profile: doctors can view and edit their profile (name, contact info, preferences)
+7. Dashboard landing page: after login, doctors see main dashboard with patient overview
+8. Responsive design: dashboard works on desktop browsers (Chrome 90+, Safari 14+, Firefox 88+) and mobile app
+9. Error handling: clear error messages for login failures, session expiration, access denied
+10. Security: password requirements, account lockout after failed attempts, secure password reset
+11. Doctor data storage: doctor profiles stored in PostgreSQL database with encrypted sensitive data
+12. Minimal ProCare involvement: system designed for self-service setup with minimal support needed
 
-### Story 5.2: Tiered Patient View (Urgent/Attention/Stable)
+### Story 5.2: Patient Search & Tiered Patient View
 
 As a doctor,
-I want to see my patients organized by priority,
-so that I can quickly identify who needs immediate attention.
+I want to search for a specific patient and see my patients organized by priority,
+so that I can quickly find and identify who needs immediate attention.
 
 **Acceptance Criteria:**
-1. Patient tiering logic: patients automatically categorized into Urgent, Attention, or Stable tiers
-2. Urgent tier: patients with emergencies (hypoglycemia/hyperglycemia from Epic 3), critical alerts, or urgent medication issues
-3. Attention tier: patients with missed medications, high glucose trends, new patterns detected, or questions requiring response
-4. Stable tier: patients with good glucose control, consistent medication adherence, no alerts
-5. Tiered view interface: dashboard shows three tabs or sections (Urgent, Attention, Stable)
-6. Patient list in each tier: shows patient name, last glucose reading, adherence percentage, alert count, last activity
-7. Patient count badges: shows number of patients in each tier (e.g., "Urgent (3)", "Attention (12)", "Stable (45)")
-8. Auto-refresh: patient tiers update automatically as new data arrives (every 5 minutes or on-demand)
-9. Tier filtering: doctors can filter patients within each tier by name, date, or alert type
-10. Tier sorting: patients within each tier sorted by priority (most urgent first) or alphabetically
+1. Patient search: doctor can search for specific patient by ID or phone number to access their profile
+2. Search interface: search bar prominently displayed in dashboard header
+3. Search results: shows matching patients with name, ID, phone number, last activity
+4. Quick access: clicking search result takes doctor directly to patient profile
+5. Patient tiering logic: patients automatically categorized into Urgent, Attention, Stable, and "Call in for appointment" buckets
+6. Daily patient buckets: System updates daily (not weekly aggregate) with most important bucket being "Call in for appointment" with reason for doctor's judgment call
+7. Urgent tier: patients with emergencies (hypoglycemia/hyperglycemia from Epic 3), critical alerts, or urgent medication issues
+8. Attention tier: patients with missed medications, high glucose trends, new patterns detected, or questions requiring response
+9. Stable tier: patients with good glucose control, consistent medication adherence, no alerts
+10. "Call in for appointment" bucket: patients with dramatically wrong situations that need in-person visit, with reason displayed
+11. Tiered view interface: dashboard shows tabs or sections (Urgent, Attention, Stable, Call in for appointment)
+12. Patient list in each tier: shows patient name, last glucose reading, adherence percentage, alert count, last activity, reason for bucket assignment
+13. Patient count badges: shows number of patients in each tier (e.g., "Urgent (3)", "Attention (12)", "Stable (45)", "Call in (2)")
+14. Auto-refresh: patient tiers update automatically as new data arrives (daily updates, not weekly)
+15. Tier filtering: doctors can filter patients within each tier by name, date, or alert type
+16. Tier sorting: patients within each tier sorted by priority (most urgent first) or alphabetically
 
-### Story 5.3: Patient Detail View
+### Story 5.3: Patient Detail View with Health Record Trends & Decision Support
 
 As a doctor,
-I want to see comprehensive patient information in one place,
-so that I can quickly understand their status and provide guidance.
+I want to see comprehensive patient information including health record trends and decision support,
+so that I can quickly understand their status and get guidance on what to look at and possible solutions.
 
 **Acceptance Criteria:**
-1. Patient detail page: accessible by clicking patient name from tiered view
+1. Patient detail page: accessible by clicking patient name from tiered view or search results
 2. Patient overview: shows patient name, age, diabetes type, diagnosis date, doctor connection date
-3. Glucose trends: displays glucose readings over time (last 7 days, 30 days) as simple line chart or table
-4. Medication adherence: shows adherence percentage (daily, weekly, monthly) with trend indicator
-5. Recent alerts: displays recent alerts (emergencies, missed medications, pattern changes) with timestamps
-6. Detected patterns: shows patient's food-glucose, activity-impact, medication-consistency patterns (from Epic 4)
-7. Recent activity: shows last glucose log, meal log, medication log with timestamps
-8. Caregiver status: shows if patient has caregiver linked, caregiver contact info (if permitted)
-9. Patient summary: quick summary card showing key metrics (average glucose, adherence, alert count)
-10. Navigation: easy navigation back to tiered view, to other patients, or to patient messaging
+3. Health record trends: All types of health markers viewable as trends (based on various health records uploaded), searchable and bucketed under headers like Liver, Kidney, Heart, etc.
+4. Health marker organization: markers organized by category (Liver, Kidney, Heart, Blood Sugar, etc.) for easy navigation
+5. Trend visualization: each marker shows trend over time (line chart or table) with ability to view different time periods
+6. Glucose trends: displays glucose readings over time (last 7 days, 30 days) as simple line chart or table
+7. Medication adherence: shows adherence percentage (daily, weekly, monthly) with trend indicator (shown as trend, not on every miss/delay)
+8. Diet trends and patterns: shows patient's diet patterns, food-glucose correlations, meal logging frequency
+9. Exercise data: shows patient's exercise/activity data and its impact on glucose
+10. Last prescription: displays most recent prescription with extracted medication and diet information
+11. Decision support bot: Provides advice on what to look at and what could be possible solutions - important for doctors who don't understand what all can be done for patient in various situations
+12. Decision support context: bot analyzes patient's health record trends, glucose patterns, medication adherence, diet, exercise to provide recommendations
+13. Recent alerts: displays recent alerts (emergencies, missed medications, pattern changes) with timestamps
+14. Detected patterns: shows patient's food-glucose, activity-impact, medication-consistency patterns (from Epic 4)
+15. Recent activity: shows last glucose log, meal log, medication log with timestamps
+16. Caregiver status: shows if patient has caregiver linked, caregiver contact info (if permitted)
+17. Patient summary: quick summary card showing key metrics (average glucose, adherence, alert count) with summarised data from system
+18. Navigation: easy navigation back to tiered view, to other patients, or to patient messaging
 
-### Story 5.4: Patient Onboarding Interface - Setting Expectations
+### Story 5.4: Doctor-Initiated Patient Onboarding with QR Code
 
 As a doctor,
-I want to set my patient's treatment goals and medication schedule during onboarding,
-so that ProCare can create a personalized program for them.
+I want to initiate patient onboarding by providing a personalized QR code,
+so that patients can easily join ProCare and most data comes from prescription upload.
 
 **Acceptance Criteria:**
-1. Patient onboarding interface: doctor can access onboarding form for new patients
-2. Target A1C setting: doctor can set target HbA1c (e.g., <7.0%) for patient
-3. Medication schedule setup: doctor can add medications with dosages and times (links to Epic 2 Story 2.2)
-4. Lifestyle goals: doctor can set lifestyle goals (e.g., "walk 30 minutes daily", "reduce rice intake")
-5. Glucose target ranges: doctor can set target glucose ranges (fasting, post-meal, random)
-6. Onboarding completion: doctor submits onboarding form, patient receives WhatsApp confirmation
-7. Personalized program creation: ProCare creates personalized program based on doctor's expectations
-8. Onboarding data storage: patient goals and expectations stored in database, linked to patient and doctor
-9. Onboarding editing: doctor can update patient goals and expectations after onboarding
-10. Onboarding confirmation: patient receives WhatsApp: "Dr. Verma has set your goals: Target A1C <7.0%, Metformin 500mg twice daily, walk 30 minutes daily. I'll help you achieve these!"
+1. Doctor onboarding interface: Doctor initiates onboarding by saying "ProCare will take care of you" to patient
+2. Personalized QR code generation: System generates unique QR code for each doctor that patients can scan
+3. QR code display: Doctor can view and print/download their personalized QR code from dashboard or mobile app
+4. QR code scanning: Patient scans QR code via mobile app to start onboarding process
+5. Minimal doctor input: Doctor will NOT do detailed setup in beginning - will at best say 'scan my personalized QR code' and get onto ProCare
+6. Prescription-based data: Remaining data will mostly come from prescription upload (some doctors might provide details, but most won't)
+7. Onboarding flow: Patient completes onboarding via app or WhatsApp after scanning QR code (phone number, doctor connection via QR code, management mode selection, option to upload health records)
+8. Prescription upload: Patient uploads prescription during or after onboarding, system extracts medication info, diet type, and other data
+9. Onboarding completion: Patient receives confirmation via app or WhatsApp: "Welcome to ProCare! Dr. [Name] has connected you. Upload your prescription to get started."
+10. Onboarding data storage: Patient connection to doctor stored in database, linked via QR code
+11. QR code accessibility: QR code accessible on app as well as WhatsApp (doctor can share via WhatsApp)
+12. Standard test prescriptions: Doctor can prescribe standard tests on regular interval (not just default HbA1c test) - can be done via interface or prescription
 
-### Story 5.5: Alert Management System with Context
+### Story 5.5: Alert Management & Appointment Scheduling
 
 As a doctor,
-I want to see patient alerts with context and suggested actions,
-so that I can quickly understand the issue and take appropriate action.
+I want to manage patient alerts and schedule appointments,
+so that I can bring patients back for meetings when needed without changing medicines online.
 
 **Acceptance Criteria:**
 1. Alert display: alerts shown in patient detail view and tiered view with alert type, timestamp, priority
 2. Alert context: each alert includes relevant context (patient's recent glucose history, medication timing, meal timing, caregiver status)
-3. Suggested actions: alerts include suggested actions (e.g., "Review medication schedule", "Check glucose pattern", "Contact patient")
-4. Alert types: emergency alerts (from Epic 3), medication alerts (from Epic 2), pattern alerts (from Epic 4), question alerts
-5. Alert prioritization: alerts sorted by priority (Urgent > Attention > Normal) and timestamp
-6. Alert filtering: doctors can filter alerts by type, date, priority, or patient
-7. Alert actions: doctors can acknowledge alerts, mark as resolved, or escalate
-8. Alert history: doctors can view alert history for each patient (resolved and active alerts)
-9. Alert notifications: doctors receive email or WhatsApp notification for urgent alerts (based on preferences)
-10. Alert reporting: alert summary included in weekly patient summary
+3. Alert management: Cannot ask doctor to change medicines online - most alerts bring patient back for another meeting
+4. Dramatically wrong situations: If something dramatically wrong, patient goes to "Schedule appointment" bucket with reason
+5. Appointment scheduling: Doctor can request additional activity before appointment (e.g., "Come in on Nov 20th, get HbA1c check done before coming")
+6. Patient acceptance: Patient accepts appointment request, and formal appointment is setup by doctor/clinic at the time
+7. Appointment calendar: System has calendar to view all appointments scheduled on system
+8. Ancillary approach: If doctor doesn't adopt ProCare completely, ancillary approach available (email to assistant to call/confirm and block appointment time, WhatsApp message to assistant to book appointment for xyz at abc time)
+9. Alert types: emergency alerts (from Epic 3), medication alerts (from Epic 2), pattern alerts (from Epic 4), question alerts
+10. Alert prioritization: alerts sorted by priority (Urgent > Attention > Normal) and timestamp
+11. Alert filtering: doctors can filter alerts by type, date, priority, or patient
+12. Alert actions: doctors can acknowledge alerts, mark as resolved, or schedule appointment
+13. Alert history: doctors can view alert history for each patient (resolved and active alerts)
+14. Alert reporting: alert summary included in daily patient summary
 
-### Story 5.6: Weekly Patient Summary Generation
-
-As a doctor,
-I want to see weekly summaries of my patients' progress,
-so that I can efficiently review multiple patients in one session.
-
-**Acceptance Criteria:**
-1. Weekly summary generation: system generates weekly summary for each patient every Monday morning
-2. Summary content: includes glucose trends, medication adherence, detected patterns, alerts, key insights
-3. Summary display: doctors can view weekly summaries in batch (all patients) or individual patient view
-4. Summary metrics: shows average glucose, time in range, adherence percentage, pattern changes
-5. Summary insights: includes Health Insights agent-generated insights (from Epic 4)
-6. Summary alerts: highlights patients needing attention based on weekly data
-7. Summary export: doctors can export weekly summaries as PDF or CSV for records
-8. Summary timing: summaries generated Monday morning, available for doctor's weekly review (10-minute session)
-9. Summary notification: doctors receive email notification when weekly summaries are ready
-10. Summary history: doctors can view past weekly summaries for trend analysis
-
-### Story 5.7: Doctor-Patient Messaging via Dashboard
+### Story 5.6: Daily Patient Summary with Appointment Bucket
 
 As a doctor,
-I want to send messages to my patients via the dashboard,
-so that I can provide guidance without switching to WhatsApp.
+I want daily summaries of my patients with focus on appointment scheduling,
+so that I can efficiently identify patients who need to come in for appointments.
 
 **Acceptance Criteria:**
-1. Messaging interface: doctor dashboard includes messaging interface for sending messages to patients
-2. Message composition: doctors can type messages, select from templates, or use suggested responses
-3. Message delivery: messages sent to patient via WhatsApp (integrated with WhatsApp API)
-4. Message history: doctors can view message history with patients (sent and received)
-5. Message templates: doctors can create and use message templates for common scenarios
-6. Suggested responses: dashboard suggests responses based on patient alerts or questions
-7. Message context: messages include patient context (recent glucose, adherence, patterns) for doctor reference
-8. Message scheduling: doctors can schedule messages to be sent later
-9. Message status: doctors can see if message was delivered and read by patient
-10. Message integration: patient messages appear in doctor dashboard, doctor responses appear in patient WhatsApp
+1. Daily summary generation: System generates daily patient summaries (not weekly aggregate) - updates changing on daily basis
+2. Most important bucket: "Call in for appointment" bucket is most important, with reason why for doctor to take judgment call
+3. Summary content: includes glucose trends, medication adherence, detected patterns, alerts, key insights, intervention effectiveness
+4. Summary format: concise format displayed in doctor dashboard: "Patient [Name] - Daily Summary: Glucose avg 128 mg/dL (stable), Adherence 95% (excellent), Patterns: Rice spikes glucose, roti stable. Alerts: 0. Status: Stable. Action: [Reason for appointment if applicable]"
+5. Summary batch view: doctors can view all patient summaries in batch (all patients at once)
+6. Summary metrics: summaries include key metrics (average glucose, adherence, time in range, pattern changes)
+7. Summary insights: summaries include Health Insights agent-generated insights (from Epic 4)
+8. Summary alerts: summaries highlight patients needing attention based on daily data
+9. Appointment bucket: Patients in "Call in for appointment" bucket shown prominently with reason
+10. Summary export: doctors can export daily summaries as PDF or CSV for records
+11. Summary timing: summaries generated daily, available for doctor's review
+12. Summary history: doctors can view past daily summaries for trend analysis
+
+### Story 5.7: Doctor Communication via ProCare Relay (No Direct Conversation)
+
+As a doctor,
+I want to tell ProCare what to tell my patients,
+so that ProCare relays the message without me conversing directly with patients.
+
+**Acceptance Criteria:**
+1. Doctor communication interface: doctor can compose messages for ProCare to relay to patients via dashboard or mobile app
+2. Message relay: Doctors tell ProCare what to tell patient, and ProCare relays message to patient (no direct doctor-patient conversation)
+3. Message types: doctors can send text messages, medication reminders, appointment reminders, general guidance, instructions
+4. Message delivery: messages relayed to patient via app or WhatsApp (integrated with WhatsApp API and app push notifications)
+5. Message personalization: ProCare can personalize doctor's message with patient context when appropriate
+6. Message history: doctors can view message history with each patient (what ProCare relayed on doctor's behalf)
+7. Patient responses: patient responses come back to ProCare, doctor can see responses in dashboard
+8. Message templates: doctors can save and reuse message templates for common scenarios
+9. Message scheduling: doctors can schedule messages to be relayed at specific times
+10. Message status: doctors can see if message was delivered and read by patient
+11. Message context: messages include patient context (recent glucose, medications, patterns) for doctor reference
+12. No direct conversation: Doctors will NOT converse directly with patient - all communication goes through ProCare relay
 
 ### Story 5.8: Doctor Dashboard Performance & Usability
 
@@ -1570,25 +1690,27 @@ so that I can understand the impact of ProCare.
 
 ### Epic Goal
 
-Complete the 7-agent orchestration system by implementing the remaining three agents: Care Coordinator for managing test appointments and medication refills, Doctor Bridge for intelligent question routing and AI-powered answers, and Learning Library for context-based health education. Implement HbA1c test scheduling with 2-week reminders and glucose-based predictions, AI question answering that handles 80%+ of routine questions with 20% escalation to doctors, weekly progress reports for patients and doctors, and context-based educational tips triggered by patient behavior patterns. This epic completes the MVP feature set, enabling comprehensive diabetes management support while maintaining the doctor-connected care model where AI supports but doesn't replace medical oversight.
+Complete the 7-agent orchestration system by implementing the remaining three agents: Care Coordinator for managing test appointments (standard tests prescribed by doctor on regular interval, not just default HbA1c test) and medication refills, Doctor Bridge for intelligent question routing and AI-powered answers, and Learning Library for context-based health education. Implement standard test scheduling with reminders and predictions (doctor prescribes standard tests on regular interval via interface or prescription), AI question answering that handles 80%+ of routine questions with pooled questions for doctors, weekly progress reports for patients and doctors, and context-based educational tips triggered by patient behavior patterns. This epic completes the MVP feature set, enabling comprehensive diabetes management support while maintaining the doctor-connected care model where AI supports but doesn't replace medical oversight.
 
-### Story 8.1: Care Coordinator Agent - HbA1c Test Scheduling
+### Story 8.1: Care Coordinator Agent - Standard Test Scheduling
 
 As a patient,
-I want reminders for my HbA1c test appointments,
-so that I don't forget important checkups.
+I want reminders for my standard test appointments prescribed by my doctor,
+so that I don't forget important health checkups.
 
 **Acceptance Criteria:**
 1. Care Coordinator agent service created as independent microservice
-2. Test scheduling: doctor or patient can schedule HbA1c test appointments (every 3 months typical)
-3. Appointment tracking: system tracks upcoming test appointments with date, time, lab location
-4. Two-week reminder: system sends WhatsApp reminder 2 weeks before test appointment: "Your HbA1c test is scheduled for [date]. I'll remind you again closer to the date."
-5. One-week reminder: system sends reminder 1 week before: "Your HbA1c test is in 1 week. Please confirm your appointment."
-6. One-day reminder: system sends reminder 1 day before: "Don't forget: Your HbA1c test is tomorrow at [time] at [lab]."
-7. Appointment confirmation: patient can confirm or reschedule appointment via WhatsApp
-8. Appointment storage: appointments stored in database, synced between local and cloud
-9. Appointment history: system tracks past appointments and upcoming appointments
-10. Appointment integration: appointments integrated with lab partner APIs (Apollo, Metropolis) for booking
+2. Standard test prescriptions: Doctor prescribes standard tests on regular interval (not just default HbA1c test) - can be done via interface or prescription
+3. Test scheduling: doctor or patient can schedule test appointments (HbA1c, lipid profile, kidney function, liver function, etc.) based on doctor's prescription
+4. Appointment tracking: system tracks upcoming test appointments with date, time, lab location, test type
+5. Two-week reminder: system sends reminder 2 weeks before test appointment: "Your [test name] test is scheduled for [date]. I'll remind you again closer to the date."
+6. One-week reminder: system sends reminder 1 week before: "Your [test name] test is in 1 week. Please confirm your appointment."
+7. One-day reminder: system sends reminder 1 day before: "Don't forget: Your [test name] test is tomorrow at [time] at [lab]."
+8. Appointment confirmation: patient can confirm or reschedule appointment via app or WhatsApp
+9. Appointment storage: appointments stored in database, synced between local and cloud
+10. Appointment history: system tracks past appointments and upcoming appointments
+11. Appointment integration: appointments integrated with lab partner APIs (Apollo, Metropolis, Orange Health, etc.) for booking
+12. Multiple test support: system supports scheduling multiple standard tests as prescribed by doctor
 
 ### Story 8.2: Care Coordinator - HbA1c Prediction
 
@@ -1854,7 +1976,7 @@ so that I don't have to manually enter data that ProCare already has.
 
 ### Epic Goal
 
-Implement comprehensive diet/lifestyle management module that manages calories per day, recommends food swaps, supports specific diet types (low sodium, low potassium, low fat, and more as recommended by doctor), and provides menu recommendations from photos when eating out. This module is critical as 95% of Type 2 diabetes management is diet management. The module integrates with meal logging (Epic 1) and pattern detection (Epic 4) to provide personalized dietary guidance.
+Implement comprehensive diet/lifestyle management module that manages calories per day, recommends food swaps, supports specific diet types (low sodium, low potassium, low fat, and more as recommended by doctor), and provides menu recommendations from photos when eating out. This module is critical as 95% of Type 2 diabetes management is diet management. The module integrates with meal logging (Epic 1) and pattern detection (Epic 4) to provide personalized dietary guidance. Doctor setup for diet types and preferences should be accessible on app as well as WhatsApp, allowing doctors to configure patient diet requirements through either interface.
 
 ### Story 10.1: Calorie Management
 
@@ -1952,23 +2074,27 @@ so that ProCare can automatically extract medication and diet information.
 9. Error handling: handles upload failures, invalid file types, storage errors
 10. Prescription history: patients can view all uploaded prescriptions
 
-### Story 11.2: Prescription Data Extraction
+### Story 11.2: Prescription Data Extraction (Including Handwritten)
 
 As a patient,
-I want ProCare to automatically extract medication and diet information from my prescriptions,
+I want ProCare to automatically extract medication and diet information from my prescriptions (including handwritten ones),
 so that I don't have to manually enter this data.
 
 **Acceptance Criteria:**
-1. Prescription OCR: system uses OCR to extract text from prescription images
-2. Medication extraction: system extracts medication names, dosages, frequencies from prescriptions
-3. Diet type extraction: system extracts diet type recommendations from prescriptions (if mentioned)
-4. Doctor information extraction: system extracts doctor name, date, clinic information
-5. Extraction accuracy: system validates extracted data and flags uncertain extractions
-6. Manual correction: patients can correct extracted data if inaccurate
-7. Extraction learning: system learns from corrections to improve accuracy
-8. Extraction confirmation: patients confirm extracted data before it's saved
-9. Extraction display: extracted data displayed in readable format for patient review
-10. Extraction integration: extracted medication data integrated with medication management (Epic 2), diet data integrated with diet module (Epic 10)
+1. Prescription OCR: system uses OCR to extract text from prescription images (both printed and handwritten)
+2. Handwritten prescription support: system can manage handwritten prescriptions and get them verified
+3. Handwriting recognition: system uses advanced OCR/ML models to recognize handwritten text
+4. Verification process: handwritten prescriptions flagged for verification - patient or doctor can verify extracted data
+5. Medication extraction: system extracts medication names, dosages, frequencies from prescriptions (printed and handwritten)
+6. Diet type extraction: system extracts diet type recommendations from prescriptions (if mentioned)
+7. Doctor information extraction: system extracts doctor name, date, clinic information
+8. Extraction accuracy: system validates extracted data and flags uncertain extractions (especially for handwritten)
+9. Manual correction: patients can correct extracted data if inaccurate (especially important for handwritten prescriptions)
+10. Extraction learning: system learns from corrections to improve accuracy, especially for handwritten prescriptions
+11. Extraction confirmation: patients confirm extracted data before it's saved (mandatory for handwritten prescriptions)
+12. Extraction display: extracted data displayed in readable format for patient review
+13. Extraction integration: extracted medication data integrated with medication management (Epic 2), diet data integrated with diet module (Epic 10)
+14. Handwritten prescription flagging: handwritten prescriptions clearly marked in system for easy identification
 
 ## Epic 12: Integrations & Global Support
 
@@ -2048,7 +2174,7 @@ so that I can manage all my healthcare needs in one place.
 9. Provider management: system manages multiple service providers
 10. Provider selection: patients can select preferred providers
 
-### Story 12.5: Global/Regional Support
+### Story 12.5: Global/Regional Support with Location Packs
 
 As a patient or doctor,
 I want ProCare to work in my region with appropriate time zones, languages, and medical protocols,
@@ -2056,15 +2182,39 @@ so that the system is relevant and useful in my location.
 
 **Acceptance Criteria:**
 1. Regionality detection: system detects user's region/country
-2. Time zone support: system supports multiple time zones, displays times in user's local time
-3. Language support: system supports multiple languages (Hindi, English, Tamil, Telugu, Arabic, Spanish, etc.)
-4. Regional protocols: system follows region-specific medical protocols and guidelines
-5. Currency support: payment amounts displayed in local currency
-6. Regional customization: UI, content, recommendations customized for each region
-7. Regional compliance: system complies with regional data protection and healthcare regulations
-8. Regional content: health education content adapted for regional context
-9. Regional providers: service providers (labs, pharmacies) filtered by region
-10. Regional reporting: reports and summaries adapted for regional preferences
+2. Location packs: system supports location packs for global deployment (e.g., Spanish pack activates Spain as primary location)
+3. Location pack activation: languages can be multiple at later time, system allows setup locations by activating a 'pack'
+4. Location pack components: Each pack includes:
+   - Primary location (e.g., Spain for Spanish pack)
+   - Timing adjusted as per the country (time zones)
+   - Language changing to pack language (e.g., Spanish) with fallback to English
+   - Food changing to pack-specific foods first (e.g., Spanish foods for Spanish pack)
+   - App interface/WhatsApp chat happening in pack language (e.g., Spanish)
+5. Time zone support: system supports multiple time zones, displays times in user's local time
+6. Language support: system supports multiple languages (Hindi, English, Tamil, Telugu, Arabic, Spanish, etc.) with fallback to English
+7. Regional protocols: system follows region-specific medical protocols and guidelines (emergency thresholds, medication protocols, etc.)
+8. Currency support: payment amounts displayed in local currency
+9. Regional customization: UI, content, recommendations customized for each region
+10. Regional compliance: system complies with regional data protection and healthcare regulations
+11. Regional content: health education content adapted for regional context
+12. Regional providers: service providers (labs, pharmacies) filtered by region
+13. Regional reporting: reports and summaries adapted for regional preferences
+
+### Story 12.6: ABHA (Ayushman Bharat Health Account) Integration Planning
+
+As a patient or healthcare provider,
+I want ProCare to integrate with ABHA in the future,
+so that health records can be shared seamlessly with the national health infrastructure.
+
+**Acceptance Criteria:**
+1. ABHA integration planning: system designed with ABHA integration in mind for future implementation
+2. ABHA compatibility: health records structure compatible with ABHA standards
+3. ABHA readiness: system architecture supports future ABHA API integration
+4. ABHA documentation: ABHA integration requirements documented for future implementation
+5. ABHA not immediate: ABHA integration planned for future phase, not immediate MVP requirement
+6. Health records format: health records stored in format compatible with ABHA standards
+7. Patient consent: system designed to handle patient consent for ABHA data sharing
+8. ABHA API readiness: system architecture ready for ABHA API integration when available
 
 ## Checklist Results Report
 
