@@ -25,6 +25,8 @@ Existing solutions fail because they don't provide comprehensive health records 
 
 ProCare solves this through a 7-agent orchestrated platform that combines native mobile app (primary interface with flexible UX) and WhatsApp (secondary channel for re-engagement and templated interactions), comprehensive health records management (upload, store, query, auto-populate doctor EMR), integrated diet/lifestyle module (food swaps, calorie management, specific diets, menu recommendations), offline-first architecture (works without internet), doctor-connected care (not AI-only), family/caregiver involvement (2.3x adherence improvement), and proactive pattern-based interventions (preventive vs reactive). The platform learns each patient's unique patterns over 4 weeks, then provides pre-meal warnings like "Rice usually spikes your glucose to 180. Roti keeps you at 140. What are you having?"—preventing problems rather than responding after they occur. Patients pay for the service, making app download a natural expectation, while WhatsApp serves as a re-engagement channel when the app is not being used.
 
+ProCare employs a dual doctor acquisition strategy: (1) Direct onboarding where diabetes specialists onboard their patients directly, and (2) Reverse acquisition where non-diabetes specialists (heart, liver, kidney specialists) refer patients who then discover ProCare's value and introduce it to their diabetes specialists, creating a flywheel effect. Patients referred by non-diabetes specialists receive a 1-month free trial, after which they must subscribe to maintain full access. This strategy expands the addressable market beyond diabetes specialists while creating natural pathways for diabetes specialist acquisition.
+
 ### Change Log
 
 | Date | Version | Description | Author |
@@ -33,6 +35,7 @@ ProCare solves this through a 7-agent orchestrated platform that combines native
 | 2025-11-08 | 1.1 | Added web chat interface (Open WebUI) as alternative communication channel alongside WhatsApp | PM (John) |
 | 2025-11-09 | 1.2 | Major platform shift: Native mobile app (primary) + WhatsApp (secondary), health records management, diet/lifestyle module, doctor-initiated onboarding, prescription upload, doctor pooled questions, global/regional support, comprehensive integrations | PM (John) |
 | 2025-11-09 | 1.3 | Enhanced mobile app UX (context-aware home screen, trends, most used features), expanded Indian language support, improved WhatsApp interactions (24-hour window, proactive templates), enhanced doctor interface (search, decision support bot, daily patient buckets), caregiver app access, ABHA integration planning, glucose logging time verification, photo input recognition, sequential medication nudges, regional protocol-based thresholds, configurable alerts, doctor self-registration, handwritten prescription support, meal inference from glucose, standard test prescriptions, location packs for global deployment | PM (John) |
+| 2025-11-10 | 1.4 | Added referring doctor workflow (non-diabetes specialists can refer patients), trial period management (1 month free for referred patients), subscription restrictions (restricted access after trial), enhanced AI guidelines for patients without diabetes specialists, revenue sharing model (referring doctor + diabetes specialist), reverse acquisition strategy for diabetes specialists | PM (John) |
 
 ## Requirements
 
@@ -98,6 +101,18 @@ FR29: The system shall support doctor-initiated onboarding where doctors onboard
 
 FR30: The system shall provide offline functionality primarily through the mobile app (offline data storage, sync when connectivity restored), with WhatsApp remaining conversational-only and requiring connectivity.
 
+FR31: The system shall support referring doctors (non-diabetes specialists such as heart, liver, or kidney specialists) who can onboard patients via QR code. The system shall determine during onboarding whether the doctor is treating the patient for diabetes or another condition. If diabetes, the patient is connected to the doctor. If not, the doctor becomes a referring doctor only, and the patient is onboarded without a diabetes specialist connection.
+
+FR32: The system shall provide a 1-month free trial period for patients referred by non-diabetes specialists. After the trial period, patients must subscribe to maintain full access. Patients who do not subscribe shall lose access to: uploaded health data, prescriptions, online interface for showing data to doctors, diet module recipes and menu scan features, and caregiver module access.
+
+FR33: The system shall enforce enhanced AI guidelines for patients without diabetes specialists, ensuring AI responses strictly adhere to medical guidelines, avoid hallucinations, and stay within safe boundaries. AI shall be more conservative and vigilant for these patients.
+
+FR34: The system shall support patients without diabetes specialists, where questions cannot be escalated to doctors until a diabetes specialist connects to the patient. The system shall track referring doctor information (name, number, treating condition) for reverse acquisition purposes.
+
+FR35: The system shall implement revenue sharing between referring doctors and diabetes specialists. When a diabetes specialist connects to a patient who was referred by another doctor, revenue shall be split between both doctors based on configured sharing rules.
+
+FR36: The system shall support reverse acquisition of diabetes specialists by collecting data about doctors viewing patient data (name, number, treating condition) and enabling ProCare to contact these doctors offline or via WhatsApp to demonstrate value and encourage platform adoption.
+
 ### Non Functional
 
 NFR1: The system shall achieve 95%+ of patients having <24hr stale data when offline functionality is used.
@@ -139,6 +154,10 @@ NFR18: The system shall achieve 2-3 minute onboarding time with doctor-initiated
 NFR19: The system shall detect patterns for 90%+ of patients within 4 weeks of data collection.
 
 NFR20: The system shall achieve 80%+ doctor dashboard weekly usage and 85%+ caregiver dashboard daily usage.
+
+NFR21: The system shall achieve 95%+ AI response accuracy for patients without diabetes specialists, with strict adherence to medical guidelines and zero tolerance for hallucinations or out-of-bounds responses.
+
+NFR22: The system shall convert 30%+ of trial period patients to paid subscribers within the first month.
 
 ## User Interface Design Goals
 
@@ -599,16 +618,22 @@ so that I can start managing my diabetes immediately with doctor guidance.
 1. Doctor-initiated onboarding: Doctor says "ProCare will take care of you" to patient, initiating onboarding process
 2. Patient registration flow via mobile app or WhatsApp: phone number verification (OTP via SMS/WhatsApp)
 3. Same onboarding flow for both app and WhatsApp but different interfaces (app: flexible UX, WhatsApp: conversational-only)
-4. Patient profile creation: basic info (name, age, diabetes type, diagnosis date)
-5. Doctor connection: patient links to doctor via doctor code or phone number (doctor already initiated)
-6. Management mode selection: patient-primary, shared management, or caregiver-primary
-7. Health records upload option: patient can upload health records during onboarding or anytime later
-8. Patient data stored in both local (SQLite - app only) and cloud (PostgreSQL) databases
-9. Authentication token generation (JWT) for app, web dashboard, and WhatsApp access
-10. Multi-channel access: patient can use both app and WhatsApp immediately after onboarding (no channel selection required)
-11. Onboarding completion confirmation message sent to channel used for registration (app or WhatsApp)
-12. Patient can start using either channel at any time - both are always available
-13. Error handling for invalid doctor codes, duplicate registrations, and incomplete profiles
+4. Doctor type determination: During onboarding, system determines what condition the doctor is treating the patient for (diabetes, hypertension, kidney, liver, or other)
+5. Doctor connection logic:
+   - If doctor is treating for diabetes: Patient is connected to doctor as diabetes specialist, full doctor-patient relationship established
+   - If doctor is treating for other condition: Doctor becomes referring doctor only, patient onboarded without diabetes specialist connection
+6. Patient profile creation: basic info (name, age, diabetes type, diagnosis date, referring doctor info if applicable)
+7. Doctor connection: patient links to doctor via QR code scan (doctor already initiated)
+8. Management mode selection: patient-primary, shared management, or caregiver-primary
+9. Health records upload option: patient can upload health records during onboarding or anytime later
+10. Trial period activation: If patient referred by non-diabetes specialist, 1-month free trial automatically activated
+11. Patient data stored in both local (SQLite - app only) and cloud (PostgreSQL) databases
+12. Authentication token generation (JWT) for app, web dashboard, and WhatsApp access
+13. Multi-channel access: patient can use both app and WhatsApp immediately after onboarding (no channel selection required)
+14. Onboarding completion confirmation message sent to channel used for registration (app or WhatsApp)
+15. Patient can start using either channel at any time - both are always available
+16. Error handling for invalid doctor codes, duplicate registrations, and incomplete profiles
+17. Referring doctor information stored: name, phone number, treating condition for reverse acquisition purposes
 
 ### Story 1.5: Glucose Logging via WhatsApp (Text Input)
 
@@ -766,6 +791,51 @@ so that my doctor can see my data and I don't lose any information.
 6. Partial sync support: critical data (emergencies) synced first, then full data sync
 7. Error handling: failed syncs retried with exponential backoff, events remain in queue until successful
 8. Sync progress tracking: logs sync status for monitoring and debugging
+
+### Story 1.12: Trial Period Management for Referred Patients
+
+As a patient referred by a non-diabetes specialist,
+I want a 1-month free trial to experience ProCare,
+so that I can evaluate the service before subscribing.
+
+**Acceptance Criteria:**
+1. Trial period activation: Patients referred by non-diabetes specialists automatically receive 1-month free trial
+2. Trial start date: Trial starts from onboarding completion date
+3. Trial duration tracking: System tracks trial days remaining and displays to patient
+4. Trial status display: Patient sees trial status in app and receives trial expiration reminders (7 days, 3 days, 1 day before expiration)
+5. Full access during trial: Patients have full access to all features during trial period (glucose logging, meal logging, health records, diet module, caregiver access, AI questions)
+6. Trial expiration notification: Patient receives notification when trial expires: "Your 1-month free trial has ended. Subscribe now to continue using ProCare."
+7. Trial-to-paid conversion: Patient can subscribe anytime during trial or after expiration
+8. Trial extension: System can extend trial period for special cases (admin override)
+9. Trial analytics: System tracks trial conversion rates, trial usage patterns, and conversion triggers
+10. Trial reminder: Patient receives reminder 7 days before expiration with subscription options
+
+### Story 1.13: Subscription Restrictions After Trial Period
+
+As a patient who hasn't subscribed after trial,
+I want to understand what access I lose,
+so that I can make an informed decision about subscribing.
+
+**Acceptance Criteria:**
+1. Subscription check: System checks subscription status before allowing access to restricted features
+2. Restricted features after trial expiration (if not subscribed):
+   - Uploaded health data: Patient cannot access previously uploaded health records
+   - Prescriptions: Patient cannot view or download prescriptions
+   - Online interface: Patient cannot use online interface to show data to doctors
+   - Diet module recipes: Patient cannot access recipe recommendations
+   - Menu scan feature: Patient cannot use menu scan feature for restaurant recommendations
+   - Caregiver module: Caregiver loses access to patient data
+3. Free features (always available):
+   - Basic glucose logging (limited to 5 readings per week)
+   - Basic meal logging (limited to 3 meals per week)
+   - Basic AI questions (limited to 3 questions per week)
+4. Access restriction messaging: Clear messaging when patient tries to access restricted feature: "This feature requires a subscription. Subscribe now to continue using ProCare."
+5. Subscription prompt: Patient sees subscription options when accessing restricted features
+6. Data retention: Patient data retained for 90 days after trial expiration, then archived (can be restored upon subscription)
+7. Subscription restoration: When patient subscribes, all previously restricted features and data are immediately restored
+8. Grace period: 7-day grace period after trial expiration where patient can still view data but cannot add new data
+9. Subscription upgrade flow: Patient can upgrade to paid subscription from any restricted feature screen
+10. Access logging: System logs all restricted feature access attempts for analytics
 
 ## Epic 2: Medication Management & Reminders
 
@@ -1297,16 +1367,44 @@ so that patients can easily join ProCare and most data comes from prescription u
 2. Personalized QR code generation: System generates unique QR code for each doctor that patients can scan
 3. QR code display: Doctor can view and print/download their personalized QR code from dashboard or mobile app
 4. QR code scanning: Patient scans QR code via mobile app to start onboarding process
-5. Minimal doctor input: Doctor will NOT do detailed setup in beginning - will at best say 'scan my personalized QR code' and get onto ProCare
-6. Prescription-based data: Remaining data will mostly come from prescription upload (some doctors might provide details, but most won't)
-7. Onboarding flow: Patient completes onboarding via app or WhatsApp after scanning QR code (phone number, doctor connection via QR code, management mode selection, option to upload health records)
-8. Prescription upload: Patient uploads prescription during or after onboarding, system extracts medication info, diet type, and other data
-9. Onboarding completion: Patient receives confirmation via app or WhatsApp: "Welcome to ProCare! Dr. [Name] has connected you. Upload your prescription to get started."
-10. Onboarding data storage: Patient connection to doctor stored in database, linked via QR code
-11. QR code accessibility: QR code accessible on app as well as WhatsApp (doctor can share via WhatsApp)
-12. Standard test prescriptions: Doctor can prescribe standard tests on regular interval (not just default HbA1c test) - can be done via interface or prescription
+5. Doctor specialty detection: System determines doctor's specialty during registration (diabetes specialist, heart specialist, liver specialist, kidney specialist, or other)
+6. Condition determination: During patient onboarding, system determines what condition doctor is treating patient for (diabetes, hypertension, kidney, liver, or other)
+7. Doctor connection logic:
+   - If doctor is diabetes specialist AND treating for diabetes: Patient connected to doctor as diabetes specialist, full doctor-patient relationship established
+   - If doctor is non-diabetes specialist OR treating for other condition: Doctor becomes referring doctor only, patient onboarded without diabetes specialist connection, 1-month trial activated
+8. Minimal doctor input: Doctor will NOT do detailed setup in beginning - will at best say 'scan my personalized QR code' and get onto ProCare
+9. Prescription-based data: Remaining data will mostly come from prescription upload (some doctors might provide details, but most won't)
+10. Onboarding flow: Patient completes onboarding via app or WhatsApp after scanning QR code (phone number, doctor connection via QR code, condition being treated, management mode selection, option to upload health records)
+11. Prescription upload: Patient uploads prescription during or after onboarding, system extracts medication info, diet type, and other data
+12. Onboarding completion: Patient receives confirmation via app or WhatsApp:
+    - If diabetes specialist: "Welcome to ProCare! Dr. [Name] has connected you. Upload your prescription to get started."
+    - If referring doctor: "Welcome to ProCare! Dr. [Name] referred you. You have 1 month free trial. Upload your prescription to get started."
+13. Onboarding data storage: Patient connection to doctor stored in database, linked via QR code, doctor type (diabetes specialist vs referring doctor) and treating condition stored
+14. QR code accessibility: QR code accessible on app as well as WhatsApp (doctor can share via WhatsApp)
+15. Standard test prescriptions: Doctor can prescribe standard tests on regular interval (not just default HbA1c test) - can be done via interface or prescription
+16. Referring doctor information: System stores referring doctor information (name, phone number, treating condition) for reverse acquisition purposes
 
-### Story 5.5: Alert Management & Appointment Scheduling
+### Story 5.5: Diabetes Specialist Connection to Referred Patients
+
+As a diabetes specialist,
+I want to connect to patients who were referred by other doctors,
+so that I can manage their diabetes care through ProCare.
+
+**Acceptance Criteria:**
+1. Patient connection request: Diabetes specialist can search for and request connection to patients who don't have a diabetes specialist
+2. Patient search: Doctor can search for patients by phone number, name, or patient ID
+3. Connection request: Doctor sends connection request to patient via ProCare
+4. Patient notification: Patient receives notification: "Dr. [Name] wants to connect with you on ProCare. Accept to get diabetes management support."
+5. Patient acceptance: Patient can accept or decline connection request
+6. Connection establishment: When patient accepts, diabetes specialist becomes their connected doctor
+7. Revenue sharing activation: When diabetes specialist connects to patient referred by another doctor, revenue sharing is activated between referring doctor and diabetes specialist
+8. Doctor dashboard update: Both doctors see patient in their dashboard (referring doctor sees as "referred patient", diabetes specialist sees as "connected patient")
+9. Full access: Once diabetes specialist connected, patient gains full access to doctor features (pooled questions, alerts, etc.)
+10. Connection history: System tracks connection history (referring doctor → patient → diabetes specialist)
+11. Revenue share calculation: System calculates revenue share based on connection date and subscription payments
+12. Patient data access: Diabetes specialist gains full access to patient's ProCare data (glucose logs, medications, patterns, health records)
+
+### Story 5.6: Alert Management & Appointment Scheduling
 
 As a doctor,
 I want to manage patient alerts and schedule appointments,
@@ -1328,7 +1426,7 @@ so that I can bring patients back for meetings when needed without changing medi
 13. Alert history: doctors can view alert history for each patient (resolved and active alerts)
 14. Alert reporting: alert summary included in daily patient summary
 
-### Story 5.6: Daily Patient Summary with Appointment Bucket
+### Story 5.7: Daily Patient Summary with Appointment Bucket
 
 As a doctor,
 I want daily summaries of my patients with focus on appointment scheduling,
@@ -1348,7 +1446,7 @@ so that I can efficiently identify patients who need to come in for appointments
 11. Summary timing: summaries generated daily, available for doctor's review
 12. Summary history: doctors can view past daily summaries for trend analysis
 
-### Story 5.7: Doctor Communication via ProCare Relay (No Direct Conversation)
+### Story 5.8: Doctor Communication via ProCare Relay (No Direct Conversation)
 
 As a doctor,
 I want to tell ProCare what to tell my patients,
@@ -1368,7 +1466,7 @@ so that ProCare relays the message without me conversing directly with patients.
 11. Message context: messages include patient context (recent glucose, medications, patterns) for doctor reference
 12. No direct conversation: Doctors will NOT converse directly with patient - all communication goes through ProCare relay
 
-### Story 5.8: Doctor Dashboard Performance & Usability
+### Story 5.9: Doctor Dashboard Performance & Usability
 
 As a doctor,
 I want the dashboard to load quickly and be easy to use,
@@ -1783,6 +1881,18 @@ so that I get immediate help without waiting for my doctor.
 8. Answer tone: answers warm, supportive, not judgmental (per brand guidelines)
 9. Answer validation: answers reviewed by medical advisor, refined based on feedback
 10. Answer improvement: AI answers improve over time based on patient feedback and doctor corrections
+11. Enhanced AI guidelines for patients without diabetes specialists:
+    - AI responses strictly adhere to established medical guidelines (ADA, IDF, Indian diabetes guidelines)
+    - Zero tolerance for hallucinations or out-of-bounds responses
+    - More conservative approach: AI errs on side of caution, recommends doctor consultation more frequently
+    - AI accuracy target: 95%+ for patients without diabetes specialists (per NFR21)
+    - AI response validation: All responses for patients without diabetes specialists validated against medical guidelines database
+    - Escalation prompt: AI clearly states when patient should consult a diabetes specialist
+    - Response boundaries: AI does not provide medication dosage advice, treatment recommendations, or diagnostic suggestions for patients without diabetes specialists
+12. Doctor escalation logic:
+    - Patients with diabetes specialists: Medical questions escalated to their connected doctor
+    - Patients without diabetes specialists: Medical questions cannot be escalated (no doctor connected), AI provides conservative guidance and recommends finding a diabetes specialist
+    - Question classification: System identifies questions requiring doctor input and handles appropriately based on patient's doctor connection status
 
 ### Story 8.6: Doctor Bridge - Pooled Questions & Batch Responses
 
@@ -1803,6 +1913,50 @@ so that I can efficiently help many patients without answering questions one-to-
 10. Pool learning: system learns which questions are commonly pooled, improves pooling algorithm
 11. Individual escalation: urgent/medical questions still escalated individually (not pooled)
 12. Pool history: pooled questions and answers stored for reference and future use
+13. Pooled questions only for connected patients: Pooled questions only include patients with connected diabetes specialists (patients without diabetes specialists receive AI-only responses)
+
+### Story 8.11: Reverse Acquisition - Doctor Data Collection
+
+As ProCare,
+I want to collect data about doctors viewing patient data,
+so that I can contact them to demonstrate value and encourage platform adoption.
+
+**Acceptance Criteria:**
+1. Doctor data collection: System tracks when external doctors (not on ProCare platform) view patient data
+2. Data collection trigger: When patient shares data with external doctor (via online interface, report download, or data export)
+3. Collected information: Doctor name, phone number, treating condition, clinic/hospital name (if provided by patient)
+4. Data storage: External doctor information stored in database with patient reference
+5. Data privacy: Patient consent required before collecting doctor information (opt-in during data sharing)
+6. Doctor identification: System attempts to identify if doctor is already on ProCare platform (by phone number or name)
+7. Reverse acquisition queue: External doctors added to reverse acquisition queue for outreach
+8. Outreach data package: System prepares data package showing ProCare value for each doctor:
+   - Number of their patients using ProCare
+   - Patient outcomes and improvements
+   - Value proposition for doctor (time savings, better outcomes, revenue opportunity)
+9. Outreach channels: System enables offline contact (phone call) or WhatsApp message to external doctors
+10. Outreach tracking: System tracks outreach attempts, responses, and conversions
+11. Conversion tracking: System tracks when external doctors sign up on ProCare platform
+12. Flywheel effect: System measures reverse acquisition impact (doctors acquired → patients acquired → more doctors)
+
+### Story 8.12: Revenue Sharing Between Referring and Diabetes Specialists
+
+As ProCare,
+I want to implement revenue sharing between referring doctors and diabetes specialists,
+so that both doctors are incentivized to use the platform.
+
+**Acceptance Criteria:**
+1. Revenue sharing model: When diabetes specialist connects to patient who was referred by another doctor, revenue is split between both doctors
+2. Sharing configuration: System supports configurable revenue sharing rules (e.g., 70% diabetes specialist, 30% referring doctor)
+3. Patient attribution: System tracks which doctor referred patient and which doctor is managing diabetes
+4. Revenue calculation: System calculates revenue share based on patient subscription payments
+5. Revenue distribution: Revenue shared monthly based on active patient subscriptions
+6. Dashboard display: Both doctors see revenue share information in their dashboards
+7. Revenue reporting: Doctors receive monthly revenue reports showing their share
+8. Payment processing: Revenue shares processed through payment gateway integration
+9. Revenue tracking: System tracks revenue shares for accounting and reporting
+10. Edge cases: System handles cases where referring doctor is also diabetes specialist (no split), patient switches doctors, or doctor disconnects
+11. Revenue transparency: Doctors can see breakdown of revenue from each patient
+12. Revenue sharing agreement: System supports different revenue sharing agreements per doctor or per patient relationship
 
 ### Story 8.7: Weekly Progress Reports for Patients
 
