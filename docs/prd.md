@@ -4,24 +4,28 @@
 
 ### Goals
 
-- Enable Type 2 diabetes patients in India to reduce HbA1c from 8.5% to <7.0% through personalized, AI-powered guidance
-- Achieve 85%+ medication adherence (vs 50% baseline) through smart reminders and caregiver involvement
+- Enable Type 2 diabetes patients in India to reduce HbA1c to <7.0% through personalized, AI-powered guidance
+- Achieve 85%+ medication adherence through smart reminders and caregiver involvement
 - Provide immediate, personalized feedback to reduce patient anxiety ("Is this glucose reading okay?")
-- Enable doctors to save 10-15 minutes daily while improving patient outcomes through passive monitoring
+- Enable doctors to save 5-10 minutes per patient while improving patient outcomes through passive monitoring
 - Reduce emergency calls to doctors by 60% (from 3-5/week to 1-2/week) through proactive pattern-based interventions
 - Achieve 75%+ Week 1 retention through exceptional first-week experience (2+ personalized insights, quick answers, doctor connection)
-- Support 100,000 registered users and 30,000 paid subscribers in Year 1
-- Generate ₹30L monthly recurring revenue (MRR) from B2C subscriptions + ₹10.8L monthly from doctor commissions
+- Support 500,000 registered users and 200,000 paid subscribers in Year 1
 - Establish native mobile app as primary interface with WhatsApp as secondary channel for re-engagement (app-first architecture, 2-3 minute onboarding)
 - Enable offline-first functionality so 95%+ patients have <24hr stale data, expanding addressable market to 500M+ users
 - Detect 90%+ of patients' food-glucose patterns within 4 weeks to enable proactive interventions
 - Achieve 80%+ AI question answering accuracy (routine questions) with 20% escalation to doctors
+- Create a product that people 'want' to have, because it offers value across various health parameters including centralised storage of data, 24x7 assistance, diet support for all types of diets - personalised meal by meal, caregiver support and more
+- Make a product that is easily extendable across the globe to any part of the world, using the same methodology
+- Help reduce the HbA1c of patients by 1 point within 5 months of them using the system
 
 ### Background Context
 
-ProCare addresses a critical healthcare gap in India's diabetes management landscape. With 77 million Type 2 diabetes patients, India faces a crisis where only 50% adhere to medications, 30% check glucose regularly, and average HbA1c levels sit at 8.5% (well above the 7.0% target). The problem stems from reactive medicine—doctors see patients every 3 months with no visibility into behavior between visits, while patients experience daily anxiety with no one to ask "Is this okay?" or "Can I eat mango?"
+This is a global problem, and we are going after places where the doctor is the one who will push the service to patients. The payment could happen through the patient, the caregiver, the company, the TPA or the insurance agency. The problem of reducing HbA1c to the required numbers is what we are solving for. We will launch with India - but the product should be applicable for any location by just setting up the system as per the laws of the country.
 
-Existing solutions fail because they don't provide comprehensive health records management (critical value prop), lack integrated diet/lifestyle management (95% of Type 2 diabetes management is diet), don't automatically populate doctor EMR systems, provide generic advice rather than personalized insights, lack doctor connection (patients want oversight), and use judgmental tones that increase guilt. International platforms aren't designed for India's unique needs: dual interface (app + WhatsApp), health records centralization, prescription-based data extraction, family involvement in care, and affordability (₹500-1,000/month vs ₹2,000-5,000).
+ProCare addresses a critical healthcare gap in diabetes management globally. The problem stems from reactive medicine—doctors see patients every 3 months with no visibility into behavior between visits, while patients experience daily anxiety with no one to ask "Is this okay?" or "Can I eat mango?"
+
+Existing solutions fail because they don't provide comprehensive health records management (critical value prop), lack integrated diet/lifestyle management (95% of Type 2 diabetes management is diet), don't automatically populate doctor EMR systems, provide generic advice rather than personalized insights, lack doctor connection (patients want oversight), and use judgmental tones that increase guilt. International platforms aren't designed for unique regional needs: dual interface (app + WhatsApp), health records centralization, prescription-based data extraction, family involvement in care, and affordability.
 
 ProCare solves this through a 7-agent orchestrated platform that combines native mobile app (primary interface with flexible UX) and WhatsApp (secondary channel for re-engagement and templated interactions), comprehensive health records management (upload, store, query, auto-populate doctor EMR), integrated diet/lifestyle module (food swaps, calorie management, specific diets, menu recommendations), offline-first architecture (works without internet), doctor-connected care (not AI-only), family/caregiver involvement (2.3x adherence improvement), and proactive pattern-based interventions (preventive vs reactive). The platform learns each patient's unique patterns over 4 weeks, then provides pre-meal warnings like "Rice usually spikes your glucose to 180. Roti keeps you at 140. What are you having?"—preventing problems rather than responding after they occur. Patients pay for the service, making app download a natural expectation, while WhatsApp serves as a re-engagement channel when the app is not being used.
 
@@ -36,6 +40,7 @@ ProCare employs a dual doctor acquisition strategy: (1) Direct onboarding where 
 | 2025-11-09 | 1.2 | Major platform shift: Native mobile app (primary) + WhatsApp (secondary), health records management, diet/lifestyle module, doctor-initiated onboarding, prescription upload, doctor pooled questions, global/regional support, comprehensive integrations | PM (John) |
 | 2025-11-09 | 1.3 | Enhanced mobile app UX (context-aware home screen, trends, most used features), expanded Indian language support, improved WhatsApp interactions (24-hour window, proactive templates), enhanced doctor interface (search, decision support bot, daily patient buckets), caregiver app access, ABHA integration planning, glucose logging time verification, photo input recognition, sequential medication nudges, regional protocol-based thresholds, configurable alerts, doctor self-registration, handwritten prescription support, meal inference from glucose, standard test prescriptions, location packs for global deployment | PM (John) |
 | 2025-11-10 | 1.4 | Added referring doctor workflow (non-diabetes specialists can refer patients), trial period management (1 month free for referred patients), subscription restrictions (restricted access after trial), enhanced AI guidelines for patients without diabetes specialists, revenue sharing model (referring doctor + diabetes specialist), reverse acquisition strategy for diabetes specialists | PM (John) |
+| 2025-11-12 | 1.5 | Updated goals (removed baseline references, changed time savings to per-patient, updated user targets, added global extensibility goals), revised background context for global focus, updated FR3 (medication escalation), FR7 (country-specific emergency thresholds), FR10 (generic blood tests), FR13 (doctor onboarding process), FR33 (AI guidelines scope), FR35/FR36 (revenue sharing details), NFR10 (global language support), added Epic 13 (appointment booking), updated Stories 1.5-1.10 (UI/UX requirements), Story 1.13 (subscription restrictions), Story 2.3 (medication reminder flow), Story 5.2 (appointment bucket visibility), Story 5.4 (referring doctor prescriptions), Story 5.5 (onboarding and revenue sharing), Story 8.3 (generic blood tests), Story 8.5 (AI guidance), Story 8.12 (revenue sharing percentages), added Stories 1.4a (caregiver enrollment) and 1.4b (self enrollment) | PM (John) |
 
 ## Requirements
 
@@ -45,7 +50,7 @@ FR1: The system shall provide a native mobile app as the primary interface for a
 
 FR2: The system shall support multiple glucose logging input methods: text input (e.g., "128"), voice message (Hindi/English), and photo OCR for glucometer screens.
 
-FR3: The system shall provide smart medication reminders at doctor-specified times with escalation logic: reminder → nudge → caregiver notification → doctor alert.
+FR3: The system shall provide smart medication reminders at doctor-specified times with escalation logic: reminder → nudge → caregiver notification → Stored as an input for the doctor to view at the time of visit.
 
 FR4: The system shall support simplified meal logging via photo upload and text description (no detailed nutrition calculations), with basic food recognition (20-30 items offline, full recognition online).
 
@@ -53,19 +58,19 @@ FR5: The system shall detect food-glucose correlations, activity impacts, and me
 
 FR6: The system shall provide proactive pattern-based interventions after pattern detection, including pre-meal warnings (e.g., "Rice usually spikes your glucose to 180. Roti keeps you at 140. What are you having?").
 
-FR7: The system shall detect emergency glucose levels (hypoglycemia <70 mg/dL, hyperglycemia >250 mg/dL) and provide immediate instructions with automatic doctor escalation.
+FR7: The system shall detect emergency glucose levels (around hypoglycemia, hyperglycemia as per the health standards of the country) and provide immediate instructions with escalation to the caregiver & logging it in the doctors dashboard.
 
 FR8: The system shall answer routine patient questions via AI (nutrition, timing, general diabetes management) and escalate medication/medical questions to doctors.
 
 FR9: The system shall generate weekly progress reports for patients (wins, opportunities, insights) and doctors (status, metrics, flags).
 
-FR10: The system shall manage HbA1c test appointments with 2-week reminders, HbA1c predictions, lab appointment booking, and result upload/analysis via OCR.
+FR10: The system shall manage blood test appointments with 2-week reminders & set them up with procare partners, and get the result upload/analysis via OCR & direct upload to the Procare system through APIs.
 
 FR11: The system shall provide a doctor web dashboard with tiered patient view (Urgent/Attention/Stable), weekly summaries, and alert system with context and suggested actions.
 
 FR12: The system shall provide a separate caregiver dashboard (mobile app + WhatsApp + web) with real-time critical alerts, daily digest, and caregiver-primary management option.
 
-FR13: The system shall support doctor-initiated engagement where doctors initiate patient onboarding by saying "ProCare will take care of you," set expectations (target A1C, medication schedule, lifestyle goals), and ProCare creates personalized programs.
+FR13: The system shall support doctor-initiated engagement where doctors initiate patient onboarding by entering their number into a system / sending a templated whatsapp to the procare number. They will also set expectations (target A1C, medication schedule, lifestyle goals), and ProCare creates personalized programs.
 
 FR14: The system shall implement a 7-agent orchestration system: Engagement Engine (orchestrator), Clinical Monitor, Lifestyle Coach, Health Insights, Doctor Bridge, Care Coordinator, and Learning Library.
 
@@ -105,13 +110,13 @@ FR31: The system shall support referring doctors (non-diabetes specialists such 
 
 FR32: The system shall provide a 1-month free trial period for patients referred by non-diabetes specialists. After the trial period, patients must subscribe to maintain full access. Patients who do not subscribe shall lose access to: uploaded health data, prescriptions, online interface for showing data to doctors, diet module recipes and menu scan features, and caregiver module access.
 
-FR33: The system shall enforce enhanced AI guidelines for patients without diabetes specialists, ensuring AI responses strictly adhere to medical guidelines, avoid hallucinations, and stay within safe boundaries. AI shall be more conservative and vigilant for these patients.
+FR33: The system shall enforce enhanced AI guidelines for patients with or without diabetes specialists, ensuring AI responses strictly adhere to medical guidelines, avoid hallucinations, and stay within safe boundaries.
 
 FR34: The system shall support patients without diabetes specialists, where questions cannot be escalated to doctors until a diabetes specialist connects to the patient. The system shall track referring doctor information (name, number, treating condition) for reverse acquisition purposes.
 
-FR35: The system shall implement revenue sharing between referring doctors and diabetes specialists. When a diabetes specialist connects to a patient who was referred by another doctor, revenue shall be split between both doctors based on configured sharing rules.
+FR35: The system shall implement specific revenue share percentages for referring doctors: 30%, and for diabetes specialists at 60%. In case a patient has been referred by a non diabetes specialist and then a diabetes specialist attaches to the patient, the doctor gets 30% of the revenue share of that patient but 60% of all other patients that they refer. In case no diabetes specialist latches onto the patient, only 30% will be paid out to the referring doctor.
 
-FR36: The system shall support reverse acquisition of diabetes specialists by collecting data about doctors viewing patient data (name, number, treating condition) and enabling ProCare to contact these doctors offline or via WhatsApp to demonstrate value and encourage platform adoption.
+FR36: The system shall support reverse acquisition of diabetes specialists by collecting data about doctors viewing patient data (name, number, treating condition through a simple form) and enabling ProCare to contact these doctors offline or via WhatsApp to demonstrate value and encourage platform adoption.
 
 ### Non Functional
 
@@ -133,7 +138,7 @@ NFR8: The system shall comply with India data protection laws, HIPAA-equivalent 
 
 NFR9: The system shall support WhatsApp Business API rate limits and handle 10K+ users without degradation.
 
-NFR10: The system shall support multiple Indian languages for MVP including Hindi, English, Tamil, Telugu, and other regional languages as needed.
+NFR10: The system shall support multiple Indian languages for MVP including Hindi, English, Tamil, Telugu, and other regional languages as needed. The system should be ready to manage multiple global languages including the interface changes of right to left and beyond.
 
 NFR11: The system shall maintain 90-day full data cache locally (~260MB) with 1-year summary and >1 year stats only.
 
@@ -268,8 +273,9 @@ ProCare's user experience centers on reducing anxiety and friction for diabetes 
   - Medication adherence (shown as trend, not on every miss/delay)
   - Blood sugar readings
   - Decision support bot: Provides advice on what to look at and what could be possible solutions
-- Alert management interface: Cannot ask doctor to change medicines online - most alerts bring patient back for another meeting. If something dramatically wrong, patient goes to "Schedule appointment" bucket with reason. Doctor can request additional activity before appointment (e.g., "Come in on Nov 20th, get HbA1c check done before coming")
-- Appointment calendar: View all appointments scheduled on system, with ancillary approach if doctor doesn't adopt ProCare completely (email/WhatsApp to assistant to call/confirm and block appointment time)
+- Alert management interface: Cannot ask doctor to change medicines online—most alerts bring the patient back for another meeting. If something is dramatically wrong, the patient goes to the "Schedule appointment" bucket on the doctors interface with appropriate reason. Doctor can request additional activity before appointment (e.g., "Come in on Nov 20th, get HbA1c check done before coming")
+- Appointment scheduling: The patient gets a calendar view / whatsapp link to a calendar view to book an appointment and then Procare also gives a link to make the payment for the doctors appointment, and confirms an appointment on the calendar interface as well as sends an intimation to the doctor online (in the calendar), or sends a mail to a designated email ID.
+- Appointment calendar: View all appointments scheduled on the system, with an ancillary approach if the doctor doesn't adopt ProCare completely (email/WhatsApp to the assistant to call/confirm and block appointment time)
 - Patient onboarding interface: Doctor initiates onboarding by saying "ProCare will take care of you" and provides personalized QR code for patient to scan. Most data comes from prescription upload (some doctors might provide details, but most won't)
 - Standard test prescriptions: Doctor prescribes standard tests on regular interval (not just default HbA1c test) - can be done via interface or prescription
 - Pooled questions interface: AI pools similar questions from multiple patients, doctor provides generic answers that are relayed to patients with doctor's name via ProCare (doctor does NOT converse directly with patient)
@@ -506,7 +512,7 @@ ProCare will implement **Full Testing Pyramid** with the following levels:
 
 Epic 1: Foundation & Core Patient Logging - Establish project infrastructure, native mobile app development (iOS and Android), WhatsApp Business API integration (secondary channel), offline-first database architecture, and enable patients to log glucose readings and meals via mobile app (primary) or WhatsApp (secondary) with basic data storage and retrieval.
 
-Epic 2: Medication Management & Reminders - Implement smart medication reminders with doctor-specified schedules, escalation logic (reminder → nudge → caregiver → doctor), and medication adherence tracking.
+Epic 2: Medication Management & Reminders - Implement smart medication reminders with doctor-specified schedules, escalation logic (reminder → nudge → caregiver notification → stored for doctor review), and medication adherence tracking.
 
 Epic 3: Agent Orchestration & Emergency Detection - Build the 7-agent orchestration system with Engagement Engine as orchestrator, implement Clinical Monitor agent for emergency detection (hypoglycemia/hyperglycemia), and establish agent communication via message bus.
 
@@ -518,7 +524,7 @@ Epic 6: Caregiver Features & Alerts - Implement separate caregiver dashboard (mo
 
 Epic 7: Proactive Pattern-Based Interventions - Enable proactive interventions after pattern detection, including pre-meal warnings based on learned patterns, and implement notification bundling with rate limiting (max 5/day, 2-hour spacing).
 
-Epic 8: Advanced Coordination & Question Answering - Implement Care Coordinator agent for HbA1c test scheduling with predictions, Doctor Bridge agent for AI question answering with escalation and pooled questions (AI pools similar questions, doctor provides generic answers relayed with doctor's name), weekly progress reports for patients and doctors, and Learning Library agent for context-based education.
+Epic 8: Advanced Coordination & Question Answering - Implement Care Coordinator agent for blood test scheduling with predictions, Doctor Bridge agent for AI question answering with escalation and pooled questions (AI pools similar questions, doctor provides generic answers relayed with doctor's name), weekly progress reports for patients and doctors, and Learning Library agent for context-based education.
 
 Epic 9: Health Records Management - Implement comprehensive health records management system enabling patients to upload, store, query, and download all health records (blood tests, lab reports, medical documents) in a centralized location. Health records automatically available to doctors during every patient meeting and automatically populate doctor EMR systems, eliminating manual data entry.
 
@@ -527,6 +533,8 @@ Epic 10: Diet/Lifestyle Module - Implement comprehensive diet/lifestyle manageme
 Epic 11: Prescription Upload & Data Extraction - Enable patients to upload prescriptions (photos or documents) from which the system extracts medication information, diet type, and other relevant data, reducing manual data entry and ensuring accuracy.
 
 Epic 12: Integrations & Global Support - Integrate with data collection devices (Bluetooth glucometers, CGM devices, Google Fit, Apple Health), EMR systems, Hospital Management Systems (HMS), payment gateways (payment flow through ProCare), and service providers (medicine providers, test booking agencies like Orange Health). Support global/regional deployment with regionality support (time zones, local protocols), multi-language support, and region-specific medical protocols and guidelines.
+
+Epic 13: Appointment Booking & Slot Reservation - Implement booking and reserving a slot for returning patients based on issues seen with the patient and a detailed description of why ProCare is recommending to call the patient. Post that - from the system itself, the doctor can press a button and a message (with approval from the doctor) will go to the WhatsApp / app of the patient - and based on payment, the appointment will be scheduled. ProCare will take 10% of the payment done to secure the patient immediately and ahead of time.
 
 ## Epic 1: Foundation & Core Patient Logging
 
@@ -634,6 +642,49 @@ so that I can start managing my diabetes immediately with doctor guidance.
 15. Patient can start using either channel at any time - both are always available
 16. Error handling for invalid doctor codes, duplicate registrations, and incomplete profiles
 17. Referring doctor information stored: name, phone number, treating condition for reverse acquisition purposes
+
+### Story 1.4a: Caregiver Enrollment Without Doctor
+
+As a caregiver,
+I want to enroll in ProCare and pay for the service for my parent,
+so that I can manage their diabetes care even if they don't have a connected doctor.
+
+**Acceptance Criteria:**
+1. Caregiver registration flow: Caregiver can register via mobile app or WhatsApp with credentials (name, email, phone, relationship to patient)
+2. Patient linking: Caregiver links to patient account via patient phone number and verification code (provided by patient)
+3. Payment by caregiver: Caregiver pays subscription fees for patient's ProCare account
+4. Value proposition for caregiver: System provides value specifically for caregiver (peace of mind, monitoring, alerts, insights)
+5. Caregiver dashboard access: Caregiver gains full access to caregiver dashboard with patient monitoring capabilities
+6. No doctor requirement: Patient does not need to have a connected doctor for caregiver enrollment
+7. Caregiver-primary mode: System supports caregiver-primary management mode where caregiver manages patient account
+8. Caregiver authentication: OAuth 2.0 or JWT-based authentication for secure login
+9. Caregiver data storage: Caregiver profiles stored in PostgreSQL database, linked to patient
+10. Access control: Caregivers can only access linked patient's data, not other patients
+11. Caregiver payment tracking: System tracks caregiver payments and subscription status
+12. Caregiver value features: Dashboard highlights caregiver-specific value (alerts, monitoring, peace of mind, insights)
+
+### Story 1.4b: Self Enrollment
+
+As a patient,
+I want to enroll in ProCare without a doctor referral,
+so that I can start managing my diabetes independently.
+
+**Acceptance Criteria:**
+1. Self-registration flow: Patient can register via mobile app or WhatsApp without doctor referral
+2. Patient registration: phone number verification (OTP via SMS/WhatsApp), basic info (name, age, diabetes type, diagnosis date)
+3. No doctor connection: Patient onboarded without diabetes specialist connection (same as referral doctor workflow)
+4. Trial period: Self-enrolled patients receive 1-month free trial automatically
+5. Payment by patient: Patient pays subscription fees directly (no revenue share to doctors)
+6. Self-enrollment identification: System identifies self-enrolled patients and applies appropriate workflows
+7. Patient profile creation: basic info stored in database without doctor connection
+8. Management mode selection: patient-primary, shared management, or caregiver-primary
+9. Health records upload option: patient can upload health records during onboarding or anytime later
+10. Patient data stored in both local (SQLite - app only) and cloud (PostgreSQL) databases
+11. Authentication token generation (JWT) for app, web dashboard, and WhatsApp access
+12. Multi-channel access: patient can use both app and WhatsApp immediately after onboarding
+13. Onboarding completion confirmation: "Welcome to ProCare! You have 1 month free trial. Upload your prescription to get started."
+14. No revenue share: Self-enrolled patients generate no referral fees (as stated in Story 8.12)
+15. Doctor connection later: Patient can connect to diabetes specialist later via QR code scan, which will then activate revenue sharing if applicable
 
 ### Story 1.5: Glucose Logging via WhatsApp (Text Input)
 
@@ -776,6 +827,8 @@ so that I can learn from my patterns even if I forgot to log a meal.
 9. Inference display: inferred meals shown in meal history with "inferred" tag
 10. Inference accuracy: system tracks inference accuracy and improves over time
 
+**Note for Stories 1.5-1.10:** The UI and UX of the app has to be new age and personalised. There might be a better way to log glucose / meals etc and maybe give hot cards that keep changing with time of day / previous usage / next actions / pending actions etc - which can be used on the home page. The interactions can happen via these hot buttons in a faster and simpler UX and the result can be put on the chat interface for further discussions.
+
 ### Story 1.11: Data Sync Engine (Offline to Online)
 
 As a patient,
@@ -819,16 +872,18 @@ so that I can make an informed decision about subscribing.
 **Acceptance Criteria:**
 1. Subscription check: System checks subscription status before allowing access to restricted features
 2. Restricted features after trial expiration (if not subscribed):
-   - Uploaded health data: Patient cannot access previously uploaded health records
-   - Prescriptions: Patient cannot view or download prescriptions
-   - Online interface: Patient cannot use online interface to show data to doctors
+   - Uploaded health data: Patient can access previously uploaded health records only 2 times a year (configurable). This includes online viewing by the doctor.
+   - Prescriptions: Patient cannot view or download prescriptions, but can upload
+   - Online interface: Patient can use online interface to show data to doctors - subject to the earlier point about restricted number of views of overall data
    - Diet module recipes: Patient cannot access recipe recommendations
+   - Food swap ideas are to be restricted
+   - Food insights become generic
    - Menu scan feature: Patient cannot use menu scan feature for restaurant recommendations
-   - Caregiver module: Caregiver loses access to patient data
+   - Caregiver module: Caregiver loses access to patient data & the caregiver also gets warning about subscriptions with details about what all will be lost
 3. Free features (always available):
-   - Basic glucose logging (limited to 5 readings per week)
-   - Basic meal logging (limited to 3 meals per week)
-   - Basic AI questions (limited to 3 questions per week)
+   - Basic glucose logging (stays unlimited)
+   - Basic meal logging (remains unlimited)
+   - Basic AI questions (limited to 3 a week)
 4. Access restriction messaging: Clear messaging when patient tries to access restricted feature: "This feature requires a subscription. Subscribe now to continue using ProCare."
 5. Subscription prompt: Patient sees subscription options when accessing restricted features
 6. Data retention: Patient data retained for 90 days after trial expiration, then archived (can be restored upon subscription)
@@ -883,14 +938,17 @@ so that I don't forget to take my medications.
 
 **Acceptance Criteria:**
 1. Reminder scheduler: checks medication schedules and sends reminders at specified times
-2. Message sent to patient via channel where patient last interacted (WhatsApp or web chat): "Time for your medication! Metformin 500mg. Reply 'taken' when you've taken it."
-3. Channel routing: Engagement Engine routes reminders to the channel where patient last interacted. If patient hasn't interacted recently, reminder sent to both channels to ensure delivery.
-4. Reminder respects rate limiting: max 5 notifications/day, 2-hour minimum spacing (if multiple medications, applies across both channels)
-5. Reminder works offline: scheduled reminders stored locally, sent when connectivity available
-6. Patient can confirm medication taken: replies "taken", "yes", "done", "le liya" (Hindi) via their active channel
-7. Medication log entry created when patient confirms: medication_id, taken_at timestamp, logged_via "reminder_response"
-8. Confirmation message sent via same channel: "Great! I've logged your medication. Keep it up!"
-9. Reminder not sent if patient already logged medication within 30 minutes of scheduled time
+2. Escalation flow: This starts with a push notification, then WhatsApp, then general nudge to caregiver over WhatsApp
+3. Push notification: First reminder sent as push notification to mobile app: "Time for your medication! Metformin 500mg. Tap to log."
+4. WhatsApp reminder: If no response to push notification after 15 minutes, send WhatsApp message: "Time for your medication! Metformin 500mg. Reply 'taken' when you've taken it."
+5. Caregiver nudge: If no response to WhatsApp reminder after 30 minutes and patient has caregiver linked, send general nudge to caregiver over WhatsApp: "Friendly reminder: [Patient Name] hasn't logged Metformin 500mg yet. Did they take it?"
+6. Channel routing: Engagement Engine routes reminders to the channel where patient last interacted. If patient hasn't interacted recently, reminder sent to both channels to ensure delivery.
+7. Reminder respects rate limiting: max 5 notifications/day, 2-hour minimum spacing (if multiple medications, applies across both channels)
+8. Reminder works offline: scheduled reminders stored locally, sent when connectivity available
+9. Patient can confirm medication taken: replies "taken", "yes", "done", "le liya" (Hindi) via their active channel
+10. Medication log entry created when patient confirms: medication_id, taken_at timestamp, logged_via "reminder_response"
+11. Confirmation message sent via same channel: "Great! I've logged your medication. Keep it up!"
+12. Reminder not sent if patient already logged medication within 30 minutes of scheduled time
 
 ### Story 2.4: Medication Logging by Patient (Manual Entry)
 
@@ -1322,8 +1380,8 @@ so that I can quickly find and identify who needs immediate attention.
 7. Urgent tier: patients with emergencies (hypoglycemia/hyperglycemia from Epic 3), critical alerts, or urgent medication issues
 8. Attention tier: patients with missed medications, high glucose trends, new patterns detected, or questions requiring response
 9. Stable tier: patients with good glucose control, consistent medication adherence, no alerts
-10. "Call in for appointment" bucket: patients with dramatically wrong situations that need in-person visit, with reason displayed
-11. Tiered view interface: dashboard shows tabs or sections (Urgent, Attention, Stable, Call in for appointment)
+10. "Call in for appointment" bucket: patients with dramatically wrong situations that need in-person visit, with reason displayed. This bucket is only visible to registered diabetes specialists.
+11. Tiered view interface: dashboard shows tabs or sections (Urgent, Attention, Stable, Call in for appointment - only visible to diabetes specialists)
 12. Patient list in each tier: shows patient name, last glucose reading, adherence percentage, alert count, last activity, reason for bucket assignment
 13. Patient count badges: shows number of patients in each tier (e.g., "Urgent (3)", "Attention (12)", "Stable (45)", "Call in (2)")
 14. Auto-refresh: patient tiers update automatically as new data arrives (daily updates, not weekly)
@@ -1375,7 +1433,7 @@ so that patients can easily join ProCare and most data comes from prescription u
 8. Minimal doctor input: Doctor will NOT do detailed setup in beginning - will at best say 'scan my personalized QR code' and get onto ProCare
 9. Prescription-based data: Remaining data will mostly come from prescription upload (some doctors might provide details, but most won't)
 10. Onboarding flow: Patient completes onboarding via app or WhatsApp after scanning QR code (phone number, doctor connection via QR code, condition being treated, management mode selection, option to upload health records)
-11. Prescription upload: Patient uploads prescription during or after onboarding, system extracts medication info, diet type, and other data
+11. Prescription upload: Patient uploads prescription during or after onboarding, system extracts medication info, diet type, and other data. If referring doctor - they need to upload their diabetes prescriptions. Not just the prescriptions of the doctor who has referred them.
 12. Onboarding completion: Patient receives confirmation via app or WhatsApp:
     - If diabetes specialist: "Welcome to ProCare! Dr. [Name] has connected you. Upload your prescription to get started."
     - If referring doctor: "Welcome to ProCare! Dr. [Name] referred you. You have 1 month free trial. Upload your prescription to get started."
@@ -1391,18 +1449,14 @@ I want to connect to patients who were referred by other doctors,
 so that I can manage their diabetes care through ProCare.
 
 **Acceptance Criteria:**
-1. Patient connection request: Diabetes specialist can search for and request connection to patients who don't have a diabetes specialist
+1. Patient connection: During onboarding - The patient will anyways be connected to the doctor using the QR code, which will be specific to the doctor. In which case the notification to connect with the patient is not needed.
 2. Patient search: Doctor can search for patients by phone number, name, or patient ID
-3. Connection request: Doctor sends connection request to patient via ProCare
-4. Patient notification: Patient receives notification: "Dr. [Name] wants to connect with you on ProCare. Accept to get diabetes management support."
-5. Patient acceptance: Patient can accept or decline connection request
-6. Connection establishment: When patient accepts, diabetes specialist becomes their connected doctor
-7. Revenue sharing activation: When diabetes specialist connects to patient referred by another doctor, revenue sharing is activated between referring doctor and diabetes specialist
-8. Doctor dashboard update: Both doctors see patient in their dashboard (referring doctor sees as "referred patient", diabetes specialist sees as "connected patient")
-9. Full access: Once diabetes specialist connected, patient gains full access to doctor features (pooled questions, alerts, etc.)
-10. Connection history: System tracks connection history (referring doctor → patient → diabetes specialist)
-11. Revenue share calculation: System calculates revenue share based on connection date and subscription payments
-12. Patient data access: Diabetes specialist gains full access to patient's ProCare data (glucose logs, medications, patterns, health records)
+3. Connection establishment: When patient scans QR code from diabetes specialist, diabetes specialist becomes their connected doctor
+4. Doctor dashboard update: Both doctors see patient in their dashboard (referring doctor sees as "referred patient", diabetes specialist sees as "connected patient")
+5. Full access: Once diabetes specialist connected, patient gains full access to doctor features (pooled questions, alerts, etc.)
+6. Connection history: System tracks connection history (referring doctor → patient → diabetes specialist)
+7. Revenue share calculation: System calculates revenue share based on connection date and subscription payments. Revenue shares are fixed percentages as stated in FR35 and Story 8.12 - there is no configurable revenue sharing.
+8. Patient data access: Diabetes specialist gains full access to patient's ProCare data (glucose logs, medications, patterns, health records)
 
 ### Story 5.6: Alert Management & Appointment Scheduling
 
@@ -1831,20 +1885,20 @@ so that I'm motivated to improve if needed.
 ### Story 8.3: Care Coordinator - Lab Result Upload & Analysis
 
 As a patient,
-I want to upload my HbA1c test results,
+I want to upload my blood test results,
 so that ProCare can track my progress and share with my doctor.
 
 **Acceptance Criteria:**
-1. Result upload: patient can upload HbA1c test result via WhatsApp (photo of lab report) or web dashboard
-2. OCR processing: system uses OCR to extract HbA1c value from lab report image
-3. Result validation: system validates extracted value (typical range 4-15%), prompts for correction if invalid
-4. Result storage: HbA1c results stored in database with date, value, lab name, linked to patient
-5. Result analysis: system compares actual result with prediction, calculates accuracy
+1. Result upload: patient can upload blood test result via WhatsApp (photo of lab report) or web dashboard
+2. OCR processing: system uses OCR to extract test values from lab report image (supports multiple test types including HbA1c, lipid profile, kidney function, liver function, etc.)
+3. Result validation: system validates extracted values based on test type (e.g., HbA1c typical range 4-15%), prompts for correction if invalid
+4. Result storage: blood test results stored in database with date, test type, values, lab name, linked to patient
+5. Result analysis: system compares actual result with prediction (for tests with predictions like HbA1c), calculates accuracy
 6. Result comparison: system compares current result with previous results, shows trend (improving, stable, worsening)
-7. Result notification: patient receives WhatsApp: "Your HbA1c result: 7.1% (down from 7.5%!). Great progress! Your doctor will review this."
-8. Doctor notification: doctor receives alert in dashboard: "Patient [Name] HbA1c: 7.1% (predicted 7.2%, actual 7.1%). Trend: improving."
+7. Result notification: patient receives WhatsApp: "Your [test name] result: [value] ([comparison to previous]). Great progress! Your doctor will review this."
+8. Doctor notification: doctor receives alert in dashboard: "Patient [Name] [test name]: [value] ([predicted if applicable], actual [value]). Trend: [improving/stable/worsening]."
 9. Result display: results displayed in patient detail view in doctor dashboard with trend chart
-10. Result history: patients and doctors can view HbA1c history over time
+10. Result history: patients and doctors can view blood test history over time for all test types
 
 ### Story 8.4: Doctor Bridge Agent - Question Classification
 
@@ -1891,7 +1945,7 @@ so that I get immediate help without waiting for my doctor.
     - Response boundaries: AI does not provide medication dosage advice, treatment recommendations, or diagnostic suggestions for patients without diabetes specialists
 12. Doctor escalation logic:
     - Patients with diabetes specialists: Medical questions escalated to their connected doctor
-    - Patients without diabetes specialists: Medical questions cannot be escalated (no doctor connected), AI provides conservative guidance and recommends finding a diabetes specialist
+    - Patients without diabetes specialists: Medical questions cannot be escalated (no doctor connected), AI provides conservative guidance and recommends going to their diabetes doctor and showing ProCare
     - Question classification: System identifies questions requiring doctor input and handles appropriately based on patient's doctor connection status
 
 ### Story 8.6: Doctor Bridge - Pooled Questions & Batch Responses
@@ -1945,8 +1999,13 @@ I want to implement revenue sharing between referring doctors and diabetes speci
 so that both doctors are incentivized to use the platform.
 
 **Acceptance Criteria:**
-1. Revenue sharing model: When diabetes specialist connects to patient who was referred by another doctor, revenue is split between both doctors
-2. Sharing configuration: System supports configurable revenue sharing rules (e.g., 70% diabetes specialist, 30% referring doctor)
+1. Revenue sharing model: System implements specific revenue share percentages for referring doctors and diabetes specialists
+2. Sharing configuration: Revenue shares are configurable, but default percentages are:
+   - To start with, 30% of the total amount paid by the patient goes to the referring doctor
+   - 60% of the total amount paid will go to the diabetes specialist in case they bring a patient on board
+   - In case a referring doctor brings a patient on board and that patient gets attached to a diabetes specialist, the diabetes specialist will get 30% for that patient, as the other 30% is already being taken by the referring doctor
+   - In case there is no diabetes specialist, then the total percentage will be 30% to the referring doctor only
+   - In case the patient on boards themselves, there will be no referral fees
 3. Patient attribution: System tracks which doctor referred patient and which doctor is managing diabetes
 4. Revenue calculation: System calculates revenue share based on patient subscription payments
 5. Revenue distribution: Revenue shared monthly based on active patient subscriptions
@@ -1954,9 +2013,9 @@ so that both doctors are incentivized to use the platform.
 7. Revenue reporting: Doctors receive monthly revenue reports showing their share
 8. Payment processing: Revenue shares processed through payment gateway integration
 9. Revenue tracking: System tracks revenue shares for accounting and reporting
-10. Edge cases: System handles cases where referring doctor is also diabetes specialist (no split), patient switches doctors, or doctor disconnects
+10. Edge cases: System handles cases where patient switches doctors, or doctor disconnects
 11. Revenue transparency: Doctors can see breakdown of revenue from each patient
-12. Revenue sharing agreement: System supports different revenue sharing agreements per doctor or per patient relationship
+12. Self-enrollment handling: Patients who onboard themselves (without doctor referral) generate no referral fees
 
 ### Story 8.7: Weekly Progress Reports for Patients
 
