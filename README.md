@@ -10,22 +10,22 @@ ProCare helps patients manage chronic diseases (starting with diabetes) between 
 
 ### MVP Priorities
 
-1. **WhatsApp-First Architecture** - Primary channel for patient interaction (550M+ users in India)
-2. **Offline-First Functionality** - Works without internet, syncs when online (500M+ addressable market)
-3. **Caregiver Dashboard & Alerts** - Family involvement for better adherence (2.3x improvement)
-4. **Doctor Web Dashboard** - Tiered view for efficient patient triage (10-15 min/day vs 2 hours)
-5. **Multiple Input Methods** - Voice, text, photo, OCR for different user segments
+1. **Native Mobile App (Primary)** - React Native app for comprehensive patient experience
+2. **WhatsApp Integration (Secondary)** - Re-engagement and basic interactions (550M+ users in India)
+3. **Doctor Web Dashboard** - Tiered view for efficient patient triage (10-15 min/day vs 2 hours)
+4. **Multiple Input Methods** - Text, photo, OCR for glucose and meal logging
+5. **AI-Powered Pattern Detection** - Personalized insights after 4 weeks of data
 
 ### Core Capabilities
 
 - Real-time glucose monitoring with emergency detection
 - Personalized meal and activity guidance based on patient's own data
 - Medication adherence tracking with smart reminders
-- Pattern detection and predictive insights
+- Pattern detection and predictive insights (after 4 weeks of data)
 - Efficient doctor dashboard with priority-based alerts
 - Care coordination (tests, refills, appointments)
 - Educational content delivery
-- Re-engagement when patients become inactive
+- AI-powered question answering (80%+ routine questions)
 
 ## Documentation
 
@@ -39,11 +39,11 @@ ProCare helps patients manage chronic diseases (starting with diabetes) between 
 
 ## Key Insights
 
-### India-Specific Requirements (Non-Negotiable)
-- WhatsApp-first is not optional - it's the primary channel
-- Offline-first is not optional - it's essential for reach
-- Family/caregiver features are unique differentiator
-- Multiple languages/input methods required
+### India-Specific Requirements (Core Focus)
+- Native mobile app with WhatsApp integration for broad reach
+- Local storage with background sync capability for connectivity challenges
+- Multiple input methods: text, photo OCR for accessibility
+- Doctor-connected care model for trust and clinical oversight
 
 ### First Week/Month Experience Determines Adoption
 - Patient: First week must show personalized insights, reduce anxiety
@@ -51,27 +51,29 @@ ProCare helps patients manage chronic diseases (starting with diabetes) between 
 - Caregiver: First week must reduce anxiety, not amplify it
 
 ### Technical Moat
-- Offline architecture creates 18-24 month competitive advantage
-- Competitors need 12-18 months to replicate
-- "Works offline" becomes synonymous with ProCare
+- 7-agent orchestration architecture creates 18-24 month competitive advantage
+- AI-powered pattern detection based on patient's own data
+- Doctor-connected care model with clinical oversight
+- Type-safe end-to-end development with tRPC
 
 ## Development Roadmap
 
-### Phase 1: MVP Development (Weeks 1-12)
-- Weeks 1-4: Foundation (WhatsApp API, offline architecture, basic logging)
-- Weeks 5-8: Core Features (caregiver dashboard, doctor dashboard, meal logging)
-- Weeks 9-12: Polish & Testing (smart defaults, escalation logic, pilot testing)
+### Phase 1: MVP Development (Weeks 1-24)
+- Weeks 1-4: Foundation (Infrastructure, mobile app, database, basic logging)
+- Weeks 5-8: Core Features (Medication management, agent orchestration, emergency detection)
+- Weeks 9-16: Advanced Features (Pattern detection, doctor dashboard, AI Q&A)
+- Weeks 17-24: Integration & Testing (Cross-platform testing, pilot validation, launch preparation)
 
-### Phase 2: Launch & Iteration (Months 4-6)
+### Phase 2: Launch & Iteration (Months 6-8)
 - Soft launch with 100-500 patients, 5-10 doctors
 - Wizard of Oz testing (humans behind AI)
 - Refine AI based on learnings
-- Add regional languages
+- Add caregiver features and alerts
 
-### Phase 3: Scale (Months 7-12)
+### Phase 3: Scale (Months 9-12)
 - Regional expansion to 3-5 cities
-- National launch with all major languages
-- Partnerships: Pharma, diagnostic chains, insurance
+- Add advanced integrations (Bluetooth devices, EMR systems)
+- Comprehensive diet and lifestyle module
 - Target: 100K+ users, 30K+ paid subscribers
 
 ## Success Metrics
@@ -100,18 +102,20 @@ ProCare helps patients manage chronic diseases (starting with diabetes) between 
 - **Data:** Research, analytics, risk scoring
 
 ### Pricing Tiers
-- **Free Tier (WhatsApp Basic):** ₹0 - Basic logging, reminders, Q&A
-- **Paid Tier (WhatsApp Premium):** ₹99-199/month - Enhanced features, doctor consultation
-- **Professional Tier (WhatsApp + Web + App):** ₹499-999/month - Full feature suite
+- **Free Tier (Mobile Basic):** ₹0 - Basic logging, reminders, Q&A
+- **Paid Tier (Mobile Premium):** ₹99-199/month - Enhanced features, doctor consultation
+- **Professional Tier (Mobile + Web + Caregiver):** ₹499-999/month - Full feature suite
 
 ## Technology Stack
 
-- **Primary Channel:** WhatsApp Business API
-- **Mobile App:** React Native / Flutter (for power users)
-- **Web Dashboard:** React/Vue (for doctors)
-- **Backend:** AWS/GCP
-- **Database:** Offline-first architecture with sync engine
-- **AI/ML:** On-device models (TensorFlow Lite) + cloud processing
+- **Mobile App:** React Native + Expo (primary patient interface)
+- **WhatsApp Integration:** Evolution API for secondary channel
+- **Web Dashboard:** Next.js 14 + ShadCN (for doctors)
+- **Backend:** Node.js microservices with 7-agent orchestration
+- **Database:** PostgreSQL + TimescaleDB (cloud), WatermelonDB (local storage)
+- **AI/ML:** OpenRouter API gateway for 400+ LLMs
+- **Infrastructure:** Self-hosted on Hetzner Cloud with Coolify
+- **API Style:** tRPC for end-to-end type safety
 
 ## Contributing
 
