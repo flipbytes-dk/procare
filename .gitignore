@@ -103,3 +103,122 @@ temp/
 tmp/
 *.tmp
 
+# ============================================
+# AI Agent Ignores
+# ============================================
+# Files in .ignore folder should not be read by Claude or other AI agents during development
+.ignore/
+*.ignore
+
+# ============================================
+# Monorepo & Build Tools
+# ============================================
+# Turborepo
+.turbo/
+**/.turbo/
+
+# Next.js
+.next/
+out/
+.next-cache/
+next-env.d.ts
+*.tsbuildinfo
+
+# React Native / Expo
+.expo/
+.expo-shared/
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+*.orig.*
+web-build/
+dist/
+
+# Metro bundler
+.metro-health-check*
+
+# iOS
+ios/Pods/
+ios/build/
+*.xcworkspace
+*.xcuserstate
+*.xcscheme
+DerivedData/
+
+# Android
+android/app/build/
+android/.gradle/
+android/build/
+android/captures/
+*.apk
+*.aab
+*.dex
+local.properties
+
+# ============================================
+# TypeScript
+# ============================================
+*.tsbuildinfo
+**/.tsbuildinfo
+
+# ============================================
+# Testing
+# ============================================
+coverage/
+.nyc_output/
+*.test.js.snap
+test-results/
+playwright-report/
+playwright/.cache/
+
+# ============================================
+# Docker
+# ============================================
+docker-compose.override.yml
+.dockerignore
+
+# ============================================
+# Databases (Local Development)
+# ============================================
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+
+# PostgreSQL
+pgdata/
+postgres-data/
+
+# Redis
+redis-data/
+dump.rdb
+
+# ============================================
+# Prisma
+# ============================================
+prisma/migrations/migration_lock.toml
+
+# ============================================
+# MinIO / S3 Local Storage
+# ============================================
+minio-data/
+s3-data/
+
+# ============================================
+# Backups
+# ============================================
+backups/
+*.backup
+*.dump
+*.sql.gz
+
+# ============================================
+# Monitoring & Logs
+# ============================================
+grafana-data/
+prometheus-data/
+loki-data/
+
